@@ -1,3 +1,5 @@
+Wichtiger Tipp! Nutze statt "node index.js" zum testen "node --watch index.js", denn so wir bei jedem speichern eines js-Files der Server lokal neugestartet
+
 genutzte Pakete:
 cors --> Ermöglichen von zugriff von verschiedenen Domains
 dotenv -- > Umgebungsvariablen für lokalel / server version abspeichern und damit flexibel einbinden. z.B. Username und PW für DB oder Ports etc.
