@@ -1,6 +1,33 @@
 <script setup>
+import { ref } from 'vue'
 import HeaderComponent from './components/HeaderComponent.vue'
 import CardComponent from './components/CardComponent.vue'
+
+let json_data = {
+  data: [{"recipe_title" : "Fischstäbchen mit Kartoffelpüree",
+  "recipe_author" : "manfred_kocht33",
+  "recipe_price" : "10",
+  "recipe_time" : "3000"},
+
+  {"recipe_title" : "Butter Chicken mit Knoblauchnaan",
+  "recipe_author" : "liselotte1990",
+  "recipe_price" : "20",
+  "recipe_time" : "40"},
+
+]
+}
+
+const recipes = ref([
+  {recipe_title: json_data.data[0].recipe_title, recipe_author: json_data.data[0].recipe_author, recipe_price: json_data.data[0].recipe_price, recipe_time: json_data.data[0].recipe_time },
+  {recipe_title: json_data.data[1].recipe_title, recipe_author: json_data.data[1].recipe_author, recipe_price: json_data.data[1].recipe_price, recipe_time: json_data.data[1].recipe_time },
+  {recipe_title: json_data.data[0].recipe_title, recipe_author: json_data.data[0].recipe_author, recipe_price: json_data.data[0].recipe_price, recipe_time: json_data.data[0].recipe_time },
+  {recipe_title: json_data.data[1].recipe_title, recipe_author: json_data.data[1].recipe_author, recipe_price: json_data.data[1].recipe_price, recipe_time: json_data.data[1].recipe_time },
+  {recipe_title: json_data.data[0].recipe_title, recipe_author: json_data.data[0].recipe_author, recipe_price: json_data.data[0].recipe_price, recipe_time: json_data.data[0].recipe_time },
+  {recipe_title: json_data.data[1].recipe_title, recipe_author: json_data.data[1].recipe_author, recipe_price: json_data.data[1].recipe_price, recipe_time: json_data.data[1].recipe_time },
+  {recipe_title: json_data.data[0].recipe_title, recipe_author: json_data.data[0].recipe_author, recipe_price: json_data.data[0].recipe_price, recipe_time: json_data.data[0].recipe_time },
+  {recipe_title: json_data.data[1].recipe_title, recipe_author: json_data.data[1].recipe_author, recipe_price: json_data.data[1].recipe_price, recipe_time: json_data.data[1].recipe_time },
+
+])
 
 </script>
 
@@ -13,10 +40,18 @@ import CardComponent from './components/CardComponent.vue'
   </div>
 
   <div class="recipe_card_list">
-    <CardComponent class="card_component" recipe_title="Fischstäbchen mit Kartoffelpüree" recipe_author="manfred_kocht33" recipe_price="10" recipe_time="20" />
+    <!-- <CardComponent class="card_component" recipe_title="blablabla" recipe_author="manfred_kocht33" recipe_price="10" recipe_time="20" />
     <CardComponent class="card_component" recipe_title="Butter Chicken mit Knoblauchnaan" recipe_author="liselotte1990" recipe_price="20" recipe_time="40" />
     <CardComponent class="card_component" recipe_title="Nudeln mit Tomatensoße" recipe_author="andreas45" recipe_price="20" recipe_time="30" />
-    <CardComponent class="card_component" recipe_title="TK Pizza" recipe_author="league_liebhaber" recipe_price="5" recipe_time="10" />
+    <CardComponent class="card_component" recipe_title="TK Pizza" recipe_author="league_liebhaber" recipe_price="5" recipe_time="10" /> -->
+
+    <CardComponent class="card_component"
+      v-for="r in recipes"
+      :recipe_title="r.recipe_title"
+      :recipe_author="r.recipe_author"
+      :recipe_price="r.recipe_price"
+      :recipe_time="r.recipe_time"
+    />
   </div>
 
 
