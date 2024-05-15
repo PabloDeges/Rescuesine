@@ -40,6 +40,9 @@
         width: 35vw;
         height: 25vw;
     }
+    .card:hover {
+        cursor: pointer;
+    }
 
     .recipe_image {
         min-width: 100%;
@@ -49,6 +52,7 @@
 
     .recipe_title {
         font-weight: bold;
+        font-size: 1.5vw;
     }
     .img_and_title {
         width: 100%;
@@ -101,7 +105,19 @@
 
     .meta_text {
         color: var(--color-grey);
-        font-weight: 600;
+        font-size: 1.2vw;
+    }
+
+    @media screen and (max-width: 750px) {
+
+        .recipe_title {
+            font-size: 2.8vw;
+        }
+
+        .meta_text {
+        font-size: 2vw;
+    }
+
     }
     
 
