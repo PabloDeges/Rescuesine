@@ -4,9 +4,17 @@
             <h1 class="appname">RESCUESINE</h1>
             <input class="search-bar" type="text" placeholder="Rezepte durchsuchen">
             <div class="buttons">                   
-                <a class="button button_wide">Rezept erstellen</a>
-                <a id="profile_btn" class="button">Profil</a>
-                <a id="login_btn" class="button hidden">Login</a>
+                <div class="button_container">
+                    <a class="button button_wide">Rezept erstellen</a>
+                </div>
+                <div id="profile_btn" class="button_container">
+                    <a  class="button">Profil</a>
+                </div>
+                <div id="login_btn" class="button_container hidden">
+                    <a  class="button">Login</a>
+                </div>
+                
+                
                     
             </div>
         
@@ -69,8 +77,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style scoped>  
 
-.hidden {
-    display: none;
+a:hover {
+    background-color: transparent;
 }
 
 
@@ -110,34 +118,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 .button {
-    text-align: center;
-    background-color: var(--color-darkgreen);
-    padding: 0.8rem 1.5rem;
-    border-radius: 1rem;
-    color: var(--color-white);
     font-weight: bold;
-    font-size: 1.2vw;
-    height: 100%;
-    max-width: 80%;
-    min-width: 2rem;
-    border-style:solid;
-    border: 2px solid var(--color-darkgreen);
+    font-size: 1.1vw;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
+.button_container {
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-darkgreen);
+    padding: 0.8rem 0.8rem;
+    border-radius: 1rem;
+    max-width: 80%;
+    min-width: 2rem;
+    margin-left: 1vw;
+    white-space: nowrap;
+    overflow: hidden;
+    border-style:solid;
+    border: 2px solid var(--color-darkgreen);
+    height: 100%;
+}
 
-.button:hover {
+.button_container:hover {
     background-color: var(--color-white);
     color: var(--color-darkgreen);
     cursor: pointer;
 }
 .buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     height: 50%;
     width: 25%;
     padding-right: 3%;
-
 }
 
 
@@ -154,6 +170,11 @@ document.addEventListener('DOMContentLoaded', function() {
 .hamburger_container, #mobile_links {
     display: none;
 
+}
+
+
+.hidden {
+    display: none;
 }
 
 
