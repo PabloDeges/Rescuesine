@@ -3,16 +3,17 @@ const express = require('express');
 const mongoose = require("mongoose");
 const recipeRoute = require("./routes/recipe.route.js");
 const ingredientRoute = require("./routes/ingredient.route.js");
-const prfoileRoute = require("./routes/profile.route.js");
-//const profileRoute = require("./routes/profile.route.js");
+const profileRoute = require("./routes/profile.route.js");
 const cors = require("cors");
 const app = express();
+
 const port = process.env.PORT;
 const dbloc = process.env.DBLOCATION;
 const dbPort = process.env.DBPORT;
 const dbName = process.env.DBRECIPE;
 
 app.use(cors());
+app.use(express.json()) 
 
 //Routen
 //app.use("/recipe", recipeRoute);
