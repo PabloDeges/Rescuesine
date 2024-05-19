@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 //const Product = require("../models/recipe.model.js"); // ja nein?
-const {getDetailedRecipe, getRecipesMainPage, createRecipe, deleteRecipe, getFilteredRecipes} = require('../controllers/recipe.controller.js');
+const {getDetailedRecipe, getRecipesMainPage, getSearchedRecipe,createRecipe, deleteRecipe, getFilteredRecipes} = require('../controllers/recipe.controller.js');
 
 
 
@@ -11,6 +11,8 @@ router.get('/',getRecipesMainPage)
 
 //Problem mit den Übergabewerten? Kommt wahrscheinlich aufs Format an
 //router.get('/filtered',getFilteredRecipes)
+
+router.get('/searched',getSearchedRecipe)
 
 router.get('/:id',getDetailedRecipe)
 

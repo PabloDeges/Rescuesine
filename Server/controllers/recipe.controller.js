@@ -26,6 +26,17 @@ const getFilteredRecipes = async (req,res) => {
     } */
 }
 
+const getSearchedRecipe = async (req,res) => {
+    /* try{
+        
+        // Ja hier muss wohl der Algorightums
+
+        res.status(200).json(recipe)
+    }catch(error){
+        res.status(500).json({ message : error.message})
+    } */
+}
+
 
 const getDetailedRecipe = async (req,res) => {
     /* try{
@@ -66,6 +77,7 @@ const deleteRecipe = async (req, res) => {
 module.exports = {
     getRecipesMainPage,
     getFilteredRecipes,
+    getSearchedRecipe,
     getDetailedRecipe,
     createRecipe,
     deleteRecipe,
