@@ -11,7 +11,8 @@ const recipe = mongoose.Schema(
       {
         id: { type: Number, required: true },
         name: { type: String, required: true },
-        amount: { type: String, required: true }
+        amount: { type: Number, required: true },
+        unit: { type: String, required: true }
       }
     ],
     tags: [
@@ -19,8 +20,8 @@ const recipe = mongoose.Schema(
         name: { type: String, required: true }
       }
     ],
-    pricecatergory: { type: String, required: true },
-    preparationtime: { type: String, required: true },
+    pricecatergory: { type: Number, required: true },
+    preparationtime: { type: Number, required: true },
     creator: {
       id: { type: Number, required: true },
       name: { type: String, required: true }
