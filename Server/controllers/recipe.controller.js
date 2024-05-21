@@ -1,18 +1,22 @@
 const Recipe = require("../models/recipe.model");
 
 const getRecipesMainPage = async (req,res) => {
-    /* try{
-        const recipes = await Recipe.find({})
-
-        // Filtern was zurück soll
-
-        // let backRecipes = 
-
-
+    try{
+        let recipes = await Recipe.find({})       
+        let backRecipes = []
+        for(i=0; i<recipes.length;i++){
+            let object = {
+                creatorname: recipes[i].creator.name,
+                pricecategory: recipes[i].pricecategory,        // Hier wird undefined zurückgegeben und deswegen nicht in das json gesetzt
+                preparationtime: recipes[i].preparationtime,
+                picture: recipes[i].picture
+            }
+            backRecipes.push(object);
+        }
         res.status(200).json(backRecipes)
     }catch(error){
         res.status(500).json({message: error.message})
-    } */
+    }
 }
 
 const getFilteredRecipes = async (req,res) => {

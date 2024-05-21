@@ -12,13 +12,13 @@ router.get('/',getRecipesMainPage)
 //Problem mit den Übergabewerten? Kommt wahrscheinlich aufs Format an
 //router.get('/filtered',getFilteredRecipes)
 
-router.get('/searched',getSearchedRecipe)
+//router.get('/searched',getSearchedRecipe)
 
-router.get('/:id',getDetailedRecipe)
+//router.get('/:id',getDetailedRecipe)
 
-router.post('/',createRecipe)
+//router.post('/',createRecipe)
 
-router.delete('/:id',deleteRecipe)
+//router.delete('/:id',deleteRecipe)
 
 
 module.exports = router

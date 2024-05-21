@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json()) 
 
 //Routen
-//app.use("/recipe", recipeRoute);
+app.use("/recipe", recipeRoute);
 //app.use("/ingredient", ingredientRoute);
 //app.use("/profile", profileRoute);
 
