@@ -118,6 +118,12 @@
         font-size: 2vw;
     }
 
+        .card {
+            height: 50vw;
+        }
+
+
+
     }
     
 
