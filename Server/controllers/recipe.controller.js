@@ -2,7 +2,7 @@ const Recipe = require("../models/recipe.model");
 
 const getRecipesMainPage = async (req,res) => {
     try{
-        let recipes = await Recipe.find({})       
+        let recipes = await Recipe.find({})
         let backRecipes = []
         for(i=0; i<recipes.length;i++){
             let object = {
