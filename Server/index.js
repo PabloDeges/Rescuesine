@@ -29,7 +29,11 @@ app.use("/image",imageRoute);
 mongoose
   .connect(`mongodb://${dbloc}:${dbPort}/${dbName}`)
   .then(() => {
-    console.log("Verbindung mit Datenbank hergestellt");
+    const checkSchema = new mongoose.Schema({
+      name: String
+    });
+    const Check = mongoose.model('Check', checkSchema);
+    helper(Check);
     app.listen(3000, () => {
       console.log(`Der Server läuft auf http://localhost:${port}`);
     });
@@ -38,3 +42,8 @@ mongoose
     console.log("Connection failed!");
   });
 
+
+  async function helper(Check){
+    const check = await Check.find();
+    check[0].name == 1.0 ? console.log("Verbindung mit Datenbank hergestellt") : (() => { throw new Error("Deine Datenbank ist nicht mehr aktuell. Datenbankdaten neu laden") })();
+  }
