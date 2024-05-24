@@ -61,13 +61,14 @@ const recipes = ref([
     flex-wrap: wrap;
     justify-content: space-evenly;
 
-    
+  }
     .card_component {
       margin: 1rem 0rem;
       max-width: calc(50% - 3vw);
+      
       /* min-width: 18rem; */
     }
-  }
+  
   @media screen and (max-width: 750px) {
     .card_component {
       min-width: 80vw;
