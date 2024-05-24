@@ -5,13 +5,13 @@
             <input class="search-bar" type="text" placeholder="Rezepte durchsuchen">
             <div class="buttons">                   
                 <div class="button_container">
-                    <a class="button button_wide">Rezept erstellen</a>
+                    <RouterLink to="/recipe/create" class="button button_wide link">Rezept erstellen</RouterLink>
                 </div>
                 <div id="profile_btn" class="button_container">
-                    <a  class="button">Profil</a>
+                    <RouterLink to="/profile" class="button link">Profil</RouterLink>
                 </div>
                 <div id="login_btn" class="button_container hidden">
-                    <a  class="button">Login</a>
+                    <RouterLink to="/login" class="button link">Login</RouterLink>
                 </div>
                 
                 
@@ -24,9 +24,9 @@
         </div>
     </div>
     <div id="mobile_links">
-        <a class="mobile_link" href="/">Rezept erstellen</a>
-        <a class="mobile_link" href="/">Profil</a>
-        <a class="mobile_link" href="/">Login</a>
+        <RouterLink to="/recipe/create" class="mobile_link">Rezept erstellen</RouterLink>
+        <RouterLink to="/profile" class="mobile_link">Profil</RouterLink>
+        <RouterLink to="/login" class="mobile_link">Login</RouterLink>
     </div>      
 
 </template>
@@ -77,8 +77,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style scoped>  
 
-a:hover {
-    background-color: transparent;
+
+
+.link {
+    text-decoration: none;
+    color: white;
 }
 
 
@@ -143,8 +146,7 @@ a:hover {
 }
 
 .button_container:hover {
-    background-color: var(--color-white);
-    color: var(--color-darkgreen);
+    border: 2px solid var(--color-white);
     cursor: pointer;
 }
 .buttons {
