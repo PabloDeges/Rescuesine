@@ -1,15 +1,16 @@
 const Recipe = require("../models/recipe.model");
+const path = require('path');
 
 const getRecipesMainPage = async (req,res) => {
-    try{
+    try{  
         let recipes = await Recipe.find({})
         let backRecipes = []
         for(i=0; i<recipes.length;i++){
             let object = {
                 creatorname: recipes[i].creator.name,
-                pricecategory: recipes[i].pricecategory,        // Hier wird undefined zurückgegeben und deswegen nicht in das json gesetzt
+                pricecategory: recipes[i].pricecategory,
                 preparationtime: recipes[i].preparationtime,
-                picture: recipes[i].picture
+                picture: `${req.protocol}://${req.get('host')}/image/${recipes[i].picture}`
             }
             backRecipes.push(object);
         }
