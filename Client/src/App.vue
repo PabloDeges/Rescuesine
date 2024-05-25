@@ -12,6 +12,7 @@ import HeaderComponent from './components/HeaderComponent.vue'
       <input type="password" v-model="password" placeholder="Passwort">
     </div>
     <button class="clickLogin" @click="login">Einloggen</button>
+    <button class="clickLogin" @click="register">Registrieren</button>
   </div>
 </div>
 </template>
@@ -33,6 +34,10 @@ export default {
       } else {
         alert("Falsche Benutzerdaten");
       }
+    },
+    register(){
+      //Logik fuer Registrierung hier rein
+      alert("Bald kann man sich hier registrieren")
     }
   }
 };
