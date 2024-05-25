@@ -1,0 +1,31 @@
+.styled-div{
+    position: relative;
+    top: 18%;
+    border-radius: 1rem;
+    margin: auto;
+    max-width: 300px;
+    height: 400px;
+    font-size: 30px;
+    padding: auto;
+    box-sizing: border-box;
+    color: white;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    background-color: hsl(150, 60%, 45%, 0.8);
+}
+
+
+input {
+    
+    background-color: #FFFFF0;
+}
+
+button {
+    background-color: var(--color-darkgreen);
+    padding: 0.8rem 2.5rem;
+    border-radius: 1rem;
+    color: var(--color-white);
+    font-weight: bold;
+    border-color: var(--color-darkgreen);
+}
