@@ -29,3 +29,10 @@ button {
     font-weight: bold;
     border-color: var(--color-darkgreen);
 }
+.background-image{
+    background-image: url('hintergrundbild_Login.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+}

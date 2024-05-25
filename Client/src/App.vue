@@ -4,7 +4,7 @@ import HeaderComponent from './components/HeaderComponent.vue'
 
 <template>
     <HeaderComponent/>
-
+    <div class="background-image">
   <div class="styled-div">
     <h1>Login</h1>
     <div class="credentials">
@@ -13,6 +13,7 @@ import HeaderComponent from './components/HeaderComponent.vue'
     </div>
     <button class="clickLogin" @click="login">Einloggen</button>
   </div>
+</div>
 </template>
 
 <script>
