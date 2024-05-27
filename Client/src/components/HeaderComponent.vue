@@ -1,6 +1,9 @@
 <template>            
     <div class="header">
-            <img src="../assets/logo.png" class="logo-img" alt="">
+            <RouterLink to="/" class="header_backtohome">
+                <img src="../assets/logo.png" class="logo-img" alt="">
+            </RouterLink>
+            
             <h1 class="appname">RESCUESINE</h1>
             <input class="search-bar" type="text" placeholder="Rezepte durchsuchen">
             <div class="buttons">                   
@@ -24,6 +27,7 @@
         </div>
     </div>
     <div id="mobile_links">
+        <RouterLink to="/" class="mobile_link">Home</RouterLink>
         <RouterLink to="/recipe/create" class="mobile_link">Rezept erstellen</RouterLink>
         <RouterLink to="/profile" class="mobile_link">Profil</RouterLink>
         <RouterLink to="/login" class="mobile_link">Login</RouterLink>
@@ -36,9 +40,15 @@
 // remove or change when login functionality is added => if logged in -> show profile, if not show login
 document.addEventListener('DOMContentLoaded', function() {
 
+    console.log("script loaded!")
+
+    window.addEventListener("resize", checkForMobileButtonsStillVisible);
+
     const hamburger = document.getElementById('hamburger');
+    const mobile_links = document.getElementById("mobile_links");
    
-    hamburger.addEventListener('click', show_mobile_links);
+    hamburger.addEventListener('click', toggle_mobile_links);
+    mobile_links.addEventListener('click', toggle_mobile_links);
 
     const button1 = document.getElementById('login_btn');
     const button2 = document.getElementById('profile_btn');
@@ -56,19 +66,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function show_mobile_links() {
-    
-    let hamburger = document.getElementById("hamburger");
-    let x = document.getElementById("mobile_links");
-        if (x.style.display === "block") {
+
+    function checkForMobileButtonsStillVisible() {
+        let x = document.getElementById("mobile_links");
+        if(window.innerWidth >= 750) {
             x.style.display = "none";
-            hamburger.src = "src/assets/recipe_book_closed.png";
-        } 
-        else {
-            x.style.display = "block";
-            hamburger.src = "src/assets/recipe_book_opened.png";
         }
-    }
+    }   
+
+
+    function toggle_mobile_links() {
+    
+        let hamburger = document.getElementById("hamburger");
+        let x = document.getElementById("mobile_links");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+                hamburger.src = "src/assets/recipe_book_closed.png";
+            } 
+            else {
+                x.style.display = "block";
+                hamburger.src = "src/assets/recipe_book_opened.png";
+            }
+        }
 });
 
 
@@ -99,6 +118,10 @@ document.addEventListener('DOMContentLoaded', function() {
     height: 6rem;
     background-color: var(--color-white);
 
+
+}
+.logo-img:hover {
+    background-color: var(--color-darkgreen);
 }
 .appname {
     font-weight: bold;
@@ -171,12 +194,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .hamburger_container, #mobile_links {
     display: none;
-
+    
 }
 
 
 .hidden {
     display: none;
+}
+
+.header_backtohome {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    height: 100%;
 }
 
 

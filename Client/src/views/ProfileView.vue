@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import BackComponent from '../components/BackButtonComponent.vue'
-import CardComponent from '../components/CardComponent.vue'
+import CardComponent from '../components/CardComponentSmall.vue'
 import FilterComponent from '../components/FilterComponent.vue'
 
 let json_data = {
@@ -35,14 +34,14 @@ const recipes = ref([
 
 
 <template>
-    <BackComponent />
+
     <div class="profile_container">
         <h1 class="username">Profil von: PeterKocht_23</h1>
         <div class="section">
             <h2> 8 veröffentlichte Rezepte</h2>
 
             <div class="recipe_card_list">
-                <CardComponent class="card_component"
+                <CardComponent class="card_component_profileview"
                 v-for="r in recipes"
                 :recipe_title="r.recipe_title"
                 :recipe_author="r.recipe_author"
@@ -55,7 +54,7 @@ const recipes = ref([
             <h2> 22 favorisierte Rezepte</h2>
 
             <div class="recipe_card_list">
-                <CardComponent class="card_component"
+                <CardComponent class="card_component_profileview"
                 v-for="r in recipes"
                 :recipe_title="r.recipe_title"
                 :recipe_author="r.recipe_author"
@@ -86,6 +85,7 @@ const recipes = ref([
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-top: 2rem;
 }
 
 .section {
@@ -105,15 +105,17 @@ const recipes = ref([
     justify-content: space-evenly;
 
   }
-    .card_component {
+    .card_component_profileview {
       margin: 1rem 0rem;
-      max-width: calc(50% - 3vw);
+      max-width: calc(30% - 3vw);
+      height: 30vh;
+      
       
       /* min-width: 18rem; */
     }
   
   @media screen and (max-width: 750px) {
-    .card_component {
+    .card_component_profileview {
       min-width: 80vw;
       min-height: 35vh;
     }
