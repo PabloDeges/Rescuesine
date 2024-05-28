@@ -7,6 +7,7 @@ const getRecipesMainPage = async (req,res) => {
         let backRecipes = []
         for(i=0; i<recipes.length;i++){
             let object = {
+                id: recipes[i]._id.toString(),
                 creatorname: recipes[i].creator.name,
                 pricecategory: recipes[i].pricecategory,
                 preparationtime: recipes[i].preparationtime,
