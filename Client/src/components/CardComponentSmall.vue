@@ -54,7 +54,7 @@
 
     .recipe_title {
         font-weight: bold;
-        font-size: 1.5vw;
+        font-size: 95%;
     }
     .img_and_title {
         width: 100%;
@@ -107,7 +107,7 @@
 
     .meta_text {
         color: var(--color-grey);
-        font-size: 1.2vw;
+        font-size: 60%;
     }
 
     @media screen and (max-width: 750px) {
