@@ -1,101 +1,242 @@
-<template>
-    <div class="container">
-        <div class="filter_button_container">
-          <div class="filter_button" id="filter"> 
-            <i class="fa-solid fa-sliders"></i>
-            <p>Zutaten filtern</p>
-          </div>
-        </div>
-        <div class="filter_options" id="filter_options">
-          <!-- es werden am ende 4-5 zutaten pro reihe sein, nur ein placeholder -->
-          <a id="zutatid" class="zutat" href="/">Beispielzutat 1</a>
-          <a id="zutatid" class="zutat" href="/">Beispielzutat 2</a>
-          <a id="zutatid" class="zutat" href="/">Beispielzutat 3</a>
-          <a id="zutatid" class="zutat" href="/">Beispielzutat 4</a>
-          <a id="zutatid" class="zutat" href="/">Beispielzutat 5</a>
-
-        </div>      
-        
-    </div>
-
-</template>
-
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+import { ref } from 'vue';
 
-const filter = document.getElementById('filter');
+document.addEventListener('DOMContentLoaded', function () {
 
-filter.addEventListener('click', show_filter_options);
+  const filter = document.getElementById('filter');
 
-function show_filter_options() {
-    let x = document.getElementById("filter_options");
+  filter.addEventListener('click', show_filter_options);
 
-        if (x.style.display === "block") {
-            x.style.display = "none";
+  function show_filter_options() {
+    let x = document.getElementById("filter_form_id");
 
-        } 
-        else {
-            x.style.display = "block";
-        }
+    if (x.style.display === "flex") {
+      x.style.display = "none";
+
     }
+    else {
+      x.style.display = "flex";
+    }
+  }
 
 });
+
+export default {
+  setup() {
+    const searchTerm = ref('');
+    const selectedFruit = ref('');
+    const selectedVegetable = ref('');
+    const selectedCondiment = ref('');
+    const selectedIngredients = ref([]);
+    const fruits = ref(['Apple', 'Banana', 'Cherry']);
+    const vegetables = ref(['Carrot', 'Broccoli', 'Spinach']);
+    const condiments = ref(['Salt', 'Pepper', 'Ketchup']);
+
+    const searchIngredients = () => {
+      // Here you can implement a search function that filters ingredients based on searchTerm
+      // ajax kram hinzufügen...
+    };
+
+    const addIngredient = (event) => {
+      const ingredient = event.target.value;
+      if (ingredient && !selectedIngredients.value.includes(ingredient)) {
+        selectedIngredients.value.push(ingredient);
+      }
+      clearSelection();
+    };
+
+    const clearSelection = () => {
+      selectedFruit.value = '';
+      selectedVegetable.value = '';
+      selectedCondiment.value = '';
+    };
+
+    const removeIngredient = (index) => {
+      selectedIngredients.value.splice(index, 1);
+    };
+
+    const submitForm = () => {
+      // Send the selectedIngredients array to the backend
+      console.log('Selected Ingredients:', selectedIngredients.value);
+    };
+
+    return {
+      searchTerm,
+      selectedFruit,
+      selectedVegetable,
+      selectedCondiment,
+      selectedIngredients,
+      fruits,
+      vegetables,
+      condiments,
+      searchIngredients,
+      addIngredient,
+      clearSelection,
+      removeIngredient,
+      submitForm,
+    };
+  },
+};
 </script>
+    
+
+<template>
+  <div class="container">
+    <div class="filter_button_container">
+      <div class="filter_button" id="filter">
+        <i class="fa-solid fa-sliders"></i>
+        <p>Zutaten filtern</p>
+      </div>
+    </div>
+  </div>
+  <div class="filter_form" id="filter_form_id">
+    <div class="filter_form_center">
+      <div class="selected-ingredients">
+        <span v-for="(ingredient, index) in selectedIngredients" :key="index" class="ingredient-tag">
+          {{ ingredient }}
+          <span class="remove-ingredient" @click="removeIngredient(index)">x</span>
+        </span>
+      </div>
+
+      <div class="center">
+        <div class="ingredient-search"> 
+        <input type="text" v-model="searchTerm" @input="searchIngredients" placeholder="Zutat suchen" class="search_bar_filters" />
+      </div>
+
+      <div class="dropdowns">
+        <select v-model="selectedFruit" @change="addIngredient" class="dropdown">
+          <option disabled value="">Früchte</option>
+          <option v-for="fruit in fruits" :key="fruit">{{ fruit }}</option>
+        </select>
+
+        <select v-model="selectedVegetable" @change="addIngredient" class="dropdown">
+          <option disabled value="">Gemüse</option>
+          <option v-for="vegetable in vegetables" :key="vegetable">{{ vegetable }}</option>
+        </select>
+
+        <select v-model="selectedFruit" @change="addIngredient" class="dropdown">
+          <option disabled value="">Fleisch und Fisch</option>
+          <option v-for="fruit in fruits" :key="fruit">{{ fruit }}</option>
+        </select>
+
+        <select v-model="selectedCondiment" @change="addIngredient" class="dropdown">
+          <option disabled value="">Gewürze</option>
+          <option v-for="condiment in condiments" :key="condiment">{{ condiment }}</option>
+        </select>
+      </div>
+
+      <button @click="submitForm" class="submit_button">Rezepte Filtern</button>
+    </div>
+      </div>
+  </div>
+</template>
+
 
 <style scoped>
-    .filter_button_container {    
-    height: 5rem;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin: 0 4rem;
-  }
 
+#filter_form_id {
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
 
-  .filter_button {
-    width: 11rem;
-    height: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--color-red);
-    padding: 1rem 1.5rem;
-    color: white;
-    font-weight: bold;
-    border-radius: 1rem;
-    text-align: center;
+.filter_button_container {
+  height: 5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0 4rem;
+}
 
-  }
-  .filter_button:hover {
-    background-color: rgb(210, 49, 49);
-    cursor: pointer;
-  }
-
-  .filter_options {
-    display: none;
-  }
-
-  .zutat {
-  color: rgb(255, 255, 255);
-  background-color: var(--color-darkgreen);
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
+.filter_button {
+  width: 11rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-red);
+  padding: 1rem 1.5rem;
+  color: white;
   font-weight: bold;
-  display: block;
+  border-radius: 1rem;
+  text-align: center;
+
 }
 
-.zutat:hover {
-  background-color: var(--color-white);
-  color: var(--color-darkgreen);
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
-  @media screen and (max-width: 750px) {
-    .filter_button_container {
-        justify-content: center;
-    }
+.filter_button:hover {
+  background-color: rgb(210, 49, 49);
+  cursor: pointer;
+}
+
+
+@media screen and (max-width: 750px) {
+  .filter_button_container {
+    justify-content: center;
   }
+}
 
+.selected-ingredients {
+  margin-bottom: 1rem;
+}
+
+.ingredient-tag {
+  color: white;
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-red);
+  border-radius: 1rem;
+}
+
+.remove-ingredient {
+  margin-left: 1rem;
+  cursor: pointer;
+  color: white;
+}
+
+.ingredient-search {
+  margin-bottom: 1rem;
+
+}
+.search_bar_filters {
+  background-color: white;
+  border-radius: 1rem;
+  border: 1px solid black;
+  padding: 0.8rem 5rem;
+}
+
+.dropdowns {
+margin-bottom: 1rem;
+
+}
+
+.dropdown {
+  margin: 0.5rem;
+}
+
+.submit_button {
+  color: white;
+  font-weight: bold;
+  border: 2px solid transparent;
+}
+.submit_button:hover {
+  color: var(--color-darkgreen);
+  font-weight: bold;
+  background-color: white;
+  border: 2px solid var(--color-darkgreen);
+}
 
 
 </style>
+
+
+
+
+
