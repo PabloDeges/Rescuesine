@@ -1,6 +1,5 @@
 <script setup>
 
-import BackComponent from '../../components/BackButtonComponent.vue'
 /*import router from './././main.js'*/
 
 </script>
@@ -119,7 +118,7 @@ p.textFieldObjekte{
     margin: 1vw;
 }
 .background-image{
-    background-image: url('hintergrundbild_Login.jpg');
+    background-image: url('../assets/hintergrundbild_Login.jpg');
     background-size: cover;
     background-position: center;
     /*background-repeat: no-repeat;*/
