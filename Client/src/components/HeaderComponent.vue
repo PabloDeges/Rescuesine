@@ -1,83 +1,257 @@
-<template>
+<template>            
     <div class="header">
-            <img src="../assets/logo.png" class="logo-img" alt="">
-        <div class="box-right">
-            <p class="appname">RESCUESINE</p>
+            <RouterLink to="/" class="header_backtohome">
+                <img src="../assets/logo.png" class="logo-img" alt="">
+            </RouterLink>
+            
+            <h1 class="appname">RESCUESINE</h1>
             <input class="search-bar" type="text" placeholder="Rezepte durchsuchen">
-                <div class="buttons">
-                    <div class="button">Rezept erstellen</div>
-                    <div class="button">Profil</div>
+            <div class="buttons">                   
+                <div class="button_container">
+                    <RouterLink to="/recipe/create" class="button button_wide link">Rezept erstellen</RouterLink>
                 </div>
+                <div id="profile_btn" class="button_container">
+                    <RouterLink to="/profile" class="button link">Profil</RouterLink>
+                </div>
+                <div id="login_btn" class="button_container hidden">
+                    <RouterLink to="/login" class="button link">Login</RouterLink>
+                </div>
+                
+                
+                    
+            </div>
+        
+        <div class="hamburger_container" >
+            <img src="../assets/recipe_book_closed.png" class="logo_as_hamburger" alt="" id="hamburger">
+            <!-- onclick doesnt work yet :/ -->
         </div>
     </div>
+    <div id="mobile_links">
+        <RouterLink to="/" class="mobile_link">Home</RouterLink>
+        <RouterLink to="/recipe/create" class="mobile_link">Rezept erstellen</RouterLink>
+        <RouterLink to="/profile" class="mobile_link">Profil</RouterLink>
+        <RouterLink to="/login" class="mobile_link">Login</RouterLink>
+    </div>      
+
 </template>
 
 <script>
 
+// remove or change when login functionality is added => if logged in -> show profile, if not show login
+document.addEventListener('DOMContentLoaded', function() {
+
+    console.log("script loaded!")
+
+    window.addEventListener("resize", checkForMobileButtonsStillVisible);
+
+    const hamburger = document.getElementById('hamburger');
+    const mobile_links = document.getElementById("mobile_links");
+   
+    hamburger.addEventListener('click', toggle_mobile_links);
+    mobile_links.addEventListener('click', toggle_mobile_links);
+
+    const button1 = document.getElementById('login_btn');
+    const button2 = document.getElementById('profile_btn');
+   
+    button1.addEventListener('click', toggleButtons);
+    button2.addEventListener('click', toggleButtons);  
+
+    function toggleButtons() {
+        if (button1.classList.contains('hidden')) {
+            button1.classList.remove('hidden');
+            button2.classList.add('hidden');
+        } else {
+            button1.classList.add('hidden');
+            button2.classList.remove('hidden');
+        }
+    }
+
+
+    function checkForMobileButtonsStillVisible() {
+        let x = document.getElementById("mobile_links");
+        if(window.innerWidth >= 750) {
+            x.style.display = "none";
+        }
+    }   
+
+
+    function toggle_mobile_links() {
+    
+        let hamburger = document.getElementById("hamburger");
+        let x = document.getElementById("mobile_links");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+                hamburger.src = "src/assets/recipe_book_closed.png";
+            } 
+            else {
+                x.style.display = "block";
+                hamburger.src = "src/assets/recipe_book_opened.png";
+            }
+        }
+});
+
+
 </script>
+
 
 <style scoped>  
 
+
+
+.link {
+    text-decoration: none;
+    color: white;
+}
+
+
 .header {
     display: flex;
+    align-items: center;
+    justify-content:space-between;
+    background-color: var(--color-lightgreen);
+    width:100%;
+    height:6rem;
 }
+
 .logo-img {
     width: 6rem;
     height: 6rem;
+    background-color: var(--color-white);
+
+
+}
+.logo-img:hover {
+    background-color: var(--color-darkgreen);
 }
 .appname {
     font-weight: bold;
-    font-size: 2rem;
+    font-size: 2vw;
     color: white;
-    padding: 2rem;
+    width: 15%;
+
 }
+
 .search-bar {
     height: 3.5rem;
     font-size: 1rem;
     color: var(--color-grey);
     border: 2px solid var(--color-grey);
     padding: 1rem 2rem;
-    width: 35vw;
+    width: 40%;
     border-radius: 1rem;
     
 }
 
 
 .button {
-    background-color: var(--color-darkgreen);
-    padding: 0.8rem 2.5rem;
-    border-radius: 1rem;
-    color: var(--color-white);
     font-weight: bold;
+    font-size: 1.1vw;
+    white-space: nowrap;
+    overflow: hidden;
+}
 
+.button_container {
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-darkgreen);
+    padding: 0.8rem 0.8rem;
+    border-radius: 1rem;
+    max-width: 80%;
+    min-width: 2rem;
+    margin-left: 1vw;
+    white-space: nowrap;
+    overflow: hidden;
+    border-style:solid;
+    border: 2px solid var(--color-darkgreen);
+    height: 100%;
+}
 
+.button_container:hover {
+    border: 2px solid var(--color-white);
+    cursor: pointer;
 }
 .buttons {
     display: flex;
-    justify-content: space-between;
-    width: 24vw;
-    height: 3rem;
-    margin-right:1.5rem;
-}
-
-
-.box-right {
-    display: flex;
-    background-color: var(--color-lightgreen);
-    width:100%;
+    justify-content: space-evenly;
     align-items: center;
-    justify-content: space-between;
-    height: 6rem;
+    height: 50%;
+    width: 25%;
+    padding-right: 3%;
 }
 
-@media (max-width:580px)  {
-    .appname {
+
+.mobile_link {
+  color: rgb(255, 255, 255);
+  background-color: var(--color-darkgreen);
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: bold;
+  display: block;
+}
+
+.hamburger_container, #mobile_links {
+    display: none;
+    
+}
+
+
+.hidden {
+    display: none;
+}
+
+.header_backtohome {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    height: 100%;
+}
+
+
+
+/* RESPOSIVE STUFF */
+@media screen and (max-width: 750px) {
+
+    .appname, .logo-img, .button, .buttons{
         visibility: hidden;
         display: none;
+        width: 0;
+        height: 0;
+    }
+    .search-bar {
+        margin-left: 5%;
+        margin-right: 5%;
+        width: 90%;
+    } 
+    .hamburger_container {
+        height: 6rem;
+        width: 8rem;
+        visibility: visible;
+        display: block;
+        background-color: var(--color-white);
+        margin-left: auto;
+        padding: 0;
+    }
+    .hamburger_container:hover {
+        background-color: var(--color-darkgreen);
+    }
+    .logo_as_hamburger {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+    .mobile_link:hover {
+        background-color: var(--color-lightgreen);
+        color: white;
+    }
+    .header {
+        width: 100%;
     }
 
+
 }
-/* (TODO) Responsive => only logo, searchbar and hamburger menu visible */
 
     
 </style>
