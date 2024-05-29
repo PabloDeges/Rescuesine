@@ -1,6 +1,5 @@
 <script setup>
 
-import BackComponent from '../../components/BackButtonComponent.vue'
 /*import router from './././main.js'*/
 
 </script>
