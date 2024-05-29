@@ -3,12 +3,13 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 
+
 import { createMemoryHistory, createRouter } from 'vue-router'
 
 import HomeView from './views/HomeView.vue'
 import ProfileView from './views/ProfileView.vue'
 import RecipeView from './views/RecipeView.vue'
-import LoginView from './views//LoginView/LoginView.vue'
+import LoginView from './views/LoginView.vue'
 import RecipeCreateView from './views/RecipeCreateView.vue'
 
 const routes = [
