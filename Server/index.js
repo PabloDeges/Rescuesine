@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const recipeRoute = require("./routes/recipe.route.js");
 const ingredientRoute = require("./routes/ingredient.route.js");
 const profileRoute = require("./routes/profile.route.js");
+const imageRoute = require("./routes/images.route.js")
 const cors = require("cors");
 const app = express();
 
@@ -16,16 +17,11 @@ app.use(cors());
 app.use(express.json()) 
 
 //Routen
-//app.use("/recipe", recipeRoute);
+app.use("/recipe", recipeRoute);
 //app.use("/ingredient", ingredientRoute);
 //app.use("/profile", profileRoute);
+app.use("/image",imageRoute);
 
-
-
-
-app.get('/', (req, res) => {
-  res.send('Hallo Welt!');
-});
 
 
 
@@ -33,7 +29,11 @@ app.get('/', (req, res) => {
 mongoose
   .connect(`mongodb://${dbloc}:${dbPort}/${dbName}`)
   .then(() => {
-    console.log("Verbindung mit Datenbank hergestellt");
+    const checkSchema = new mongoose.Schema({
+      name: String
+    });
+    const Check = mongoose.model('Check', checkSchema);
+    helper(Check);
     app.listen(3000, () => {
       console.log(`Der Server läuft auf http://localhost:${port}`);
     });
@@ -42,3 +42,8 @@ mongoose
     console.log("Connection failed!");
   });
 
+
+  async function helper(Check){
+    const check = await Check.find();
+    check[0].name >= 1.0 ? console.log("Verbindung mit Datenbank hergestellt") : (() => { throw new Error("Deine Datenbank ist nicht mehr aktuell. Datenbankdaten neu laden") })();
+  }

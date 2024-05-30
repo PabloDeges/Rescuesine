@@ -20,7 +20,7 @@ const recipe = mongoose.Schema(
         name: { type: String, required: true }
       }
     ],
-    pricecatergory: { type: Number, required: true },
+    pricecategory: { type: String, required: false },
     preparationtime: { type: Number, required: true },
     creator: {
       id: { type: Number, required: true },
