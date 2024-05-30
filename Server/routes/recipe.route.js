@@ -14,7 +14,7 @@ router.get('/',getRecipesMainPage)
 
 //router.get('/searched',getSearchedRecipe)
 
-//router.get('/:id',getDetailedRecipe)
+router.get('/:id',getDetailedRecipe)
 
 //router.post('/',createRecipe)
 

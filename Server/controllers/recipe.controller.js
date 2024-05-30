@@ -45,13 +45,14 @@ const getSearchedRecipe = async (req,res) => {
 
 
 const getDetailedRecipe = async (req,res) => {
-    /* try{
+    try{
         const { id } = req.params
         const recipe = await Recipe.findById(id)
+        recipe.picture = `${req.protocol}://${req.get('host')}/image/${recipe.picture}`
         res.status(200).json(recipe)
     }catch(error){
         res.status(500).json({ message : error.message})
-    } */
+    }
 }
 
 const createRecipe = async (req,res) => {
