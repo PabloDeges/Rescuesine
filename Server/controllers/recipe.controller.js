@@ -33,14 +33,13 @@ const getFilteredRecipes = async (req,res) => {
 }
 
 const getSearchedRecipe = async (req,res) => {
-    /* try{
-        
-        // Ja hier muss wohl der Algorightums
-
+    try{
+        let query = { name: { $regex: req.params.value, $options: "i" } };
+        let recipe = await Recipe.find(query);
         res.status(200).json(recipe)
     }catch(error){
         res.status(500).json({ message : error.message})
-    } */
+    }
 }
 
 
@@ -67,13 +66,10 @@ const createRecipe = async (req,res) => {
 const deleteRecipe = async (req, res) => {
     /* try {
       const { id } = req.params;
-  
       const recipe = await Recipe.findByIdAndDelete(id);
-  
       if (!recipe) {
         return res.status(404).json({ message: "Recipe not found" });
       }
-  
       res.status(200).json({ message: "Recipe deleted successfully" });
     } catch (error) {
       res.status(500).json({ message: error.message });

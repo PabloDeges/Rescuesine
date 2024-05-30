@@ -12,7 +12,7 @@ router.get('/',getRecipesMainPage)
 //Problem mit den Übergabewerten? Kommt wahrscheinlich aufs Format an
 //router.get('/filtered',getFilteredRecipes)
 
-//router.get('/searched',getSearchedRecipe)
+router.get('/searched/:value',getSearchedRecipe)
 
 router.get('/:id',getDetailedRecipe)
 
