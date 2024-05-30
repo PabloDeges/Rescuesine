@@ -3,7 +3,7 @@ const Recipe = require("../models/recipe.model");
 const getRecipesMainPage = async (req,res) => {
     try{  
         const values = [
-            { $sample: { size: 8 } },
+            { $sample: { size: 10 } },
             {
               $project: {
                 _id: 1,
@@ -14,8 +14,8 @@ const getRecipesMainPage = async (req,res) => {
               },
             },
           ];
-          let back = await Recipe.aggregate(values);
-          res.status(200).json(back);
+          let recipes = await Recipe.aggregate(values);
+          res.status(200).json(recipes);
     }catch(error){
         res.status(500).json({message: error.message})
     }
@@ -34,8 +34,18 @@ const getFilteredRecipes = async (req,res) => {
 
 const getSearchedRecipe = async (req,res) => {
     try{
-        let query = { name: { $regex: req.params.value, $options: "i" } };
-        let recipe = await Recipe.find(query);
+        const values = 
+            {
+              $project: {
+                _id: 1,
+                name: 1,
+                creatorname: { $concat: ["$creator.name"] },
+                tags: 1
+              },
+            }
+          
+        let query =[ { $match: { name: { $regex: req.params.value, $options: "i" } } }, values ];
+        let recipe = await Recipe.aggregate(query);
         res.status(200).json(recipe)
     }catch(error){
         res.status(500).json({ message : error.message})
