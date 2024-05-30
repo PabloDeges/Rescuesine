@@ -54,6 +54,29 @@ const getDetailedRecipe = async (req,res) => {
     } */
 }
 
+async function getRecipeIDsByIngredient(ingredientID, ingredientName) {
+    try{  
+        //let recipes = await Recipe.find({ingredients:{$elemMatch: {"id": ingredientID, "name": ingredientName}}});
+        let recipes = await Recipe.find({ingredients:{$elemMatch: {"name": ingredientName}}});
+        let backRecipes = [];
+        for(i=0; i<recipes.length;i++){
+            backRecipes.push(recipes[i]._id.toString());
+        }
+        return backRecipes;
+    }catch(error){
+        return null;
+    }
+}
+
+async function getAmoutOfIngredientsForRecipe(recipeID) {
+    try{  
+        let recipe = await Recipe.findById(recipeID);
+        return recipe.ingredients.length;
+    }catch(error){
+        return null;
+    }
+}
+
 const createRecipe = async (req,res) => {
     /* try{
         const recipe = await Recipe.create(req.body);
@@ -85,6 +108,8 @@ module.exports = {
     getFilteredRecipes,
     getSearchedRecipe,
     getDetailedRecipe,
+    getRecipeIDsByIngredient,
+    getAmoutOfIngredientsForRecipe,
     createRecipe,
     deleteRecipe,
   };
