@@ -1,21 +1,21 @@
 const Recipe = require("../models/recipe.model");
-const path = require('path');
 
 const getRecipesMainPage = async (req,res) => {
     try{  
-        let recipes = await Recipe.find({})
-        let backRecipes = []
-        for(i=0; i<recipes.length;i++){
-            let object = {
-                id: recipes[i]._id.toString(),
-                creatorname: recipes[i].creator.name,
-                pricecategory: recipes[i].pricecategory,
-                preparationtime: recipes[i].preparationtime,
-                picture: `${req.protocol}://${req.get('host')}/image/${recipes[i].picture}`
-            }
-            backRecipes.push(object);
-        }
-        res.status(200).json(backRecipes)
+        const values = [
+            { $sample: { size: 8 } },
+            {
+              $project: {
+                _id: 1,
+                creatorname: { $concat: ["$creator.name"] },
+                pricecategory: 1,
+                preparationtime: 1,
+                picture: { $concat: [`${req.protocol}://${req.get('host')}/image/`, "$picture"] },
+              },
+            },
+          ];
+          let back = await Recipe.aggregate(values);
+          res.status(200).json(back);
     }catch(error){
         res.status(500).json({message: error.message})
     }
