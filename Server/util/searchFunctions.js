@@ -8,7 +8,7 @@ const { getRecipeIDsByIngredient, getAmoutOfIngredientsForRecipe } = require("..
 async function filter(ingredients) {
     let firstSort = await filterRecipesByIngredients(ingredients);
     let secondSort = await orderRecipesByAmoutIngredientsLeft(firstSort);
-    console.log(secondSort);
+    return secondSort;
 }
 
 /**
