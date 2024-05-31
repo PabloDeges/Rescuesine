@@ -27,6 +27,10 @@ async function filterRecipesByIngredients(ingredients) {
     for (let i = 0; i < ingredients.length; i++) {
         //alle rezepte in denen die akteulle zutat vorkommt aus der db holen
         let recipesIDs = await getRecipeIDsByIngredient(ingredients[i][0], ingredients[i][1]);
+        //zutat wird uebersprungen, wenn keine rezepte dazu existieren
+        if(recipesIDs == null) {
+            continue;
+        }
         //iterieren ueber alle gefundenen rezepte, keine iteration falls nichts gefunden
         for (let n = 0; n < recipesIDs.length; n++) {
             if (dictRecipes[recipesIDs[n]] === undefined) {
