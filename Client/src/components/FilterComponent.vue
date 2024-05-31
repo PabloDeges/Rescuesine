@@ -1,85 +1,3 @@
-<script>
-import { ref } from 'vue';
-
-document.addEventListener('DOMContentLoaded', function () {
-
-  const filter = document.getElementById('filter');
-
-  filter.addEventListener('click', show_filter_options);
-
-  function show_filter_options() {
-    let x = document.getElementById("filter_form_id");
-
-    if (x.style.display === "flex") {
-      x.style.display = "none";
-
-    }
-    else {
-      x.style.display = "flex";
-    }
-  }
-
-});
-
-export default {
-  setup() {
-    const searchTerm = ref('');
-    const selectedFruit = ref('');
-    const selectedVegetable = ref('');
-    const selectedCondiment = ref('');
-    const selectedIngredients = ref([]);
-    const fruits = ref(['Apple', 'Banana', 'Cherry']);
-    const vegetables = ref(['Carrot', 'Broccoli', 'Spinach']);
-    const condiments = ref(['Salt', 'Pepper', 'Ketchup']);
-
-    const searchIngredients = () => {
-      // Here you can implement a search function that filters ingredients based on searchTerm
-      // ajax kram hinzufügen...
-    };
-
-    const addIngredient = (event) => {
-      const ingredient = event.target.value;
-      if (ingredient && !selectedIngredients.value.includes(ingredient)) {
-        selectedIngredients.value.push(ingredient);
-      }
-      clearSelection();
-    };
-
-    const clearSelection = () => {
-      selectedFruit.value = '';
-      selectedVegetable.value = '';
-      selectedCondiment.value = '';
-    };
-
-    const removeIngredient = (index) => {
-      selectedIngredients.value.splice(index, 1);
-    };
-
-    const submitForm = () => {
-      // Send the selectedIngredients array to the backend
-      console.log('Selected Ingredients:', selectedIngredients.value);
-    };
-
-    return {
-      searchTerm,
-      selectedFruit,
-      selectedVegetable,
-      selectedCondiment,
-      selectedIngredients,
-      fruits,
-      vegetables,
-      condiments,
-      searchIngredients,
-      addIngredient,
-      clearSelection,
-      removeIngredient,
-      submitForm,
-    };
-  },
-};
-</script>
-    
-
 <template>
   <div class="container">
     <div class="filter_button_container">
@@ -125,7 +43,7 @@ export default {
         </select>
       </div>
 
-      <button @click="submitForm" class="submit_button">Rezepte Filtern</button>
+      <button @click="submitForm" class="disabled_button submit_button" id="submit_button_id">Rezepte Filtern</button>
     </div>
       </div>
   </div>
@@ -133,6 +51,7 @@ export default {
 
 
 <style scoped>
+
 
 #filter_form_id {
   display: none;
@@ -175,15 +94,13 @@ export default {
   cursor: pointer;
 }
 
-
-@media screen and (max-width: 750px) {
-  .filter_button_container {
-    justify-content: center;
-  }
-}
-
 .selected-ingredients {
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
 }
 
 .ingredient-tag {
@@ -193,6 +110,7 @@ export default {
   padding: 0.5rem 1rem;
   background-color: var(--color-red);
   border-radius: 1rem;
+
 }
 
 .remove-ingredient {
@@ -209,7 +127,9 @@ export default {
   background-color: white;
   border-radius: 1rem;
   border: 1px solid black;
-  padding: 0.8rem 5rem;
+  padding: 1rem;
+  width: 40vw;
+  min-width: 20rem;
 }
 
 .dropdowns {
@@ -225,6 +145,9 @@ margin-bottom: 1rem;
   color: white;
   font-weight: bold;
   border: 2px solid transparent;
+  background-color: var(--color-darkgreen);
+  padding: 0.8rem 1rem;
+  border-radius: 1rem;
 }
 .submit_button:hover {
   color: var(--color-darkgreen);
@@ -233,8 +156,124 @@ margin-bottom: 1rem;
   border: 2px solid var(--color-darkgreen);
 }
 
+.disabled_button {
+  background-color: grey;
+  color: white;
+  border: 1px solid grey;
+}
+
+.disabled_button:hover {
+  background-color: grey;
+  color: white;
+  border: 1px solid grey;
+}
+
+
+
+@media screen and (max-width: 750px) {
+  .filter_button_container {
+    justify-content: center;
+  }
+
+
+}
+
+
+
 
 </style>
+
+<script>
+import { ref } from 'vue';
+
+window.addEventListener('load', function () {
+
+  console.log("page successfully loaded, filter logic hooked")
+  const filter = document.getElementById('filter');
+
+  filter.addEventListener('click', show_filter_options);
+
+  function show_filter_options() {
+    let x = document.getElementById("filter_form_id");
+
+    if (x.style.display === "flex") {
+      x.style.display = "none";
+
+    }
+    else {
+      x.style.display = "flex";
+    }
+  }
+
+});
+
+export default {
+  setup() {
+    const searchTerm = ref('');
+    const selectedFruit = ref('');
+    const selectedVegetable = ref('');
+    const selectedCondiment = ref('');
+    const selectedIngredients = ref([]);
+    const fruits = ref(['Apple', 'Banana', 'Cherry']);
+    const vegetables = ref(['Carrot', 'Broccoli', 'Spinach']);
+    const condiments = ref(['Salt', 'Pepper', 'Ketchup']);
+
+    const searchIngredients = () => {
+      // ajax kram hinzufügen...
+    };
+
+    const enableButton = () => {
+      let x = document.getElementById('submit_button_id');
+      console.log(x)
+      x.classList.remove('disabled_button');
+    }
+
+    const addIngredient = (event) => {
+
+      console.log("addIngredientCalled")
+
+      enableButton();
+
+      const ingredient = event.target.value;
+      if (ingredient && !selectedIngredients.value.includes(ingredient)) {
+        selectedIngredients.value.push(ingredient);
+      }
+      clearSelection();
+    };
+
+    const clearSelection = () => {
+      selectedFruit.value = '';
+      selectedVegetable.value = '';
+      selectedCondiment.value = '';
+    };
+
+    const removeIngredient = (index) => {
+      selectedIngredients.value.splice(index, 1);
+    };
+
+    const submitForm = () => {
+      // Send the selectedIngredients array to the backend
+      console.log('Selected Ingredients:', selectedIngredients.value);
+    };
+
+    return {
+      searchTerm,
+      selectedFruit,
+      selectedVegetable,
+      selectedCondiment,
+      selectedIngredients,
+      fruits,
+      vegetables,
+      condiments,
+      searchIngredients,
+      addIngredient,
+      clearSelection,
+      removeIngredient,
+      submitForm,
+    };
+  },
+};
+</script>
 
 
 
