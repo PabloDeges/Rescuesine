@@ -224,13 +224,15 @@ export default {
 
     const enableButton = () => {
       let x = document.getElementById('submit_button_id');
-      console.log(x)
       x.classList.remove('disabled_button');
     }
 
-    const addIngredient = (event) => {
+    const disableButton = () => {
+      let x = document.getElementById('submit_button_id');
+      x.classList.add('disabled_button');
+    }
 
-      console.log("addIngredientCalled")
+    const addIngredient = (event) => {
 
       enableButton();
 
@@ -249,6 +251,9 @@ export default {
 
     const removeIngredient = (index) => {
       selectedIngredients.value.splice(index, 1);
+      if(selectedIngredients.value.length == 0) {
+        disableButton();
+      }
     };
 
     const submitForm = () => {
