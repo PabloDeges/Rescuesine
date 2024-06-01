@@ -72,7 +72,6 @@
     .icon {
         max-height: 60%;
         max-width: 60%;
-        /* object-fit: cover; */
         margin-right: 0.5rem;
     }
     .icon_time {
@@ -85,10 +84,8 @@
         display: flex;
         align-items: center;
         justify-content:flex-start;
-        /* margin: 0 1rem; */
         height: 100%;
         width: 100%;
-        /* background-color: rgba(60, 255, 0, 0.11); */
 
     }
 
