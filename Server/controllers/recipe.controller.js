@@ -54,9 +54,9 @@ const getDetailedRecipe = async (req,res) => {
     } */
 }
 
-async function getRecipeIDsByIngredient(ingredientID, ingredientName) {
+async function getRecipeIDsByIngredient(ingredientID) {
     try{  
-        let recipes = await Recipe.find({ingredients:{$elemMatch: {"_id": ingredientID, "name": ingredientName}}});
+        let recipes = await Recipe.find({ingredients:{$elemMatch: {"_id": ingredientID}}});
         let backRecipes = [];
         for(i=0; i<recipes.length;i++){
             backRecipes.push(recipes[i]._id.toString());

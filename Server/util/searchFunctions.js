@@ -2,7 +2,7 @@ const { getRecipeIDsByIngredient, getAmoutOfIngredientsForRecipe } = require("..
 
 /**
  * nimmt als parameter ein element.
- * element ist ein iterable mit namen von zutaten (muss spaeter noch auf id+name angepasst werden)
+ * element ist ein iterable mit namen von zutaten-IDs
  * uebergeordnete funktion, die das vorfiltern vor evtl spaetere andere nachsortierungen haengt
  */
 async function filter(ingredients) {
@@ -13,7 +13,7 @@ async function filter(ingredients) {
 
 /**
  * nimmt als parameter ein element.
- * element ist ein iterable mit namen von zutaten (muss spaeter noch auf id+name angepasst werden)
+ * element ist ein iterable mit namen von zutaten-IDs
  * die funktion sorgt fuer eine vorsortierung von daten
  * fuer alle zutaten des uebergebenen iterables werden alle ids von rezepten aus der db geholt, in denen diese vorkommt
  * anschliessend werden die haeufigkeiten des vorkommens einer id gezaehlt und in einem dict gespeichert
@@ -26,7 +26,7 @@ async function filterRecipesByIngredients(ingredients) {
     //iterieren ueber alle zutaten des uebergebenen iterables
     for (let i = 0; i < ingredients.length; i++) {
         //alle rezepte in denen die akteulle zutat vorkommt aus der db holen
-        let recipesIDs = await getRecipeIDsByIngredient(ingredients[i][0], ingredients[i][1]);
+        let recipesIDs = await getRecipeIDsByIngredient(ingredients[i]);
         //zutat wird uebersprungen, wenn keine rezepte dazu existieren
         if(recipesIDs == null) {
             continue;
