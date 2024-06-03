@@ -1,7 +1,6 @@
 <script setup>
 
 /*import router from './././main.js'*/
-
 </script>
 
 <template>
@@ -9,12 +8,12 @@
     <HeaderComponent/>
     <BackComponent />
   <div class="styled-div">
-    <h1>Login</h1>
+    <h1 class="response">Login</h1>
     <div class="textFieldObjekte">
-      <p>Login-ID</p>
-      <input type="text" class="credentials" v-model="username">
+      <p class="response">Login-ID</p>
+      <input type="text" class="credentials response" v-model="username">
       <p>Passwort</p>
-      <input type="password" class="credentials" v-model="password">
+      <input type="password" class="credentials response" v-model="password">
     </div>
       <div class="buttonContainer">
       <button class="clickLogin" @click="login">Einloggen</button>
@@ -26,6 +25,7 @@
 
 
 <script>
+
 export default {
   data() {
     return {
@@ -52,30 +52,37 @@ export default {
 </script>
 
 <style>
+body{
+  overflow:hidden
+}
 .styled-div{
     position: relative;
-    top: 5%;
+    top: 2rem;
     border-radius: 1rem;
     margin: auto;
-    width: 45vw;
-    height: 32.5vw;
+    width: 30rem;
+    height: 25rem;
     font-size: 30px;
     color: white;
     text-align: center;
     font-weight: bold;
     background-color: hsl(99, 58%, 69%, 0.85);
 }
+p.response{
+  size: 2rem;
+}
 
 
 input.credentials {
     top: 50%;
     background-color: #FFFFF0;
-    border: #FFFFF0;
+    border: 2px solid hsl(99, 58%, 69%, 0.85);
     border-radius: 1rem;
     font-size: 30px;
     display: flex;
     margin: auto;
     padding: 0.8rem 2.5rem;
+    width: 90%;
     margin-bottom: 6%;
 }
 .credentials:hover {
@@ -98,7 +105,8 @@ p.textFieldObjekte{
     color: var(--color-white);
     font-weight: bold;
     border: var(--color-darkgreen);
-    font-size: 40px;
+    font-size: 3rem;
+    font-display: inherit;
     height: fit-content;
     width: fit-content;
     top: 5vw;
@@ -108,6 +116,7 @@ p.textFieldObjekte{
 }
 #buttonRegister{
     font-size: 20px;
+    width: -10%;
 }
 .clickLogin:hover {
     border: 2px solid var(--color-white);
@@ -120,9 +129,10 @@ p.textFieldObjekte{
 .background-image{
     background-image: url('../assets/hintergrundbild_Login.jpg');
     background-size: cover;
-    background-position: center;
-    /*background-repeat: no-repeat;*/
-    height: 92.7vw;
+    background-position: left top;
+    background-repeat: no-repeat;
+    height: 60rem;
+    width: 100%;
     opacity: 85%;
 }
 </style>
