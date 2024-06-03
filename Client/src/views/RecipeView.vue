@@ -1,9 +1,11 @@
 <script setup>
+import RecipeComponent from '@/components/RecipeComponent.vue';
+
 </script>
 
 <template>
-    
+    <RecipeComponent></RecipeComponent>
     <div>
-         TODO RECIPE VIEW
+        
     </div>
 </template>

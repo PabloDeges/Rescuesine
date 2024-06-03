@@ -18,6 +18,7 @@
       <div class="buttonContainer">
       <button class="clickLogin" @click="login">Einloggen</button>
       <button class="clickLogin" id="buttonRegister" @click="register">Registrieren</button>
+      <RouterLink to="/recipe" class="button link">Login</RouterLink>
     </div>
 </div>
 </div>
@@ -52,8 +53,8 @@ export default {
 </script>
 
 <style>
-body{
-  overflow:hidden
+template{
+  overflow: hidden
 }
 .styled-div{
     position: relative;
@@ -109,7 +110,6 @@ p.textFieldObjekte{
     font-display: inherit;
     height: fit-content;
     width: fit-content;
-    top: 5vw;
     margin: auto;
     display: block;
     margin-bottom: 7%;
@@ -134,5 +134,6 @@ p.textFieldObjekte{
     height: 60rem;
     width: 100%;
     opacity: 85%;
+    overflow: hidden
 }
 </style>
