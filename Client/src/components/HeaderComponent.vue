@@ -5,7 +5,7 @@
             </RouterLink>
             
             <h1 class="appname">RESCUESINE</h1>
-            <input class="search-bar" type="text" placeholder="Rezepte durchsuchen">
+            <autocomplete :search="search" class="search_bar_header" placeholder="Rezepte durchsuchen" autoSelect=True submitOnEnter=True @submit="onSubmit"></autocomplete>
             <div class="buttons">                   
                 <div class="button_container">
                     <RouterLink to="/recipe/create" class="button button_wide link">Rezept erstellen</RouterLink>
@@ -34,6 +34,27 @@
     </div>      
 
 </template>
+
+<script setup>
+
+//get recipes from backend
+// durch fetch all recipes ersetzen oder async probieren
+// man braucht titel zum autofillen und id um bei klick das richtige rezept zu öffnen
+let recipes = ["Fischis", "Flammkuchen", "Früchtesalat", "Frischkäse", "Burger" ]
+
+function search(input) {
+  if (input.length < 1) { return [] }
+  return recipes.filter(recipe => {
+    return recipe.toLowerCase()
+      .startsWith(input.toLowerCase())
+  })
+};  
+
+function onSubmit(result) {
+    // rezept öffnen, mittels localhost.com + id
+};
+
+</script>
 
 <script>
 
@@ -129,15 +150,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 }
 
-.search-bar {
+
+
+.search_bar_header {
     height: 3.5rem;
-    font-size: 1rem;
-    color: var(--color-grey);
-    border: 2px solid var(--color-grey);
-    padding: 1rem 2rem;
     width: 40%;
-    border-radius: 1rem;
-    
+    color: var(--color-grey);
+
+
 }
 
 
@@ -218,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
         width: 0;
         height: 0;
     }
-    .search-bar {
+    .search_bar_header {
         margin-left: 5%;
         margin-right: 5%;
         width: 90%;
