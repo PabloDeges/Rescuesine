@@ -11,12 +11,12 @@ import RecipeComponent from '@/components/RecipeComponent.vue';
                 <div class="ingredientList">
                     <p>400g Hackfleisch <br>2TL Salz<br>2TL Pfeffer<br>Bratfett</p>
                 </div>
-                <h2 class="preperation">Zubereitung</h2>
+                <h2 class="zubereitung_titel">Zubereitung</h2>
                 <p>1. Wasser mit Salz aufsetzen, derweil Kartoffeln schälen und in kleine Stücke schneiden. 
 Die Kartoffeln nun ins Wasser geben und weich kochen. Die Butter hinzu geben und mit einem         Stampfer vermengen und zerstampfen, mit Salz und Pfeffer abschmecken.</p>
                     <p>2. Eine Pfanne mit Butter erhitzen und gefrorene Fischstäbchen hinzugeben. 
 So lange braten bis die Fischstäbchen goldbraun angebraten sind. Optional mit Salz und Zitrone verfeinern.</p>
-                        <p>3. Den gefrorenen Rahmspinat im Topf auf mittlerer Hitze erwärmen und einige Minuten köcheln lassen. Mit Pfeffer abschmecken.</p>
+                        <p class="preparation">3. Den gefrorenen Rahmspinat im Topf auf mittlerer Hitze erwärmen und einige Minuten köcheln lassen. Mit Pfeffer abschmecken.</p>
         </div>
     </div>
 </template>
@@ -42,5 +42,10 @@ So lange braten bis die Fischstäbchen goldbraun angebraten sind. Optional mit S
 }
 .recipeIconInfos{
     padding-left: 4%
+}
+
+.preparation {
+    margin-bottom: 6rem;
+    /* width: 60%; */
 }
 </style>
