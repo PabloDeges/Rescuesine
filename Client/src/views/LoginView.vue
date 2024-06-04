@@ -4,9 +4,11 @@
 </script>
 
 <template>
+<body class="signInPage">
   <div class="background-image">
     <HeaderComponent/>
     <BackComponent />
+    
   <div class="styled-div">
     <h1 class="response">Login</h1>
     <div class="textFieldObjekte">
@@ -22,6 +24,7 @@
     </div>
 </div>
 </div>
+</body>
 </template>
 
 
@@ -105,7 +108,7 @@ p.textFieldObjekte{
     border-radius: 1rem;
     color: var(--color-white);
     font-weight: bold;
-    border: var(--color-darkgreen);
+    border: 2px solid hsl(99, 58%, 69%, 0.85);
     font-size: 3rem;
     font-display: inherit;
     height: fit-content;
@@ -131,9 +134,12 @@ p.textFieldObjekte{
     background-size: cover;
     background-position: left top;
     background-repeat: no-repeat;
-    height: 60rem;
+    height: 120rem;
     width: 100%;
     opacity: 85%;
     overflow: hidden
+}
+.signInPage{
+  overflow: hidden; 
 }
 </style>
