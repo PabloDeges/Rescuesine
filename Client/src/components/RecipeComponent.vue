@@ -3,14 +3,14 @@
         <div class="previewBackground center">
             
             <div class="recipeInformationContainer">
-                <h1 class="title">Vorrübergehender Titel</h1>
+                <h1 class="title">Burger mit Salz und Pfeffer und so</h1>
                 <div class="layout_infobox">
                     <img src="../assets/user_icon.png" class="userIconRecipe recipeShortInformation recipeIconInfos">
-                    <p class="textInformationRecipe recipeShortInformation">{{ recipe_author }}</p>
+                    <p class="textInformationRecipe recipeShortInformation">manfred_kocht44</p>
                     <img src="../assets/price_icon.png" class="priceIconRecipe recipeShortInformation recipeIconInfos">
-                    <p class="textInformationRecipe recipeShortInformation">{{ recipe_price }}€</p>
+                    <p class="textInformationRecipe recipeShortInformation"> 10€</p>
                     <img src="../assets/time_icon.png" class="timeIconRecipe recipeShortInformation recipeIconInfos">
-                    <p class="textInformationRecipe recipeShortInformation">{{ recipe_time }}min</p>
+                    <p class="textInformationRecipe recipeShortInformation">25min</p>
                 </div>
             </div>
             <div class="tagBoxesContainer">
@@ -84,6 +84,8 @@
 .previewBackground{
     background-image: url('../assets/burger.jpg'); /* change to img tag in html */
     background-size: cover;
+    background-attachment: fixed;
+  background-position: center; 
     width: 100%;
     height: 25rem;
     display: flex;
@@ -120,18 +122,20 @@
     align-items: flex-end;
 }
 .tagBoxesContainer div{
+
     display: flex;
-    height: 30px;
+    height: 2.5rem;
     align-items: center;
     justify-content: center;
     background-color: var(--color-red);
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     padding-right: 2.5rem;
     margin-left: 1rem;
 }
 .tagBoxesContainer div p{
     padding-left: 25px;
     color: white;
+    font-weight: bold;
 }
 .tagBoxesContainer div img{
     margin-left: 15%;
