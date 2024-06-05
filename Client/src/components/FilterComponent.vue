@@ -1,4 +1,5 @@
 <script setup>
+import { updateRecipesOnMainPage } from '../manageMainPageRecipes';
 import { ref, onMounted } from 'vue';
 
 window.addEventListener('load', function () {
@@ -83,7 +84,6 @@ function onSubmit(result) {
 
     function submitForm() {
       // Send the selectedIngredients array to the backend
-      console.log('Selected Ingredients:', selectedIngredients.value);
       fetch("http://127.0.0.1:3000/recipe/filtered", {
         method:"POST",
         headers: {"Content-Type": "application/json"},
@@ -96,8 +96,7 @@ function onSubmit(result) {
         return response.json();
       })
       .then(data => {
-        console.log("Data:", data);
-        //Hier muss die Anzeige auf der Main Page hin
+        updateRecipesOnMainPage(data);
       })
       .catch(error => {
         console.error("Fehler", error);

@@ -33,12 +33,11 @@ async function getRecipeByID(recipeID, protocol, host) {
                 preparationtime: 1,
                 picture: { $concat: [`${protocol}://${host}/image/`, "$picture"] }
             });
-        return recipe.toString();
+        return recipe[0];
     }catch(error){
         return null;
     }
 }
-
 
 module.exports = {
     getRecipeIDsByIngredient,

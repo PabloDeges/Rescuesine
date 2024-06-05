@@ -1,10 +1,8 @@
 <script setup>
-import { ref } from 'vue'
 import CardComponent from '../components/CardComponent.vue'
 import FilterComponent from '../components/FilterComponent.vue'
 import { onMounted } from 'vue';
-
-const recipes = ref([]);
+import { recipes, updateRecipesOnMainPage } from "../manageMainPageRecipes"
 
 function fetchMainPageRecipes() {
   fetch("http://127.0.0.1:3000/recipe")
@@ -15,7 +13,7 @@ function fetchMainPageRecipes() {
     return response.json();
   })
   .then(data => {
-    recipes.value = data;
+    updateRecipesOnMainPage(data);
   })
   .catch(error => {
     console.error("Fehler", error);
