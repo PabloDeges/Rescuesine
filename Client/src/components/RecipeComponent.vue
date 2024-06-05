@@ -3,14 +3,14 @@
         <div class="previewBackground center">
             
             <div class="recipeInformationContainer">
-                <h1 class="title">Burger mit Salz und Pfeffer und so</h1>
+                <h1 class="title">{{ recipe_title }}</h1>
                 <div class="layout_infobox">
                     <img src="../assets/user_icon.png" class="userIconRecipe recipeShortInformation recipeIconInfos">
-                    <p class="textInformationRecipe recipeShortInformation">manfred_kocht44</p>
+                    <p class="textInformationRecipe recipeShortInformation">{{ recipe_author }}</p>
                     <img src="../assets/price_icon.png" class="priceIconRecipe recipeShortInformation recipeIconInfos">
-                    <p class="textInformationRecipe recipeShortInformation"> 10€</p>
+                    <p class="textInformationRecipe recipeShortInformation"> {{ recipe_price }}€</p>
                     <img src="../assets/time_icon.png" class="timeIconRecipe recipeShortInformation recipeIconInfos">
-                    <p class="textInformationRecipe recipeShortInformation">25min</p>
+                    <p class="textInformationRecipe recipeShortInformation">{{ recipe_time }}</p>
                 </div>
             </div>
             <div class="tagBoxesContainer">
