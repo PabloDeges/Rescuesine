@@ -2,45 +2,40 @@
 import { ref } from 'vue'
 import CardComponent from '../components/CardComponent.vue'
 import FilterComponent from '../components/FilterComponent.vue'
+import { onMounted } from 'vue';
 
-let json_data = {
-  data: [{"recipe_title" : "Fischstäbchen mit Kartoffelpüree",
-  "recipe_author" : "manfred_kocht33",
-  "recipe_price" : "10",
-  "recipe_time" : "120"},
+const recipes = ref([]);
 
-  {"recipe_title" : "Butter Chicken mit Knoblauchnaan",
-  "recipe_author" : "liselotte1990",
-  "recipe_price" : "20",
-  "recipe_time" : "40"},
-
-]
+function fetchMainPageRecipes() {
+  fetch("http://127.0.0.1:3000/recipe")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Keine gueltige Antwort erhalten");
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log(data);
+    return data;
+  })
+  .catch(error => {
+    console.error("Fehler", error);
+  })
 }
 
-const recipes = ref([
-  {recipe_title: json_data.data[0].recipe_title, recipe_author: json_data.data[0].recipe_author, recipe_price: json_data.data[0].recipe_price, recipe_time: json_data.data[0].recipe_time },
-  {recipe_title: json_data.data[1].recipe_title, recipe_author: json_data.data[1].recipe_author, recipe_price: json_data.data[1].recipe_price, recipe_time: json_data.data[1].recipe_time },
-  {recipe_title: json_data.data[0].recipe_title, recipe_author: json_data.data[0].recipe_author, recipe_price: json_data.data[0].recipe_price, recipe_time: json_data.data[0].recipe_time },
-  {recipe_title: json_data.data[1].recipe_title, recipe_author: json_data.data[1].recipe_author, recipe_price: json_data.data[1].recipe_price, recipe_time: json_data.data[1].recipe_time },
-  {recipe_title: json_data.data[0].recipe_title, recipe_author: json_data.data[0].recipe_author, recipe_price: json_data.data[0].recipe_price, recipe_time: json_data.data[0].recipe_time },
-  {recipe_title: json_data.data[1].recipe_title, recipe_author: json_data.data[1].recipe_author, recipe_price: json_data.data[1].recipe_price, recipe_time: json_data.data[1].recipe_time },
-  {recipe_title: json_data.data[0].recipe_title, recipe_author: json_data.data[0].recipe_author, recipe_price: json_data.data[0].recipe_price, recipe_time: json_data.data[0].recipe_time },
-  {recipe_title: json_data.data[1].recipe_title, recipe_author: json_data.data[1].recipe_author, recipe_price: json_data.data[1].recipe_price, recipe_time: json_data.data[1].recipe_time },
-
-])
+onMounted( () => { recipes.value = fetchMainPageRecipes() } );
 
 </script>
 
 <template>
     <FilterComponent />
-
     <div class="recipe_card_list">
     <CardComponent class="card_component"
         v-for="r in recipes"
-        :recipe_title="r.recipe_title"
-        :recipe_author="r.recipe_author"
-        :recipe_price="r.recipe_price"
-        :recipe_time="r.recipe_time"
+        :recipe_title="r.name"
+        :recipe_author="r.creatorname"
+        :recipe_price="r.pricecategory"
+        :recipe_time="r.preparationtime"
     />
     </div>
 </template>

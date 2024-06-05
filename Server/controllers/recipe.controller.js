@@ -7,6 +7,7 @@ const getRecipesMainPage = async (req,res) => {
             {
               $project: {
                 _id: 1,
+                name: 1,
                 creatorname: { $concat: ["$creator.name"] },
                 pricecategory: 1,
                 preparationtime: 1,
