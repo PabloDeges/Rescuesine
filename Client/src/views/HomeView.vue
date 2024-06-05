@@ -15,15 +15,14 @@ function fetchMainPageRecipes() {
     return response.json();
   })
   .then(data => {
-    console.log(data);
-    return data;
+    recipes.value = data;
   })
   .catch(error => {
     console.error("Fehler", error);
   })
 }
 
-onMounted( () => { recipes.value = fetchMainPageRecipes() } );
+onMounted( () => fetchMainPageRecipes() );;
 
 </script>
 
@@ -32,6 +31,7 @@ onMounted( () => { recipes.value = fetchMainPageRecipes() } );
     <div class="recipe_card_list">
     <CardComponent class="card_component"
         v-for="r in recipes"
+        :recipe_image="r.picture"
         :recipe_title="r.name"
         :recipe_author="r.creatorname"
         :recipe_price="r.pricecategory"

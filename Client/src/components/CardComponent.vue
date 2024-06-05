@@ -2,7 +2,7 @@
     <div class="card">
         
         <div class="img_and_title">
-            <img src="../assets/burger.jpg" alt="" class="recipe_image">
+            <img :src="recipe_image" alt="" class="recipe_image">
             <h2 class="recipe_title">{{ recipe_title }}</h2>
         </div>
         

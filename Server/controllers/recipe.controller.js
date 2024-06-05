@@ -23,14 +23,15 @@ const getRecipesMainPage = async (req,res) => {
 }
 
 const getFilteredRecipes = async (req,res) => {
-    /* try{
-        
-        // Ja hier muss wohl der Algorightums
-
-        res.status(200).json(recipe)
+    /*
+    try{
+        console.log("To Filter:",req.body);
+        let re = filterRecpies(req.body);
+        res.status(200).json(re);
     }catch(error){
         res.status(500).json({ message : error.message})
-    } */
+    }
+    */
 }
 
 const getSearchedRecipe = async (req,res) => {
@@ -67,7 +68,7 @@ const getDetailedRecipe = async (req,res) => {
 
 async function getRecipeIDsByIngredient(ingredientID) {
     try{  
-        let recipes = await Recipe.find({ingredients:{$elemMatch: {"_id": ingredientID}}});
+        let recipes = await Recipe.find({ingredients:{$elemMatch: {"name": ingredientID}}});
         let backRecipes = [];
         for(i=0; i<recipes.length;i++){
             backRecipes.push(recipes[i]._id.toString());
@@ -88,12 +89,12 @@ async function getAmoutOfIngredientsForRecipe(recipeID) {
 }
 
 const createRecipe = async (req,res) => {
-    /* try{
+    try{
         const recipe = await Recipe.create(req.body);
         res.status(200).json(recipe)
     }catch(error){
         res.status(500).json({ message: error.message });
-    } */
+    }
 }
 
 const deleteRecipe = async (req, res) => {
