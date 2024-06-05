@@ -3,13 +3,13 @@ const User = require("../models/profile.model");
 
 
 const getUser = async (req,res) => {
-    /* try{
+    try{
         const { id } = req.params
-        const user = await User.findById(id)
+        const user = await User.findById(id,{"name":1,"publishedrecipies":1,"savedrecipies":1})
         res.status(200).json(user)
     }catch(error){
         res.status(500).json({ message : error.message})
-    } */
+    }
 }
 
 // Login
