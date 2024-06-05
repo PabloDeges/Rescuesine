@@ -1,4 +1,5 @@
 const Recipe = require("../models/recipe.model");
+const { filterRecipes } = require("../util/searchFunctions");
 
 const getRecipesMainPage = async (req,res) => {
     try{  
@@ -23,15 +24,13 @@ const getRecipesMainPage = async (req,res) => {
 }
 
 const getFilteredRecipes = async (req,res) => {
-    /*
     try{
-        console.log("To Filter:",req.body);
-        let re = filterRecpies(req.body);
+        //console.log("To Filter:",req.body);
+        let re = await filterRecipes(req.body);
         res.status(200).json(re);
     }catch(error){
         res.status(500).json({ message : error.message})
     }
-    */
 }
 
 const getSearchedRecipe = async (req,res) => {
@@ -66,27 +65,7 @@ const getDetailedRecipe = async (req,res) => {
     }
 }
 
-async function getRecipeIDsByIngredient(ingredientID) {
-    try{  
-        let recipes = await Recipe.find({ingredients:{$elemMatch: {"name": ingredientID}}});
-        let backRecipes = [];
-        for(i=0; i<recipes.length;i++){
-            backRecipes.push(recipes[i]._id.toString());
-        }
-        return backRecipes;
-    }catch(error){
-        return null;
-    }
-}
 
-async function getAmoutOfIngredientsForRecipe(recipeID) {
-    try{  
-        let recipe = await Recipe.findById(recipeID);
-        return recipe.ingredients.length;
-    }catch(error){
-        return null;
-    }
-}
 
 const createRecipe = async (req,res) => {
     try{
@@ -116,8 +95,6 @@ module.exports = {
     getFilteredRecipes,
     getSearchedRecipe,
     getDetailedRecipe,
-    getRecipeIDsByIngredient,
-    getAmoutOfIngredientsForRecipe,
     createRecipe,
     deleteRecipe,
   };

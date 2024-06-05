@@ -1,4 +1,4 @@
-const { getRecipeIDsByIngredient, getAmoutOfIngredientsForRecipe } = require("../controllers/recipe.controller");
+const { getAmoutOfIngredientsForRecipe, getRecipeIDsByIngredient, getRecipeByID } = require("./searchRecipe.controller");
 
 /**
  * nimmt als parameter ein element.
@@ -8,7 +8,11 @@ const { getRecipeIDsByIngredient, getAmoutOfIngredientsForRecipe } = require("..
 async function filterRecipes(ingredients) {
     let firstSort = await filterRecipesByIngredients(ingredients);
     let secondSort = await orderRecipesByAmoutIngredientsLeft(firstSort);
-    return secondSort;
+    let sortedRecipes = [];
+    for(let index in secondSort) {
+        sortedRecipes.push(await getRecipeByID(secondSort[index]));
+    }
+    return sortedRecipes;
 }
 
 /**

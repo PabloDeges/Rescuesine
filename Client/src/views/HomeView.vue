@@ -22,7 +22,7 @@ function fetchMainPageRecipes() {
   })
 }
 
-onMounted( () => fetchMainPageRecipes() );;
+onMounted( () => fetchMainPageRecipes() );
 
 </script>
 

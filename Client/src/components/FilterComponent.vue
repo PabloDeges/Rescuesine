@@ -35,7 +35,6 @@ window.addEventListener('load', function () {
       for(let d in data) {
         ingredient_list.push(data[d].name);
       }
-      console.log(ingredient_list);
     })
     .catch(error => {
       console.error("Fehler", error);
@@ -84,7 +83,6 @@ function onSubmit(result) {
 
     function submitForm() {
       // Send the selectedIngredients array to the backend
-      /*
       console.log('Selected Ingredients:', selectedIngredients.value);
       fetch("http://127.0.0.1:3000/recipe/filtered", {
         method:"POST",
@@ -98,12 +96,12 @@ function onSubmit(result) {
         return response.json();
       })
       .then(data => {
-        console.log(data);
+        console.log("Data:", data);
+        //Hier muss die Anzeige auf der Main Page hin
       })
       .catch(error => {
         console.error("Fehler", error);
       })
-      */
     };
 
     
