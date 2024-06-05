@@ -1,5 +1,7 @@
 const Recipe = require("../models/recipe.model");
 const { filterRecipes } = require("../util/searchFunctions");
+const fs = require('fs');
+const path = require('path');
 
 const getRecipesMainPage = async (req,res) => {
     try{  
@@ -69,8 +71,17 @@ const getDetailedRecipe = async (req,res) => {
 
 const createRecipe = async (req,res) => {
     try{
-        const recipe = await Recipe.create(req.body);
-        res.status(200).json(recipe)
+        const originalFilename = req.file.originalname;
+        let zahl = Math.floor(Math.random() * 1000000);
+        const newFilename = `${zahl}-${originalFilename}`;
+        //const recipe = await Recipe.create(req.body);
+        const oldPath = path.join(__dirname, '../uploads', req.file.filename);
+        const newPath = path.join(__dirname, '../uploads', newFilename);
+        fs.rename(oldPath, newPath, (err) => {
+          if (err) throw err;
+          //res.send(`Datei erfolgreich hochgeladen und umbenannt: ${newFilename}`);
+        });
+        res.status(200).json("upload")
     }catch(error){
         res.status(500).json({ message: error.message });
     }
