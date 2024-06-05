@@ -65,8 +65,6 @@ const getDetailedRecipe = async (req,res) => {
     }
 }
 
-
-
 const createRecipe = async (req,res) => {
     try{
         const recipe = await Recipe.create(req.body);
