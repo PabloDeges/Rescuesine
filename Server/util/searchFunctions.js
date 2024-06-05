@@ -5,12 +5,12 @@ const { getAmoutOfIngredientsForRecipe, getRecipeIDsByIngredient, getRecipeByID 
  * element ist ein iterable mit namen von zutaten-IDs
  * uebergeordnete funktion, die das vorfiltern vor evtl spaetere andere nachsortierungen haengt
  */
-async function filterRecipes(ingredients) {
+async function filterRecipes(ingredients, protocol, host) {
     let firstSort = await filterRecipesByIngredients(ingredients);
     let secondSort = await orderRecipesByAmoutIngredientsLeft(firstSort);
     let sortedRecipes = [];
     for(let index in secondSort) {
-        sortedRecipes.push(await getRecipeByID(secondSort[index]));
+        sortedRecipes.push(await getRecipeByID(secondSort[index], protocol, host));
     }
     return sortedRecipes;
 }

@@ -1,8 +1,5 @@
 const Recipe = require("../models/recipe.model");
 
-const protocol = "http";
-const host = "127.0.0.1:3000";
-
 async function getRecipeIDsByIngredient(ingredientID) {
     try{  
         let recipes = await Recipe.find({ingredients:{$elemMatch: {"name": ingredientID}}});
@@ -25,7 +22,7 @@ async function getAmoutOfIngredientsForRecipe(recipeID) {
     }
 }
 
-async function getRecipeByID(recipeID) {
+async function getRecipeByID(recipeID, protocol, host) {
     try{  
         let recipe = await Recipe.find({
             "_id": recipeID}, {
@@ -36,7 +33,6 @@ async function getRecipeByID(recipeID) {
                 preparationtime: 1,
                 picture: { $concat: [`${protocol}://${host}/image/`, "$picture"] }
             });
-        console.log(recipe);
         return recipe.toString();
     }catch(error){
         return null;
