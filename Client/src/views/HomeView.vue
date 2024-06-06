@@ -2,7 +2,7 @@
 import CardComponent from '../components/CardComponent.vue'
 import FilterComponent from '../components/FilterComponent.vue'
 import { onMounted } from 'vue';
-import { recipes, updateRecipesOnMainPage } from "../manageMainPageRecipes"
+import { getRecipesOnMainPage, updateRecipesOnMainPage } from "../manageMainPageRecipes"
 
 function fetchMainPageRecipes() {
   fetch("http://127.0.0.1:3000/recipe")
@@ -21,6 +21,8 @@ function fetchMainPageRecipes() {
 }
 
 onMounted( () => fetchMainPageRecipes() );
+
+const recipes = getRecipesOnMainPage();
 
 </script>
 

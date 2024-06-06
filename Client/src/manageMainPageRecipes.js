@@ -1,7 +1,11 @@
 import { ref } from 'vue'
 
-export const recipes = ref([]);
+const recipes = ref([]);
 
 export function updateRecipesOnMainPage(newRecipes) {
-    recipes.value = newRecipes
+    recipes.value = newRecipes;
+}
+
+export function getRecipesOnMainPage() {
+    return recipes;
 }
