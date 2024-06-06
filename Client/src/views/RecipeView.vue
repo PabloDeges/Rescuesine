@@ -5,7 +5,8 @@ import RecipeComponent from '../components/RecipeComponent.vue';
 
 <template>
     <RecipeComponent class="HeaderBar"
-    :recipe_-i-d="0"/>
+    :recipe_title="0"
+    />
     <div class="RecipeDetails">
         <div class="descContainerWrapper">
             <div class="descContainer">

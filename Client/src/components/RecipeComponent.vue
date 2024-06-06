@@ -3,14 +3,18 @@
         <div class="previewBackground center">
             <img :src="recipe_image" alt="" class="recipe_image">
             <div class="recipeInformationContainer">
-                <h1 class="title">{{ listItems[recipe_ID].name }}</h1>
+                <h1 v-if="listItems[recipe_ID]" class="title">{{ listItems[recipe_ID].name }}</h1>
+                <h1 v-else class="title"></h1>
                 <div class="layout_infobox">
                     <img src="../assets/user_icon.png" class="userIconRecipe recipeShortInformation recipeIconInfos">
-                    <p class="textInformationRecipe recipeShortInformation">{{ listItems[recipe_ID].creatorname }}</p>
+                    <p v-if="listItems[recipe_ID]" class="textInformationRecipe recipeShortInformation">{{ listItems[recipe_ID].creatorname }}</p>
+                    <p v-else class="title"></p>
                     <img src="../assets/price_icon.png" class="priceIconRecipe recipeShortInformation recipeIconInfos">
-                    <p class="textInformationRecipe recipeShortInformation"> {{ listItems[recipe_ID].pricecategory }}</p>
+                    <p v-if="listItems[recipe_ID]" class="textInformationRecipe recipeShortInformation"> {{ listItems[recipe_ID].pricecategory }}</p>
+                    <p v-else class="title"></p>
                     <img src="../assets/time_icon.png" class="timeIconRecipe recipeShortInformation recipeIconInfos">
-                    <p class="textInformationRecipe recipeShortInformation">{{ listItems[recipe_ID].preparationtime }}min</p>
+                    <p v-if="listItems[recipe_ID]" class="textInformationRecipe recipeShortInformation">{{ listItems[recipe_ID].preparationtime }}min</p>
+                    <p v-else class="title"></p>
                 </div>
             </div>
             <div class="tagBoxesContainer">
@@ -48,18 +52,31 @@
 </template>
 
 <script setup>
-defineProps(['recipe_ID'])
-  import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
+defineProps(['recipe_ID'])
 const listItems = ref([]);
 
-async function getData() {
-  const res = await fetch("http://127.0.0.1:3000/recipe");
-  const finalRes = await res.json();
-  listItems.value = finalRes;
+function fetchDetailedRecipe(id) {
+  fetch("http://127.0.0.1:3000/recipe/" + id)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Keine gueltige Antwort erhalten");
+    }
+    return response.json();
+  })
+  .then(data => {
+    listItems.value = data;
+    console.log(data)
+  })
+  .catch(error => {
+    console.error("Fehler", error);
+  })
 }
 
-getData()
+onMounted( () => fetchDetailedRecipe(recipe_ID) );
+
+
 </script>
 
 <style scoped>
