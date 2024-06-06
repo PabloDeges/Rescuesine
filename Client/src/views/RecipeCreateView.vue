@@ -1,91 +1,140 @@
 <script setup>
-    import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
-    import { useRoute, useRouter } from 'vue-router'
-    const router = useRouter()
-    const route = useRoute()
+import { useRoute, useRouter } from 'vue-router'
+const router = useRouter()
+const route = useRoute()
 
 
 // TODO: nur in liste vorkommende zutaten auswählen lassen
 function search(input) {
-  if (input.length < 1) { return [] }
-  return ingredient_list.value.filter(ing => {
-    return ing.toLowerCase()
-      .startsWith(input.toLowerCase())
-  })
-};  
+    if (input.length < 1) { return [] }
+    return ingredient_list.filter(ing => {
+        return ing.toLowerCase()
+            .startsWith(input.toLowerCase())
+    })
+};
 
-function getFormData() {
-        console.log("getFormData called");
+async function getFormData() {
+    const recipe = new FormData();
 
-        let recipe_title = document.getElementById('recipe_title').value;
-        let recipe_desc = document.getElementById('recipe_desc').value;
-        let recipe_time = document.getElementById('recipe_time').value;
-        let recipe_price = document.getElementById('recipe_price').value;
+    let recipe_title = document.getElementById('recipe_title').value;
+    let recipe_desc = document.getElementById('recipe_desc').value;
+    let recipe_time = document.getElementById('recipe_time').value;
+    let recipe_price = document.getElementById('recipe_price').value;
 
-        let recipe_tags = getRadioButtonSelection();
-        let recipe_ingredients = selectedIngredients.value;
+    recipe.append("name", recipe_title);
+    recipe.append("steps", recipe_desc);
+    recipe.append("preparationtime", recipe_time);
+    recipe.append("pricecategory", recipe_price)
 
+    let recipe_tags = getRadioButtonSelection();
+    recipe.append("tags", JSON.stringify(recipe_tags));
 
-        alert("REZEPT ERSTELLT: " + "Titel: " + recipe_title + " Zubereitung: " + recipe_desc + " Dauer: " + recipe_time + " Preis: " + recipe_price + " Tags: " + recipe_tags + " Zutaten: " + recipe_ingredients);
-
-        router.push("/");
-
+    for(let index_ingredient_obj in selectedIngredients.value) {
+        let ingredient_name = selectedIngredients.value[index_ingredient_obj].ingredient_name;
+        await fetch("http://127.0.0.1:3000/ingredient/" + ingredient_name)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Keine gueltige Antwort erhalten");
+            }
+            return response.json();
+        })
+        .then(data => {
+            selectedIngredients.value[index_ingredient_obj]._id = data;
+        })
+        .catch(error => {
+            console.error("Fehler", error);
+        })
     }
 
-    function isValueNotYetInArray(arrayOfObjects, value) {
-  // Check if any object in the array has the specified value for the specified key
-  return !arrayOfObjects.some(obj => obj["ingredient_name"] === value);
+    recipe.append("ingredients", JSON.stringify(selectedIngredients.value));
+
+    let fakeCreator = {_id: "6655d96e4716420c3a843d58", name: "Edward of Woodstock"};
+
+    recipe.append("creator", JSON.stringify(fakeCreator));
+
+    recipe.append("picture", document.getElementById('rcv_image').files[0]);
+
+    //alert("REZEPT ERSTELLT: " + "Titel: " + recipe_title + " Zubereitung: " + recipe_desc + " Dauer: " + recipe_time + " Preis: " + recipe_price + " Tags: " + recipe_tags);
+
+    fetch("http://127.0.0.1:3000/recipe", {
+        method: 'POST',
+        body: recipe,
+    })
+    .then(res => res.json())
+    .then(data => {});
+
+    router.push("/");
 }
 
-    function getRadioButtonSelection() {
+function isValueNotYetInArray(arrayOfObjects, value) {
+    // Check if any object in the array has the specified value for the specified key
+    return !arrayOfObjects.some(obj => obj["name"] === value);
+}
 
-        let tags = document.getElementsByClassName('tag');
-        let selected_tags = []
+function getRadioButtonSelection() {
 
-        for(let i = 0; i < 8; i++) {
-            if(tags[i].checked) {
-                selected_tags.push(tags[i].name)
+    let tags = document.getElementsByClassName('tag');
+    let selected_tags = []
+
+    for (let i = 0; i < 8; i++) {
+        if (tags[i].checked) {
+            let tag = { name: tags[i].name}
+            selected_tags.push(tag)
+        }
+
+    }
+
+    return selected_tags
+
+}
+
+function addIngredientToList() {
+    let ingredient_name = document.getElementById('rcv_ing_title').value;
+    let ingredient_menge = document.getElementById('rcv_ing_menge').value;
+    let ingredient_einheit = document.getElementById('rcv_ing_einheit').value;
+
+    if (ingredient_name && isValueNotYetInArray(selectedIngredients.value, ingredient_name)) {
+        selectedIngredients.value.push({ "name": ingredient_name, "amount": ingredient_menge, "unit": ingredient_einheit })
+
+        document.getElementById('rcv_ing_title').value = ' ';
+        document.getElementById('rcv_ing_menge').value = ' ';
+    }
+    else {
+        alert("Zutat leer oder bereits hinzugefügt!")
+    }
+
+
+}
+
+
+let selectedIngredients = ref([]);
+let ingredient_list = [];
+
+onMounted(() => fetchIngredients());
+
+function fetchIngredients() {
+    fetch("http://127.0.0.1:3000/ingredient")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Keine gueltige Antwort erhalten");
             }
-            
-        }
+            return response.json();
+        })
+        .then(data => {
+            for (let d in data) {
+                ingredient_list.push(data[d].name);
+            }
+        })
+        .catch(error => {
+            console.error("Fehler", error);
+        })
+}
 
-        return selected_tags
-
-    }
-
-    function addIngredientToList() {
-        let ingredient_name = document.getElementById('rcv_ing_title').value;
-        let ingredient_menge = document.getElementById('rcv_ing_menge').value;
-        let ingredient_einheit = document.getElementById('rcv_ing_einheit').value;
-
-        if(ingredient_name && isValueNotYetInArray(selectedIngredients.value, ingredient_name)) {
-            selectedIngredients.value.push({"ingredient_name" : ingredient_name, "ingredient_menge" : ingredient_menge, "ingredient_einheit" : ingredient_einheit})
-        
-            document.getElementById('rcv_ing_title').value = ' ';
-            document.getElementById('rcv_ing_menge').value = ' ';
-        }
-        else {
-            alert("Zutat leer oder bereits hinzugefügt!")
-        }
-
-        
-    }
-
-
-    let selectedIngredients = ref([]);
-    let ingredient_list = ref([]);
-
-    ingredient_list.value = fetchIngredients();
-
-    function fetchIngredients(){
-        // backend call
-        return ['Apple', 'Banana', 'Cherry', 'Carrot', 'Broccoli', 'Spinach', 'Salt', 'Pepper', 'Ketchup']
-    }
-
-    function removeIngredient(index){
-      selectedIngredients.value.splice(index, 1);
-    };
+function removeIngredient(index) {
+    selectedIngredients.value.splice(index, 1);
+};
 
 
 
@@ -99,92 +148,107 @@ function getFormData() {
         <h2 class="topmargin slogan">Teile in nur 7 Schritten dein Lieblingsrezept mit der Welt</h2>
 
         <div class="rcv_main topmargin">
-            <label for="recipe_title">Rezeptnamen eingeben</label>    
-            <input type="text" name="recipe_title" id="recipe_title" class="rcv_textinput" placeholder="Nudeln mit Tomatensoße">
+            <label for="recipe_title">Rezeptnamen eingeben</label>
+            <input type="text" name="recipe_title" id="recipe_title" class="rcv_textinput"
+                placeholder="Nudeln mit Tomatensoße">
 
             <label for="tags">Tags hinzufügen</label>
             <div class="rcv_tags">
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_pasta" name="tag_pasta" value="tag_pasta" class="sidemargin tag pointer_on_hover">
+                    <input type="checkbox" id="tag_pasta" name="tag_pasta" value="pasta"
+                        class="sidemargin tag pointer_on_hover">
                     <label for="tag_pasta" class="pointer_on_hover">Pasta</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_onepot" name="tag_onepot" value="tag_onepot" class="sidemargin tag pointer_on_hover">
+                    <input type="checkbox" id="tag_onepot" name="tag_onepot" value="onepot"
+                        class="sidemargin tag pointer_on_hover">
                     <label for="tag_onepot" class="pointer_on_hover">One-Pot</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_veggie" name="tag_veggie" value="tag_veggie" class="sidemargin tag pointer_on_hover">
+                    <input type="checkbox" id="tag_veggie" name="tag_veggie" value="veggie"
+                        class="sidemargin tag pointer_on_hover">
                     <label for="tag_veggie" class="pointer_on_hover">Veggie</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_vegan" name="tag_vegan" value="tag_vegan" class="sidemargin tag pointer_on_hover">
+                    <input type="checkbox" id="tag_vegan" name="tag_vegan" value="vegan"
+                        class="sidemargin tag pointer_on_hover">
                     <label for="tag_vegan" class="pointer_on_hover">Vegan</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_chicken" name="tag_chicken" value="tag_chicken" class="sidemargin tag pointer_on_hover">
+                    <input type="checkbox" id="tag_chicken" name="tag_chicken" value="chicken"
+                        class="sidemargin tag pointer_on_hover">
                     <label for="tag_chicken" class="pointer_on_hover">Hühnchen</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_fish" name="tag_fish" value="tag_fish" class="sidemargin tag pointer_on_hover">
+                    <input type="checkbox" id="tag_fish" name="tag_fish" value="fish"
+                        class="sidemargin tag pointer_on_hover">
                     <label for="tag_fish" class="pointer_on_hover">Fisch</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_beef" name="tag_beef" value="tag_beef" class="sidemargin tag pointer_on_hover">
+                    <input type="checkbox" id="tag_beef" name="tag_beef" value="beef"
+                        class="sidemargin tag pointer_on_hover">
                     <label for="tag_beef" class="pointer_on_hover">Rindfleisch</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_highprotein" name="tag_highprotein" value="tag_highprotein" class="sidemargin tag pointer_on_hover">
+                    <input type="checkbox" id="tag_highprotein" name="tag_highprotein" value="highprotein"
+                        class="sidemargin tag pointer_on_hover">
                     <label for="tag_highprotein" class="pointer_on_hover">High-Protein</label>
                 </div>
- 
+
             </div>
 
             <label class="topmargin">Zutaten hinzufügen</label>
             <div class="selected-ingredients">
-                <span v-for="(ingredient, index) in selectedIngredients" :key="index" class="ingredient-tag pointer_on_hover">
-                {{ ingredient["ingredient_menge"] + ingredient["ingredient_einheit"] + " " +  ingredient["ingredient_name"]  }}
-                <span class="remove-ingredient pointer_on_hover" @click="removeIngredient(index)">x</span>
+                <span v-for="(ingredient, index) in selectedIngredients" :key="index"
+                    class="ingredient-tag pointer_on_hover">
+                    {{ ingredient["amount"] + ingredient["unit"] + " " +
+                        ingredient["name"] }}
+                    <span class="remove-ingredient pointer_on_hover" @click="removeIngredient(index)">x</span>
                 </span>
             </div>
 
             <div class="rcv_ing_row">
-                <autocomplete :search="search" class="rcv_search_bar" placeholder="Zutat hinzufügen" autoSelect=True submitOnEnter=True id="rcv_ing_title"></autocomplete>
+                <autocomplete :search="search" class="rcv_search_bar" placeholder="Zutat hinzufügen" autoSelect=True
+                    submitOnEnter=True id="rcv_ing_title"></autocomplete>
                 <div class="outline">
                     <input type="text" placeholder="Mengenangabe hier.." class="mengenangabe" id="rcv_ing_menge">
-                <select name="einheit" id="rcv_ing_einheit">
-                    <option value=""></option>
-                    <option value="ml">ml</option>
-                    <option value="g">g</option>
-                    <option value="el">EL</option>
-                    <option value="tl">TL</option>
-                    <option value="cup">Cup</option>
-                    
-                </select>
-                <button class="rcv_ingbutton" @click="addIngredientToList">Zutat hinzufügen</button>
+                    <select name="einheit" id="rcv_ing_einheit">
+                        <option value="stueck">stueck</option>
+                        <option value="ml">ml</option>
+                        <option value="g">g</option>
+                        <option value="el">EL</option>
+                        <option value="tl">TL</option>
+                        <option value="cup">Cup</option>
+
+                    </select>
+                    <button class="rcv_ingbutton" @click="addIngredientToList">Zutat hinzufügen</button>
                 </div>
             </div>
 
-            <label for="recipe_desc" class="topmargin" >Wie wird dein Rezept zubereitet?</label>    
-            <textarea name="recipe_desc" id='recipe_desc' class="rcv_textinput rcv_textinput_big" placeholder="Schritt 1: Zwiebeln kleinschneiden, Schritt 2: ..."></textarea>
+            <label for="recipe_desc" class="topmargin">Wie wird dein Rezept zubereitet?</label>
+            <textarea name="recipe_desc" id='recipe_desc' class="rcv_textinput rcv_textinput_big"
+                placeholder="Schritt 1: Zwiebeln kleinschneiden, Schritt 2: ..."></textarea>
 
 
             <div class="outline">
-                <label for="recipe_time" class="slider_label">Die Zubereitung dauert weniger als:  </label>
+                <label for="recipe_time" class="slider_label">Die Zubereitung dauert weniger als: </label>
                 <output>0min</output>
-                <input type="range" id="recipe_time" name="recipe_time"  min="15" max="120" step="15" oninput="this.previousElementSibling.value =  this.value + 'min'">
+                <input type="range" id="recipe_time" name="recipe_time" min="15" max="120" step="15"
+                    oninput="this.previousElementSibling.value =  this.value + 'min'">
 
             </div>
 
             <div class="outline">
                 <label for="recipe_price" class="slider_label ">Die Zutaten kosten weniger als: &nbsp; &nbsp;</label>
                 <output>0€</output>
-                <input type="range" id="recipe_price" name="recipe_price"  min="10" max="100" step="10" oninput="this.previousElementSibling.value =  this.value + '€' ">
-            
+                <input type="range" id="recipe_price" name="recipe_price" min="10" max="100" step="10"
+                    oninput="this.previousElementSibling.value =  this.value + '€' ">
+
             </div>
 
             <div class="img_upload outline">
                 <label for="rcv_image">Bild hochladen: </label>
-                <input type="file" src="" alt="" name="rcv_image" accept="image/png, image/jpeg" capture="environment">
+                <input type="file" src="" alt="" name="rcv_image" accept="image/png, image/jpeg" capture="environment" id="rcv_image">
 
             </div>
 
@@ -196,13 +260,12 @@ function getFormData() {
 </template>
 
 <style scoped>
-
 output {
     font-weight: bold;
 }
 
 .whitespace {
-    white-space:pre;
+    white-space: pre;
 }
 
 .slider_label {
@@ -237,17 +300,17 @@ output {
 .ingredient-tag {
     color: white;
     background-color: var(--color-red);
-  display: inline-block;
-  margin: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
+    display: inline-block;
+    margin: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
 }
 
 .pointer_on_hover:hover {
     cursor: pointer;
 }
 
-.topmargin   {
+.topmargin {
     margin-top: 2rem;
 }
 
@@ -261,7 +324,7 @@ output {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    
+
 }
 
 .rcv_main {
@@ -270,7 +333,7 @@ output {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    
+
 }
 
 
@@ -284,6 +347,7 @@ output {
     max-width: 60vw;
     min-width: 60vw;
 }
+
 .rcv_textinput_big {
     min-height: 15rem;
 }
@@ -348,22 +412,20 @@ output {
 
 
 @media screen and (max-width: 750px) {
-  .rcv_main {
-    width: 80vw;
+    .rcv_main {
+        width: 80vw;
 
-  }
+    }
 
-  .rcv_textinput {
-    width: 80vw;
-    max-width: 80vw;
-    min-width: 80vw;
-  }
+    .rcv_textinput {
+        width: 80vw;
+        max-width: 80vw;
+        min-width: 80vw;
+    }
 
-  .slogan {
-    font-size: 1.2rem;
-  }
+    .slogan {
+        font-size: 1.2rem;
+    }
 
 }
-
-
 </style>

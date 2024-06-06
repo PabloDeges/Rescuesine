@@ -26,7 +26,7 @@ router.get('/searched/:value',getSearchedRecipe)
 
 router.get('/:id',getDetailedRecipe)
 
-router.post('/',upload.single("files"),createRecipe)
+router.post('/',upload.single("picture"),createRecipe)
 
 //router.delete('/:id',deleteRecipe)
 
