@@ -1,31 +1,35 @@
 <script setup>
 
 /*import router from './././main.js'*/
-
 </script>
 
 <template>
+<body class="signInPage">
   <div class="background-image">
     <HeaderComponent/>
     <BackComponent />
+    
   <div class="styled-div">
-    <h1>Login</h1>
+    <h1 class="response">Login</h1>
     <div class="textFieldObjekte">
-      <p>Login-ID</p>
-      <input type="text" class="credentials" v-model="username">
+      <p class="response">Login-ID</p>
+      <input type="text" class="credentials response" v-model="username">
       <p>Passwort</p>
-      <input type="password" class="credentials" v-model="password">
+      <input type="password" class="credentials response" v-model="password">
     </div>
       <div class="buttonContainer">
       <button class="clickLogin" @click="login">Einloggen</button>
       <button class="clickLogin" id="buttonRegister" @click="register">Registrieren</button>
+      <RouterLink to="/recipe" class="button link">Login</RouterLink>
     </div>
 </div>
 </div>
+</body>
 </template>
 
 
 <script>
+
 export default {
   data() {
     return {
@@ -51,32 +55,36 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .styled-div{
     position: relative;
-    top: 5%;
+    top: 2rem;
     border-radius: 1rem;
     margin: auto;
-    width: 45vw;
-    height: 32.5vw;
-    font-size: 30px;
+    width: 25rem;
+    height: 14rem;
+    font-size: 2rem;
     color: white;
     text-align: center;
     font-weight: bold;
     background-color: hsl(99, 58%, 69%, 0.85);
+}
+p.response{
+  size: 2rem;
 }
 
 
 input.credentials {
     top: 50%;
     background-color: #FFFFF0;
-    border: #FFFFF0;
+    border: 2px solid hsl(99, 58%, 69%, 0.85);
     border-radius: 1rem;
     font-size: 30px;
     display: flex;
     margin: auto;
     padding: 0.8rem 2.5rem;
-    margin-bottom: 6%;
+    width: 20rem;
+    margin-bottom: 1rem;
 }
 .credentials:hover {
     border: 2px solid var(--color-white);
@@ -89,7 +97,7 @@ div.styled-div{
 
 }
 p.textFieldObjekte{
-    font-size: 80%;
+    font-size: 1rem;
 }
 .clickLogin {
     background-color: var(--color-darkgreen);
@@ -97,17 +105,18 @@ p.textFieldObjekte{
     border-radius: 1rem;
     color: var(--color-white);
     font-weight: bold;
-    border: var(--color-darkgreen);
-    font-size: 40px;
+    border: 2px solid hsl(99, 58%, 69%, 0.85);
+    font-size: 2rem;
+    font-display: inherit;
     height: fit-content;
     width: fit-content;
-    top: 5vw;
     margin: auto;
     display: block;
     margin-bottom: 7%;
 }
 #buttonRegister{
-    font-size: 20px;
+    font-size: 1rem;
+    width: -10%;
 }
 .clickLogin:hover {
     border: 2px solid var(--color-white);
@@ -120,9 +129,10 @@ p.textFieldObjekte{
 .background-image{
     background-image: url('../assets/hintergrundbild_Login.jpg');
     background-size: cover;
-    background-position: center;
-    /*background-repeat: no-repeat;*/
-    height: 92.7vw;
+    background-position: left top;
+    background-repeat: no-repeat;
+    width: 100%;
     opacity: 85%;
+    overflow: hidden 
 }
 </style>

@@ -1,12 +1,12 @@
 const Ingredient = require("../models/ingredient.model");
 
 const getIngredients = async (req, res) => {
-    /* try {
+    try {
         const ingredients = await Ingredient.find({});
         res.status(200).json(ingredients);
     } catch (error) {
         res.status(500).json({ message: error.message });
-    } */
+    }
 };
 
 const createIngredient = async (req, res) => {

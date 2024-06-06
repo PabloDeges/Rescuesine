@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue';
+import { updateRecipesOnMainPage } from '../manageMainPageRecipes';
+import { ref, onMounted } from 'vue';
 
 window.addEventListener('load', function () {
 
@@ -21,9 +22,28 @@ window.addEventListener('load', function () {
 
 });
 
-  const ingredient_list = ["Apple", "Banana", "Cherry", "Birne"];
-  const selectedIngredients = ref([]);
+  let ingredient_list = [];
 
+  function fetchIngredients() {
+    fetch("http://127.0.0.1:3000/ingredient")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Keine gueltige Antwort erhalten");
+      }
+      return response.json();
+    })
+    .then(data => {
+      for(let d in data) {
+        ingredient_list.push(data[d].name);
+      }
+    })
+    .catch(error => {
+      console.error("Fehler", error);
+    })
+  }
+  
+  const selectedIngredients = ref([]);
+  onMounted(() => fetchIngredients());
 
   function enableButton() {
     let x = document.getElementById('submit_button_id');
@@ -64,7 +84,23 @@ function onSubmit(result) {
 
     function submitForm() {
       // Send the selectedIngredients array to the backend
-      console.log('Selected Ingredients:', selectedIngredients.value);
+      fetch("http://127.0.0.1:3000/recipe/filtered", {
+        method:"POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(selectedIngredients.value)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Keine gueltige Antwort erhalten");
+        }
+        return response.json();
+      })
+      .then(data => {
+        updateRecipesOnMainPage(data);
+      })
+      .catch(error => {
+        console.error("Fehler", error);
+      })
     };
 
     
