@@ -19,7 +19,7 @@ app.use(express.json())
 //Routen
 app.use("/recipe", recipeRoute);
 app.use("/ingredient", ingredientRoute);
-//app.use("/profile", profileRoute);
+app.use("/profile", profileRoute);
 app.use("/image",imageRoute);
 
 
@@ -45,5 +45,5 @@ mongoose
 
   async function helper(Check){
     const check = await Check.find();
-    check[0].name >= 1.2 ? console.log("Verbindung mit Datenbank hergestellt") : (() => { throw new Error("Deine Datenbank ist nicht mehr aktuell. Datenbankdaten neu laden") })();
+    check[0].name >= 1.3 ? console.log("Verbindung mit Datenbank hergestellt") : (() => { throw new Error("Deine Datenbank ist nicht mehr aktuell. Datenbankdaten neu laden") })();
   }
