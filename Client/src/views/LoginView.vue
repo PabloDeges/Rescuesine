@@ -55,20 +55,14 @@ export default {
 </script>
 
 <style scoped>
-body{
-  overflow:hidden
-}
-template{
-  overflow: hidden
-}
 .styled-div{
     position: relative;
     top: 2rem;
     border-radius: 1rem;
     margin: auto;
-    width: 30rem;
-    height: 8rem;
-    font-size: 30px;
+    width: 25rem;
+    height: 14rem;
+    font-size: 2rem;
     color: white;
     text-align: center;
     font-weight: bold;
@@ -88,8 +82,8 @@ input.credentials {
     display: flex;
     margin: auto;
     padding: 0.8rem 2.5rem;
-    width: 90%;
-    margin-bottom: 6%;
+    width: 20rem;
+    margin-bottom: 1rem;
 }
 .credentials:hover {
     border: 2px solid var(--color-white);
@@ -102,7 +96,7 @@ div.styled-div{
 
 }
 p.textFieldObjekte{
-    font-size: 80%;
+    font-size: 1rem;
 }
 .clickLogin {
     background-color: var(--color-darkgreen);
@@ -111,7 +105,7 @@ p.textFieldObjekte{
     color: var(--color-white);
     font-weight: bold;
     border: 2px solid hsl(99, 58%, 69%, 0.85);
-    font-size: 3rem;
+    font-size: 2rem;
     font-display: inherit;
     height: fit-content;
     width: fit-content;
@@ -120,7 +114,7 @@ p.textFieldObjekte{
     margin-bottom: 7%;
 }
 #buttonRegister{
-    font-size: 20px;
+    font-size: 1rem;
     width: -10%;
 }
 .clickLogin:hover {
@@ -138,9 +132,6 @@ p.textFieldObjekte{
     background-repeat: no-repeat;
     width: 100%;
     opacity: 85%;
-    overflow: hidden
-}
-.signInPage{
-  overflow: hidden; 
+    overflow: hidden 
 }
 </style>
