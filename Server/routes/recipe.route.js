@@ -10,13 +10,13 @@ const {getDetailedRecipe, getRecipesMainPage, getSearchedRecipe,createRecipe, de
 router.get('/',getRecipesMainPage)
 
 //Problem mit den Übergabewerten? Kommt wahrscheinlich aufs Format an
-//router.get('/filtered',getFilteredRecipes)
+router.post('/filtered',getFilteredRecipes)
 
 router.get('/searched/:value',getSearchedRecipe)
 
 router.get('/:id',getDetailedRecipe)
 
-//router.post('/',createRecipe)
+router.post('/',createRecipe)
 
 //router.delete('/:id',deleteRecipe)
 

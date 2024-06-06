@@ -1,14 +1,18 @@
-const { getRecipeIDsByIngredient, getAmoutOfIngredientsForRecipe } = require("../controllers/recipe.controller");
+const { getAmoutOfIngredientsForRecipe, getRecipeIDsByIngredient, getRecipeByID } = require("./searchRecipe.controller");
 
 /**
  * nimmt als parameter ein element.
  * element ist ein iterable mit namen von zutaten-IDs
  * uebergeordnete funktion, die das vorfiltern vor evtl spaetere andere nachsortierungen haengt
  */
-async function filter(ingredients) {
+async function filterRecipes(ingredients, protocol, host) {
     let firstSort = await filterRecipesByIngredients(ingredients);
     let secondSort = await orderRecipesByAmoutIngredientsLeft(firstSort);
-    return secondSort;
+    let sortedRecipes = [];
+    for(let index in secondSort) {
+        sortedRecipes.push(await getRecipeByID(secondSort[index], protocol, host));
+    }
+    return sortedRecipes;
 }
 
 /**
@@ -112,5 +116,5 @@ async function addIDs(from, to) {
 }
 
 module.exports = {
-    filter
+    filterRecipes
   };

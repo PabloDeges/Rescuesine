@@ -1,3 +1,112 @@
+<script setup>
+import { updateRecipesOnMainPage } from '../manageMainPageRecipes';
+import { ref, onMounted } from 'vue';
+
+window.addEventListener('load', function () {
+
+  const filter = document.getElementById('filter');
+
+  filter.addEventListener('click', show_filter_options);
+
+  function show_filter_options() {
+    let x = document.getElementById("filter_form_id");
+
+    if (x.style.display === "flex") {
+      x.style.display = "none";
+
+    }
+    else {
+      x.style.display = "flex";
+    }
+  }
+
+});
+
+  let ingredient_list = [];
+
+  function fetchIngredients() {
+    fetch("http://127.0.0.1:3000/ingredient")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Keine gueltige Antwort erhalten");
+      }
+      return response.json();
+    })
+    .then(data => {
+      for(let d in data) {
+        ingredient_list.push(data[d].name);
+      }
+    })
+    .catch(error => {
+      console.error("Fehler", error);
+    })
+  }
+  
+  const selectedIngredients = ref([]);
+  onMounted(() => fetchIngredients());
+
+  function enableButton() {
+    let x = document.getElementById('submit_button_id');
+    x.classList.remove('disabled_button');
+  }
+
+  function disableButton() {
+    let x = document.getElementById('submit_button_id');
+    x.classList.add('disabled_button');
+  }
+
+
+  function search(input) {
+    if (input.length < 1) { return [] }
+    return ingredient_list.filter(ing => {
+      return ing.toLowerCase()
+        .startsWith(input.toLowerCase())
+    })
+  };  
+
+function onSubmit(result) {
+
+  enableButton();
+
+  let ingredient = result;
+  if (ingredient && !selectedIngredients.value.includes(ingredient)) {
+    selectedIngredients.value.push(ingredient);
+  }
+
+   
+};
+    function removeIngredient(index) {
+      selectedIngredients.value.splice(index, 1);
+      if(selectedIngredients.value.length == 0) {
+        disableButton();
+      }
+    };
+
+    function submitForm() {
+      // Send the selectedIngredients array to the backend
+      fetch("http://127.0.0.1:3000/recipe/filtered", {
+        method:"POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(selectedIngredients.value)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Keine gueltige Antwort erhalten");
+        }
+        return response.json();
+      })
+      .then(data => {
+        updateRecipesOnMainPage(data);
+      })
+      .catch(error => {
+        console.error("Fehler", error);
+      })
+    };
+
+    
+
+</script>
+
 <template>
   <div class="container">
     <div class="filter_button_container">
@@ -18,30 +127,9 @@
 
       <div class="center">
         <div class="ingredient-search"> 
-        <input type="text" v-model="searchTerm" @input="searchIngredients" placeholder="Zutat suchen" class="search_bar_filters" />
+          <autocomplete :search="search" class="search_bar_filters" placeholder="Zutat suchen" autoSelect=True submitOnEnter=True id="filter_autocomplete_bar" @submit="onSubmit"></autocomplete>
       </div>
 
-      <div class="dropdowns">
-        <select v-model="selectedFruit" @change="addIngredient" class="dropdown">
-          <option disabled value="">Früchte</option>
-          <option v-for="fruit in fruits" :key="fruit">{{ fruit }}</option>
-        </select>
-
-        <select v-model="selectedVegetable" @change="addIngredient" class="dropdown">
-          <option disabled value="">Gemüse</option>
-          <option v-for="vegetable in vegetables" :key="vegetable">{{ vegetable }}</option>
-        </select>
-
-        <select v-model="selectedFruit" @change="addIngredient" class="dropdown">
-          <option disabled value="">Fleisch und Fisch</option>
-          <option v-for="fruit in fruits" :key="fruit">{{ fruit }}</option>
-        </select>
-
-        <select v-model="selectedCondiment" @change="addIngredient" class="dropdown">
-          <option disabled value="">Gewürze</option>
-          <option v-for="condiment in condiments" :key="condiment">{{ condiment }}</option>
-        </select>
-      </div>
 
       <button @click="submitForm" class="disabled_button submit_button" id="submit_button_id">Rezepte Filtern</button>
     </div>
@@ -124,22 +212,11 @@
 
 }
 .search_bar_filters {
-  background-color: white;
-  border-radius: 1rem;
-  border: 1px solid black;
-  padding: 1rem;
   width: 40vw;
   min-width: 20rem;
 }
 
-.dropdowns {
-margin-bottom: 1rem;
 
-}
-
-.dropdown {
-  margin: 0.5rem;
-}
 
 .submit_button {
   color: white;
@@ -148,6 +225,7 @@ margin-bottom: 1rem;
   background-color: var(--color-darkgreen);
   padding: 0.8rem 1rem;
   border-radius: 1rem;
+  margin: 1rem 0;
 }
 .submit_button:hover {
   color: var(--color-darkgreen);
@@ -182,103 +260,6 @@ margin-bottom: 1rem;
 
 
 </style>
-
-<script>
-import { ref } from 'vue';
-
-window.addEventListener('load', function () {
-
-  console.log("page successfully loaded, filter logic hooked")
-  const filter = document.getElementById('filter');
-
-  filter.addEventListener('click', show_filter_options);
-
-  function show_filter_options() {
-    let x = document.getElementById("filter_form_id");
-
-    if (x.style.display === "flex") {
-      x.style.display = "none";
-
-    }
-    else {
-      x.style.display = "flex";
-    }
-  }
-
-});
-
-export default {
-  setup() {
-    const searchTerm = ref('');
-    const selectedFruit = ref('');
-    const selectedVegetable = ref('');
-    const selectedCondiment = ref('');
-    const selectedIngredients = ref([]);
-    const fruits = ref(['Apple', 'Banana', 'Cherry']);
-    const vegetables = ref(['Carrot', 'Broccoli', 'Spinach']);
-    const condiments = ref(['Salt', 'Pepper', 'Ketchup']);
-
-    const searchIngredients = () => {
-      // ajax kram hinzufügen...
-    };
-
-    const enableButton = () => {
-      let x = document.getElementById('submit_button_id');
-      x.classList.remove('disabled_button');
-    }
-
-    const disableButton = () => {
-      let x = document.getElementById('submit_button_id');
-      x.classList.add('disabled_button');
-    }
-
-    const addIngredient = (event) => {
-
-      enableButton();
-
-      const ingredient = event.target.value;
-      if (ingredient && !selectedIngredients.value.includes(ingredient)) {
-        selectedIngredients.value.push(ingredient);
-      }
-      clearSelection();
-    };
-
-    const clearSelection = () => {
-      selectedFruit.value = '';
-      selectedVegetable.value = '';
-      selectedCondiment.value = '';
-    };
-
-    const removeIngredient = (index) => {
-      selectedIngredients.value.splice(index, 1);
-      if(selectedIngredients.value.length == 0) {
-        disableButton();
-      }
-    };
-
-    const submitForm = () => {
-      // Send the selectedIngredients array to the backend
-      console.log('Selected Ingredients:', selectedIngredients.value);
-    };
-
-    return {
-      searchTerm,
-      selectedFruit,
-      selectedVegetable,
-      selectedCondiment,
-      selectedIngredients,
-      fruits,
-      vegetables,
-      condiments,
-      searchIngredients,
-      addIngredient,
-      clearSelection,
-      removeIngredient,
-      submitForm,
-    };
-  },
-};
-</script>
 
 
 
