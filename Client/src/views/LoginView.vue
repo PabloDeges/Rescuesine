@@ -20,6 +20,7 @@
       <div class="buttonContainer">
       <button class="clickLogin" @click="login">Einloggen</button>
       <button class="clickLogin" id="buttonRegister" @click="register">Registrieren</button>
+      <RouterLink to="/recipe" class="button link">Login</RouterLink>
     </div>
 </div>
 </div>

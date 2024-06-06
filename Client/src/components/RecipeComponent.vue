@@ -1,19 +1,16 @@
 <template>
     <div class="previewBar">
         <div class="previewBackground center">
-            
+            <img :src="recipe_image" alt="" class="recipe_image">
             <div class="recipeInformationContainer">
-                <h1 class="title">{{ recipe_title }}</h1>
-                <h1 class="title">{{ recipe_title }}</h1>
+                <h1 class="title">{{ listItems[recipe_ID].name }}</h1>
                 <div class="layout_infobox">
                     <img src="../assets/user_icon.png" class="userIconRecipe recipeShortInformation recipeIconInfos">
-                    <p class="textInformationRecipe recipeShortInformation">{{ recipe_author }}</p>
-                    <p class="textInformationRecipe recipeShortInformation">{{ recipe_author }}</p>
+                    <p class="textInformationRecipe recipeShortInformation">{{ listItems[recipe_ID].creatorname }}</p>
                     <img src="../assets/price_icon.png" class="priceIconRecipe recipeShortInformation recipeIconInfos">
-                    <p class="textInformationRecipe recipeShortInformation"> {{ recipe_price }}</p>
+                    <p class="textInformationRecipe recipeShortInformation"> {{ listItems[recipe_ID].pricecategory }}</p>
                     <img src="../assets/time_icon.png" class="timeIconRecipe recipeShortInformation recipeIconInfos">
-                    <p class="textInformationRecipe recipeShortInformation">{{ recipe_time }}</p>
-                    <p class="textInformationRecipe recipeShortInformation">{{ recipe_time }}</p>
+                    <p class="textInformationRecipe recipeShortInformation">{{ listItems[recipe_ID].preparationtime }}min</p>
                 </div>
             </div>
             <div class="tagBoxesContainer">
@@ -51,10 +48,21 @@
 </template>
 
 <script setup>
-    defineProps(['recipe_title', 'recipe_image', 'recipe_author', 'recipe_price', 'recipe_time', 'recipe_ingredients'])
+defineProps(['recipe_ID'])
+  import { ref } from 'vue';
+
+const listItems = ref([]);
+
+async function getData() {
+  const res = await fetch("http://127.0.0.1:3000/recipe");
+  const finalRes = await res.json();
+  listItems.value = finalRes;
+}
+
+getData()
 </script>
 
-<style>
+<style scoped>
 
 .recipeShortInformation {
     height: 40%;

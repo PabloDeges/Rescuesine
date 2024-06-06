@@ -1,10 +1,11 @@
 <script setup>
-import RecipeComponent from '@/components/RecipeComponent.vue';
+import RecipeComponent from '../components/RecipeComponent.vue';
 
 </script>
 
 <template>
-    <RecipeComponent></RecipeComponent>
+    <RecipeComponent class="HeaderBar"
+    :recipe_-i-d="0"/>
     <div class="RecipeDetails">
         <div class="descContainerWrapper">
             <div class="descContainer">
@@ -13,11 +14,12 @@ import RecipeComponent from '@/components/RecipeComponent.vue';
                     <p>400g Hackfleisch <br>2TL Salz<br>2TL Pfeffer<br>Bratfett</p>
                 </div>
                 <h2 class="zubereitung_titel">Zubereitung</h2>
-                    <p class="preparation"> blablablablablablablablal bablablablabalbalbalababblablablabla lbablablablabla 1. Den gefrorenen Rahmspinat im Topf auf mittlerer Hitze erwärmen und einige Minuten köcheln lassen. Mit Pfeffer abschmecken.</p>
+                    <p class="preparation"> blablablablablablablablal bablablablabalbalbalababblablablabla lbablablablabla 1. Den gefrorenen Rahmspinat im Topf auf mittlerer Hitze erwärmen und einige Minuten köcheln lassen. Mit Pfeffer abschmecken. Noch mehr bla einfach weil ichbock drauf habe und es ohnehin niemanden stoert</p>
         </div>
         </div>
     </div>
 </template>
+
 <style>
 
 .descContainerWrapper {
