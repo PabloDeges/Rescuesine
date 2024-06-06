@@ -4,12 +4,15 @@
             
             <div class="recipeInformationContainer">
                 <h1 class="title">{{ recipe_title }}</h1>
+                <h1 class="title">{{ recipe_title }}</h1>
                 <div class="layout_infobox">
                     <img src="../assets/user_icon.png" class="userIconRecipe recipeShortInformation recipeIconInfos">
+                    <p class="textInformationRecipe recipeShortInformation">{{ recipe_author }}</p>
                     <p class="textInformationRecipe recipeShortInformation">{{ recipe_author }}</p>
                     <img src="../assets/price_icon.png" class="priceIconRecipe recipeShortInformation recipeIconInfos">
                     <p class="textInformationRecipe recipeShortInformation"> {{ recipe_price }}</p>
                     <img src="../assets/time_icon.png" class="timeIconRecipe recipeShortInformation recipeIconInfos">
+                    <p class="textInformationRecipe recipeShortInformation">{{ recipe_time }}</p>
                     <p class="textInformationRecipe recipeShortInformation">{{ recipe_time }}</p>
                 </div>
             </div>
