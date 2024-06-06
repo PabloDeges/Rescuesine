@@ -1,11 +1,12 @@
 <script setup>
 import RecipeComponent from '../components/RecipeComponent.vue';
-
 </script>
 
+
 <template>
+    RecipeView {{ $route.params.ident }}
     <RecipeComponent class="HeaderBar"
-    :recipe_title="0"
+    :recipe_-i-d= $route.params.ident
     />
     <div class="RecipeDetails">
         <div class="descContainerWrapper">
@@ -20,6 +21,7 @@ import RecipeComponent from '../components/RecipeComponent.vue';
         </div>
     </div>
 </template>
+
 
 <style>
 

@@ -1,7 +1,7 @@
 <template>
     <div class="previewBar">
         <div class="previewBackground center">
-            <img :src="recipe_image" alt="" class="recipe_image">
+            <!--<img :src="recipe_image" alt="" class="recipe_image">-->
             <div class="recipeInformationContainer">
                 <h1 v-if="listItems[recipe_ID]" class="title">{{ listItems[recipe_ID].name }}</h1>
                 <h1 v-else class="title"></h1>
@@ -49,16 +49,20 @@
             <img src="../assets/Thumbs Down.png">
         </div> -->
     </div>
+    <p>{{ recipe_ID }} </p>
 </template>
+
+
+
 
 <script setup>
 import { ref, onMounted } from 'vue';
-
 defineProps(['recipe_ID'])
 const listItems = ref([]);
+const myItem = 0;
 
-function fetchDetailedRecipe(id) {
-  fetch("http://127.0.0.1:3000/recipe/" + id)
+function fetchDetailedRecipe() {
+  fetch("http://127.0.0.1:3000/recipe/")
   .then(response => {
     if (!response.ok) {
       throw new Error("Keine gueltige Antwort erhalten");
@@ -67,14 +71,25 @@ function fetchDetailedRecipe(id) {
   })
   .then(data => {
     listItems.value = data;
-    console.log(data)
+    //Schrottloesung
+    /*
+    for (var i = 0; i < listItems.value.length; i++)
+    {
+        console.log("Bin drin2")
+        if (listItems.value[i]._id == 5)
+        {
+            myItem = i;
+            console.log(myItem)
+            console.log("Bin drin")
+
+        }
+    }*/
   })
   .catch(error => {
     console.error("Fehler", error);
   })
 }
-
-onMounted( () => fetchDetailedRecipe(recipe_ID) );
+onMounted( () => fetchDetailedRecipe() );
 
 
 </script>

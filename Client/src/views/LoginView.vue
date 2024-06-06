@@ -7,7 +7,6 @@
 <body class="signInPage">
   <div class="background-image">
     <HeaderComponent/>
-    <BackComponent />
     
   <div class="styled-div">
     <h1 class="response">Login</h1>

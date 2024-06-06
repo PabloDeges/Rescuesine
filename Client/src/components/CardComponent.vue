@@ -2,7 +2,9 @@
     <div class="card">
         
         <div class="img_and_title">
-            <img :src="recipe_image" alt="" class="recipe_image">
+            <router-link :to="'/recipe/'+ _id">
+                <img :src="recipe_image" alt="" class="recipe_image">
+            </router-link>
             <h2 class="recipe_title">{{ recipe_title }}</h2>
         </div>
         
@@ -21,12 +23,13 @@
             </div>
         </div>
     </div>
-    
+
     
 </template>
 
+
 <script setup>
-    defineProps(['recipe_title', 'recipe_image', 'recipe_author', 'recipe_price', 'recipe_time'])
+    defineProps(['_id', 'recipe_title', 'recipe_image', 'recipe_author', 'recipe_price', 'recipe_time'])
 </script>
 
 <style scoped>  
