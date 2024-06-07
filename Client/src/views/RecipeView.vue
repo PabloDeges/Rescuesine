@@ -4,7 +4,6 @@ import RecipeComponent from '../components/RecipeComponent.vue';
 
 
 <template>
-    RecipeView {{ $route.params.ident }}
     <RecipeComponent class="HeaderBar"
     :recipe_-i-d= $route.params.ident
     />
@@ -12,16 +11,45 @@ import RecipeComponent from '../components/RecipeComponent.vue';
         <div class="descContainerWrapper">
             <div class="descContainer">
             <h2 class="ingredients">Zutaten</h2>
-                <div class="ingredientList">
-                    <p>400g Hackfleisch <br>2TL Salz<br>2TL Pfeffer<br>Bratfett</p>
+                <div v-if="rezept" v-for="ingredient in rezept.ingredients" class="ingredientList">
+                    <p>{{ ingredient.name }}</p>
                 </div>
                 <h2 class="zubereitung_titel">Zubereitung</h2>
-                    <p class="preparation"> blablablablablablablablal bablablablabalbalbalababblablablabla lbablablablabla 1. Den gefrorenen Rahmspinat im Topf auf mittlerer Hitze erwärmen und einige Minuten köcheln lassen. Mit Pfeffer abschmecken. Noch mehr bla einfach weil ichbock drauf habe und es ohnehin niemanden stoert</p>
+                    <p v-if="rezept" class="preparation"> {{ rezept.name }} </p>
         </div>
         </div>
     </div>
 </template>
 
+<script>
+import { ref, onMounted } from 'vue';
+export default {
+  mounted() {
+    const ident = this.$route.params.ident;
+    console.log(ident); 
+    const rezept = ref();
+    
+ onMounted( fetch("http://127.0.0.1:3000/recipe/"+ident)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Keine gueltige Antwort erhalten");
+    }
+    return response.json();
+  })
+  .then(data => {
+    rezept.value = data;
+    console.log(rezept.value.steps)
+    
+  })
+  .catch(error => {
+    console.error("Fehler", error);
+  }))
+  }
+}
+
+
+
+</script>
 
 <style>
 
@@ -63,6 +91,6 @@ import RecipeComponent from '../components/RecipeComponent.vue';
 
 .preparation {
     margin-bottom: 6rem;
-    /* width: 60%; */
-}
+    /* width: 60%; */ 
+} 
 </style>

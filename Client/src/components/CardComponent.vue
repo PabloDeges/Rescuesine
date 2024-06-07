@@ -1,10 +1,9 @@
 <template>
+    <router-link style="text-decoration: none; color: inherit;" :to="'/recipe/'+ _id">
     <div class="card">
         
         <div class="img_and_title">
-            <router-link :to="'/recipe/'+ _id">
                 <img :src="recipe_image" alt="" class="recipe_image">
-            </router-link>
             <h2 class="recipe_title">{{ recipe_title }}</h2>
         </div>
         
@@ -23,7 +22,7 @@
             </div>
         </div>
     </div>
-
+</router-link>
     
 </template>
 

@@ -1,34 +1,26 @@
 <template>
     <div class="previewBar">
-        <div class="previewBackground center">
-            <!--<img :src="recipe_image" alt="" class="recipe_image">-->
+        <div class="previewBackground center" id="meinBild" >
+            <!--<img src= {{ dish.picture }} alt="" class="recipe_image">-->
             <div class="recipeInformationContainer">
-                <h1 v-if="listItems[recipe_ID]" class="title">{{ listItems[recipe_ID].name }}</h1>
+                <h1 v-if="dish" class="title">{{ dish.name }}</h1>
                 <h1 v-else class="title"></h1>
                 <div class="layout_infobox">
                     <img src="../assets/user_icon.png" class="userIconRecipe recipeShortInformation recipeIconInfos">
-                    <p v-if="listItems[recipe_ID]" class="textInformationRecipe recipeShortInformation">{{ listItems[recipe_ID].creatorname }}</p>
+                    <p v-if="dish" class="textInformationRecipe recipeShortInformation">{{ dish.creator.name }}</p>
                     <p v-else class="title"></p>
                     <img src="../assets/price_icon.png" class="priceIconRecipe recipeShortInformation recipeIconInfos">
-                    <p v-if="listItems[recipe_ID]" class="textInformationRecipe recipeShortInformation"> {{ listItems[recipe_ID].pricecategory }}</p>
+                    <p v-if="dish" class="textInformationRecipe recipeShortInformation"> {{ dish.pricecategory }}€</p>
                     <p v-else class="title"></p>
                     <img src="../assets/time_icon.png" class="timeIconRecipe recipeShortInformation recipeIconInfos">
-                    <p v-if="listItems[recipe_ID]" class="textInformationRecipe recipeShortInformation">{{ listItems[recipe_ID].preparationtime }}min</p>
+                    <p v-if="dish" class="textInformationRecipe recipeShortInformation">{{ dish.preparationtime }}min</p>
                     <p v-else class="title"></p>
                 </div>
             </div>
             <div class="tagBoxesContainer">
-                <div>
+                <div v-if="dish" v-for="tag in dish.tags" >
                     <img src="../assets/Price Tag.png" alt="">
-                    <p>Klassiker</p>
-                </div>
-                <div>
-                    <img src="../assets/Price Tag.png" alt="">
-                    <p>Schnell</p>
-                </div>
-                <div>
-                    <img src="../assets/Price Tag.png" alt="">
-                    <p>Einfach</p>
+                    <p>{{ tag.name }} </p>
                 </div>
             </div>
         </div>
@@ -49,20 +41,24 @@
             <img src="../assets/Thumbs Down.png">
         </div> -->
     </div>
-    <p>{{ recipe_ID }} </p>
 </template>
 
+<script>
 
+let backGround = document.getElementById("meinBild");
+console.log(backGround);
+
+</script>
 
 
 <script setup>
 import { ref, onMounted } from 'vue';
-defineProps(['recipe_ID'])
-const listItems = ref([]);
-const myItem = 0;
+const props = defineProps(['recipe_ID'])
+const dish = ref();
+const imageLink = 0
 
 function fetchDetailedRecipe() {
-  fetch("http://127.0.0.1:3000/recipe/")
+  fetch("http://127.0.0.1:3000/recipe/"+props.recipe_ID)
   .then(response => {
     if (!response.ok) {
       throw new Error("Keine gueltige Antwort erhalten");
@@ -70,20 +66,9 @@ function fetchDetailedRecipe() {
     return response.json();
   })
   .then(data => {
-    listItems.value = data;
-    //Schrottloesung
-    /*
-    for (var i = 0; i < listItems.value.length; i++)
-    {
-        console.log("Bin drin2")
-        if (listItems.value[i]._id == 5)
-        {
-            myItem = i;
-            console.log(myItem)
-            console.log("Bin drin")
-
-        }
-    }*/
+    dish.value = data;
+    //backGround.style.backgroundImage = dish.value.picture
+    
   })
   .catch(error => {
     console.error("Fehler", error);
