@@ -1,137 +1,129 @@
-<script setup>
-
-/*import router from './././main.js'*/
-</script>
 
 <template>
-<body class="signInPage">
-  <div class="background-image">
-    <HeaderComponent/>
-    
-  <div class="styled-div">
-    <h1 class="response">Login</h1>
-    <div class="textFieldObjekte">
-      <p class="response">Login-ID</p>
-      <input type="text" class="credentials response" v-model="username">
-      <p>Passwort</p>
-      <input type="password" class="credentials response" v-model="password">
+
+  <div class="container center">
+    <div class="login_card center">
+      <!-- <h1 class="login_title">LOGIN</h1> -->
+      <div class="username input_combo center">
+        <label for="input_username" class="label">Username</label>
+        <input type="text" name="input_username" class="login_input username">
+      </div>
+      <div class="password input_combo center">
+        <label for="input_password" class="label">Passwort</label>
+        <input type="password" name="input_password" class="login_input password">
+      </div>
+      <button class="login_button" @click="tryLogin()">Login</button>
+      <a href="/" class="register_link">Noch kein Konto? Registriere dich hier</a>
+
     </div>
-      <div class="buttonContainer">
-      <button class="clickLogin" @click="login">Einloggen</button>
-      <button class="clickLogin" id="buttonRegister" @click="register">Registrieren</button>
-      <RouterLink to="/recipe" class="button link">Login</RouterLink>
-    </div>
-</div>
-</div>
-</body>
+
+  </div>
+
 </template>
 
+<style scoped>
 
-<script>
 
-export default {
-  data() {
-    return {
-      username: "",
-      password: ""
-    };
-  },
-  methods: {
-    login() {
-      // Login Logik hier rein
-      if (this.username === "admin" && this.password === "passwort") {
-        alert("Login erfolgreich");
-        router.push
-      } else {
-        alert("Falsche Benutzerdaten");
-      }
-    },
-    register(){
-      //Logik fuer Registrierung hier rein
-      alert("Bald kann man sich hier registrieren")
-    }
+  .center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
   }
-};
+
+  .login_card {
+    margin-top: 15vh;
+    background-color: var(--color-lightgreen);
+    padding: 2rem 4rem;
+    border-radius: 1rem;
+    width: 30rem;
+    height: 30rem;
+    color: white;
+
+  }
+
+  .login_title {
+    font-weight: bold;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+  }
+
+  .label {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  
+  .login_button {
+    background-color: var(--color-darkgreen);
+    border-radius: 1rem;
+    border: 2px solid white;
+    color: white;
+    font-weight: bold;
+    font-size: 1.4rem;
+    padding: 0.5rem 1rem;
+    width: 50%;
+    cursor: pointer;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  .login_button:hover {
+    background-color: white;
+    color: var(--color-darkgreen);
+    border-color: var(--color-darkgreen);
+  }
+
+  .login_input {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 2px solid white;
+    font-weight: bold;
+    font-size: 0.8rem;
+  }
+  .register_link {
+    color: rgb(42, 126, 47);
+    background-color: transparent;
+  }
+
+  .register_link:hover {
+    color: white;
+  }
+
+  .input_combo {
+    width: 80%;
+    margin-bottom: 1rem;
+  }
+
+  @media screen and (max-width: 750px) {
+
+    .container {
+      background-color: var(--color-lightgreen);
+      height: 90vh
+    }
+    .login_button {
+      margin-top: 4rem;
+    }
+    .register_link {
+      margin-bottom: 40vh;
+    }
+    .login_card {
+      width: 100%;
+    }
+    
+  }
+
+
+</style>
+
+<script setup>
+
+  function tryLogin() {
+    alert("Nutzername und Passwort stimmen nicht überein!");
+  }
+
 </script>
 
-<style scoped>
-.styled-div{
-    position: relative;
-    top: 2rem;
-    border-radius: 1rem;
-    margin: auto;
-    width: 25rem;
-    height: 14rem;
-    font-size: 2rem;
-    color: white;
-    text-align: center;
-    font-weight: bold;
-    background-color: hsl(99, 58%, 69%, 0.85);
-}
-p.response{
-  size: 2rem;
-}
 
 
-input.credentials {
-    top: 50%;
-    background-color: #FFFFF0;
-    border: 2px solid hsl(99, 58%, 69%, 0.85);
-    border-radius: 1rem;
-    font-size: 30px;
-    display: flex;
-    margin: auto;
-    padding: 0.8rem 2.5rem;
-    width: 20rem;
-    margin-bottom: 1rem;
-}
-.credentials:hover {
-    border: 2px solid var(--color-white);
-    cursor: pointer;
-}
 
-div.styled-div{
-    padding: 0.8rem 2.5rem;
-    height: auto;
-
-}
-p.textFieldObjekte{
-    font-size: 1rem;
-}
-.clickLogin {
-    background-color: var(--color-darkgreen);
-    padding: 0.8rem 2.5rem;
-    border-radius: 1rem;
-    color: var(--color-white);
-    font-weight: bold;
-    border: 2px solid hsl(99, 58%, 69%, 0.85);
-    font-size: 2rem;
-    font-display: inherit;
-    height: fit-content;
-    width: fit-content;
-    margin: auto;
-    display: block;
-    margin-bottom: 7%;
-}
-#buttonRegister{
-    font-size: 1rem;
-    width: -10%;
-}
-.clickLogin:hover {
-    border: 2px solid var(--color-white);
-    cursor: pointer;
-}
-.buttonContainer{
-    padding: 2.8rem 1.8rem;
-    margin: 1vw;
-}
-.background-image{
-    background-image: url('../assets/hintergrundbild_Login.jpg');
-    background-size: cover;
-    background-position: left top;
-    background-repeat: no-repeat;
-    width: 100%;
-    opacity: 85%;
-    overflow: hidden 
-}
-</style>

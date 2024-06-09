@@ -1,15 +1,19 @@
 <template>
+    <!-- wenn man hier einen routerlink rumwrappt, 
+    werden die karten zu groß und haben komisches verhalten...
+    wie hast du es geschafft auf der mainpage kertis? -->
+
     <div class="card">
         
         <div class="img_and_title">
-            <img src="../assets/burger.jpg" alt="" class="recipe_image">
+            <img :src="recipe_image" alt="" class="recipe_image">
             <h2 class="recipe_title">{{ recipe_title }}</h2>
         </div>
         
         <div class="metadata_box">
             <div class="author_box metadata">
                 <img src="../assets/user_icon.png" alt="" class="icon_author icon">
-                <p class="author meta_text">{{ recipe_author }}</p>
+                 <p class="author meta_text">{{ recipe_author }}</p> 
             </div>
             <div class="price_box metadata">
                 <img src="../assets/price_icon.png" alt="" class="icon_price icon">
@@ -22,14 +26,14 @@
         </div>
     </div>
     
-    
 </template>
 
 <script setup>
-    defineProps(['recipe_title', 'recipe_image', 'recipe_author', 'recipe_price', 'recipe_time'])
+    defineProps(['_id', 'recipe_title', 'recipe_image', 'recipe_author', 'recipe_price', 'recipe_time'])
 </script>
 
 <style scoped>  
+
 
     .card {
         padding: 1.5rem;
@@ -55,10 +59,13 @@
     .recipe_title {
         font-weight: bold;
         font-size: 95%;
+        overflow: hidden;
     }
     .img_and_title {
         width: 100%;
         height: 90%;
+        overflow: hidden;
+
     }
 
     .metadata_box {
@@ -109,6 +116,8 @@
         color: var(--color-grey);
         font-size: 60%;
     }
+
+    
 
     @media screen and (max-width: 750px) {
 

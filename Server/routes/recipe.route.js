@@ -4,7 +4,7 @@ const path = require('path');
 const router = express.Router();
 //const Product = require("../models/recipe.model.js"); // ja nein?
 
-const {getDetailedRecipe, getRecipesMainPage, getSearchedRecipe,createRecipe, deleteRecipe, getFilteredRecipes, getAllRecipesIdName} = require('../controllers/recipe.controller.js');
+const {getDetailedRecipe, getRecipesMainPage, getSearchedRecipe,createRecipe, deleteRecipe, getFilteredRecipes, getAllRecipesIdName, getAllMainpageRecipesTemporary} = require('../controllers/recipe.controller.js');
 
 
 const storage = multer.diskStorage({
@@ -20,6 +20,8 @@ const upload = multer({ storage: storage })
 // Vorsicht Controller sind noch nicht klar definiert
 
 router.get('/',getRecipesMainPage)
+
+router.get('/allrecipesforuserfilter',getAllMainpageRecipesTemporary)
 
 router.get('/all',getAllRecipesIdName)
 
