@@ -37,10 +37,37 @@
 
 <script setup>
 
+import { onMounted } from 'vue';
+
 //get recipes from backend
 // durch fetch all recipes ersetzen oder async probieren
 // man braucht titel zum autofillen und id um bei klick das richtige rezept zu öffnen
-let recipes = ["Fischis", "Flammkuchen", "Früchtesalat", "Frischkäse", "Burger" ]
+let recipes = [];
+let recipesWithIds = []
+
+function fetchRecipes() { 
+fetch("http://127.0.0.1:3000/recipe/all")
+.then(response => {
+    if (!response.ok) {
+    throw new Error("Keine gueltige Antwort erhalten");
+    }
+    return response.json();
+})
+.then(data => {
+    recipesWithIds = data;
+    for(let d in data) {
+    recipes.push(data[d].name);
+    }
+})
+.catch(error => {
+    console.error("Fehler ", error);
+})
+}
+
+onMounted( () => fetchRecipes() );
+
+
+
 
 function search(input) {
   if (input.length < 1) { return [] }
@@ -50,8 +77,21 @@ function search(input) {
   })
 };  
 
+function getIdByName(name) {
+  const item = recipesWithIds.find(item => item.name === name);
+  return item ? item._id : null; 
+}
+
 function onSubmit(result) {
-    // rezept öffnen, mittels localhost.com + id
+    
+    let selectedRecipe = result;
+    let selectedRecipeID = getIdByName(selectedRecipe)
+
+    alert("id is : " + selectedRecipeID)
+
+    
+
+
 };
 
 </script>
