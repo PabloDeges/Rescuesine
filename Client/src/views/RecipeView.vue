@@ -12,7 +12,7 @@ import RecipeComponent from '../components/RecipeComponent.vue';
             <div class="descContainer">
             <h2 class="ingredients">Zutaten</h2>
                 <p v-if="rezept" v-for="ingredient in rezept.ingredients" class="ingredientList">
-                    {{ ingredient.amount }} {{ ingredient.name }} </p>
+                    {{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.name }} </p>
                 <h2 class="zubereitung_titel">Zubereitung</h2>
                     <p v-if="rezept" class="preparation"> {{ rezept.steps }} </p>
         </div>
@@ -26,7 +26,7 @@ const rezept = ref();
 export default {
   mounted() {
     const ident = this.$route.params.ident;
-    console.log(ident); 
+
     
  onMounted( fetch("http://127.0.0.1:3000/recipe/"+ident)
   .then(response => {
@@ -37,7 +37,7 @@ export default {
   })
   .then(data => {
     rezept.value = data;
-    
+
   })
   .catch(error => {
     console.error("Fehler", error);

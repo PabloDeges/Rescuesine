@@ -1,6 +1,6 @@
 <template>
     <div class="previewBar">
-        <div class="previewBackground center" id="meinBild" >
+        <div class="previewBackground center" id="meinBild" ref="myImageDiv" >
             <!--<img src= {{ dish.picture }} alt="" class="recipe_image">-->
             <div class="recipeInformationContainer">
                 <h1 v-if="dish" class="title">{{ dish.name }}</h1>
@@ -43,18 +43,12 @@
     </div>
 </template>
 
-<script>
-
-let backGround = document.getElementById("meinBild");
-console.log(backGround);
-
-</script>
-
 
 <script setup>
 import { ref, onMounted } from 'vue';
 const props = defineProps(['recipe_ID'])
 const dish = ref();
+const myImageDiv = ref(null);
 
 function fetchDetailedRecipe() {
   fetch("http://127.0.0.1:3000/recipe/"+props.recipe_ID)
@@ -66,17 +60,27 @@ function fetchDetailedRecipe() {
   })
   .then(data => {
     dish.value = data;
-    //backGround.style.backgroundImage = dish.value.picture
-    
+    let imagePath = dish.value.picture;
+    console.log(imagePath)
+    if (myImageDiv.value) {
+    myImageDiv.value.style.backgroundImage = `url(${imagePath})`;
+  }
   })
   .catch(error => {
     console.error("Fehler", error);
   })
 }
-onMounted( () => fetchDetailedRecipe() );
+
+
+
+
+onMounted( () => {fetchDetailedRecipe();} );
+
+
 
 
 </script>
+
 
 <style scoped>
 
@@ -109,7 +113,7 @@ onMounted( () => fetchDetailedRecipe() );
     transform: translate(0%);
 }
 .previewBackground{
-    background-image: url('../assets/burger.jpg'); /* change to img tag in html */
+     background-image: url('../assets/burger.jpg');  /* jetzt nur noch ein placeholder falls bild nicht läd */
     background-size: cover;
     background-attachment: fixed;
   background-position: center; 
@@ -118,6 +122,8 @@ onMounted( () => fetchDetailedRecipe() );
     display: flex;
     border-radius: 0 0 2rem 2rem;
 }
+
+
 .previewBackground h1{
     text-align: center;
     /*position: relative;
