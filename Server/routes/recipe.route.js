@@ -28,8 +28,6 @@ router.post('/filtered',getFilteredRecipes)
 
 router.get('/searched/:value',getSearchedRecipe)
 
-router.get('/names',getAllRecipesNames)
-
 router.get('/:id',getDetailedRecipe)
 
 router.post('/',upload.single("picture"),createRecipe)
