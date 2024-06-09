@@ -25,6 +25,24 @@ const getRecipesMainPage = async (req,res) => {
     }
 }
 
+const getAllRecipesIdName = async (req,res) => {
+  try{  
+      const values = [
+          {
+            $project: {
+              _id: 1,
+              name: 1,
+            },
+          },
+        ];
+        let recipes = await Recipe.aggregate(values);
+        res.status(200).json(recipes);
+  }catch(error){
+      res.status(500).json({message: error.message})
+  }
+}
+
+
 const getFilteredRecipes = async (req,res) => {
     try{
         let recipes = await filterRecipes(req.body, req.protocol, req.get('host'));
@@ -128,4 +146,5 @@ module.exports = {
     getAllRecipesNames,
     createRecipe,
     deleteRecipe,
+    getAllRecipesIdName,
   };
