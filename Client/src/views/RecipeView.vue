@@ -11,11 +11,10 @@ import RecipeComponent from '../components/RecipeComponent.vue';
         <div class="descContainerWrapper">
             <div class="descContainer">
             <h2 class="ingredients">Zutaten</h2>
-                <div v-if="rezept" v-for="ingredient in rezept.ingredients" class="ingredientList">
-                    <p>{{ ingredient.name }}</p>
-                </div>
+                <p v-if="rezept" v-for="ingredient in rezept.ingredients" class="ingredientList">
+                    {{ ingredient.amount }} {{ ingredient.name }} </p>
                 <h2 class="zubereitung_titel">Zubereitung</h2>
-                    <p v-if="rezept" class="preparation"> {{ rezept.name }} </p>
+                    <p v-if="rezept" class="preparation"> {{ rezept.steps }} </p>
         </div>
         </div>
     </div>
@@ -23,11 +22,11 @@ import RecipeComponent from '../components/RecipeComponent.vue';
 
 <script>
 import { ref, onMounted } from 'vue';
+const rezept = ref();
 export default {
   mounted() {
     const ident = this.$route.params.ident;
     console.log(ident); 
-    const rezept = ref();
     
  onMounted( fetch("http://127.0.0.1:3000/recipe/"+ident)
   .then(response => {
@@ -38,7 +37,6 @@ export default {
   })
   .then(data => {
     rezept.value = data;
-    console.log(rezept.value.steps)
     
   })
   .catch(error => {
@@ -88,7 +86,6 @@ export default {
 .recipeIconInfos{
     padding-left: 4%
 }
-
 .preparation {
     margin-bottom: 6rem;
     /* width: 60%; */ 

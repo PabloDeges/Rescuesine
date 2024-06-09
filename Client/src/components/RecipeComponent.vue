@@ -55,7 +55,6 @@ console.log(backGround);
 import { ref, onMounted } from 'vue';
 const props = defineProps(['recipe_ID'])
 const dish = ref();
-const imageLink = 0
 
 function fetchDetailedRecipe() {
   fetch("http://127.0.0.1:3000/recipe/"+props.recipe_ID)
