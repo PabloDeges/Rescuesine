@@ -1,25 +1,53 @@
 <script setup>
 import RecipeComponent from '../components/RecipeComponent.vue';
-
 </script>
+
 
 <template>
     <RecipeComponent class="HeaderBar"
-    :recipe_title="0"
+    :recipe_-i-d= $route.params.ident
     />
     <div class="RecipeDetails">
         <div class="descContainerWrapper">
             <div class="descContainer">
             <h2 class="ingredients">Zutaten</h2>
-                <div class="ingredientList">
-                    <p>400g Hackfleisch <br>2TL Salz<br>2TL Pfeffer<br>Bratfett</p>
-                </div>
+                <p v-if="rezept" v-for="ingredient in rezept.ingredients" class="ingredientList">
+                    {{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.name }} </p>
                 <h2 class="zubereitung_titel">Zubereitung</h2>
-                    <p class="preparation"> blablablablablablablablal bablablablabalbalbalababblablablabla lbablablablabla 1. Den gefrorenen Rahmspinat im Topf auf mittlerer Hitze erwärmen und einige Minuten köcheln lassen. Mit Pfeffer abschmecken. Noch mehr bla einfach weil ichbock drauf habe und es ohnehin niemanden stoert</p>
+                    <p v-if="rezept" class="preparation"> {{ rezept.steps }} </p>
         </div>
         </div>
     </div>
 </template>
+
+<script>
+import { ref, onMounted } from 'vue';
+const rezept = ref();
+export default {
+  mounted() {
+    const ident = this.$route.params.ident;
+
+    
+ onMounted( fetch("http://127.0.0.1:3000/recipe/"+ident)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Keine gueltige Antwort erhalten");
+    }
+    return response.json();
+  })
+  .then(data => {
+    rezept.value = data;
+
+  })
+  .catch(error => {
+    console.error("Fehler", error);
+  }))
+  }
+}
+
+
+
+</script>
 
 <style>
 
@@ -58,9 +86,8 @@ import RecipeComponent from '../components/RecipeComponent.vue';
 .recipeIconInfos{
     padding-left: 4%
 }
-
 .preparation {
     margin-bottom: 6rem;
-    /* width: 60%; */
-}
+    /* width: 60%; */ 
+} 
 </style>

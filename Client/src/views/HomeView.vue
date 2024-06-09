@@ -14,6 +14,7 @@ function fetchMainPageRecipes() {
   })
   .then(data => {
     updateRecipesOnMainPage(data);
+    console.log(data);
   })
   .catch(error => {
     console.error("Fehler", error);
@@ -31,6 +32,7 @@ const recipes = getRecipesOnMainPage();
     <div class="recipe_card_list">
     <CardComponent class="card_component"
         v-for="r in recipes"
+        :_id = "r._id"
         :recipe_image="r.picture"
         :recipe_title="r.name"
         :recipe_author="r.creatorname"

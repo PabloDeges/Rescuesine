@@ -52,6 +52,15 @@ const getFilteredRecipes = async (req,res) => {
     }
 }
 
+const getAllRecipesNames = async (req,res) => {
+  try{
+      let recipes = await Recipe.find({}, {name: 1});
+      res.status(200).json(recipes);
+  }catch(error){
+      res.status(500).json({ message : error.message})
+  }
+}
+
 const getSearchedRecipe = async (req,res) => {
     try{
         const values = 
@@ -134,6 +143,7 @@ module.exports = {
     getFilteredRecipes,
     getSearchedRecipe,
     getDetailedRecipe,
+    getAllRecipesNames,
     createRecipe,
     deleteRecipe,
     getAllRecipesIdName,

@@ -3,7 +3,9 @@ const multer = require('multer');
 const path = require('path');
 const router = express.Router();
 //const Product = require("../models/recipe.model.js"); // ja nein?
+
 const {getDetailedRecipe, getRecipesMainPage, getSearchedRecipe,createRecipe, deleteRecipe, getFilteredRecipes, getAllRecipesIdName} = require('../controllers/recipe.controller.js');
+
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -25,6 +27,8 @@ router.get('/all',getAllRecipesIdName)
 router.post('/filtered',getFilteredRecipes)
 
 router.get('/searched/:value',getSearchedRecipe)
+
+router.get('/names',getAllRecipesNames)
 
 router.get('/:id',getDetailedRecipe)
 

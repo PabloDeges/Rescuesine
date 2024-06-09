@@ -1,34 +1,26 @@
 <template>
     <div class="previewBar">
-        <div class="previewBackground center">
-            <img :src="recipe_image" alt="" class="recipe_image">
+        <div class="previewBackground center" id="meinBild" ref="myImageDiv" >
+            <!--<img src= {{ dish.picture }} alt="" class="recipe_image">-->
             <div class="recipeInformationContainer">
-                <h1 v-if="listItems[recipe_ID]" class="title">{{ listItems[recipe_ID].name }}</h1>
+                <h1 v-if="dish" class="title">{{ dish.name }}</h1>
                 <h1 v-else class="title"></h1>
                 <div class="layout_infobox">
                     <img src="../assets/user_icon.png" class="userIconRecipe recipeShortInformation recipeIconInfos">
-                    <p v-if="listItems[recipe_ID]" class="textInformationRecipe recipeShortInformation">{{ listItems[recipe_ID].creatorname }}</p>
+                    <p v-if="dish" class="textInformationRecipe recipeShortInformation">{{ dish.creator.name }}</p>
                     <p v-else class="title"></p>
                     <img src="../assets/price_icon.png" class="priceIconRecipe recipeShortInformation recipeIconInfos">
-                    <p v-if="listItems[recipe_ID]" class="textInformationRecipe recipeShortInformation"> {{ listItems[recipe_ID].pricecategory }}</p>
+                    <p v-if="dish" class="textInformationRecipe recipeShortInformation"> {{ dish.pricecategory }}€</p>
                     <p v-else class="title"></p>
                     <img src="../assets/time_icon.png" class="timeIconRecipe recipeShortInformation recipeIconInfos">
-                    <p v-if="listItems[recipe_ID]" class="textInformationRecipe recipeShortInformation">{{ listItems[recipe_ID].preparationtime }}min</p>
+                    <p v-if="dish" class="textInformationRecipe recipeShortInformation">{{ dish.preparationtime }}min</p>
                     <p v-else class="title"></p>
                 </div>
             </div>
             <div class="tagBoxesContainer">
-                <div>
+                <div v-if="dish" v-for="tag in dish.tags" >
                     <img src="../assets/Price Tag.png" alt="">
-                    <p>Klassiker</p>
-                </div>
-                <div>
-                    <img src="../assets/Price Tag.png" alt="">
-                    <p>Schnell</p>
-                </div>
-                <div>
-                    <img src="../assets/Price Tag.png" alt="">
-                    <p>Einfach</p>
+                    <p>{{ tag.name }} </p>
                 </div>
             </div>
         </div>
@@ -51,14 +43,15 @@
     </div>
 </template>
 
+
 <script setup>
 import { ref, onMounted } from 'vue';
+const props = defineProps(['recipe_ID'])
+const dish = ref();
+const myImageDiv = ref(null);
 
-defineProps(['recipe_ID'])
-const listItems = ref([]);
-
-function fetchDetailedRecipe(id) {
-  fetch("http://127.0.0.1:3000/recipe/" + id)
+function fetchDetailedRecipe() {
+  fetch("http://127.0.0.1:3000/recipe/"+props.recipe_ID)
   .then(response => {
     if (!response.ok) {
       throw new Error("Keine gueltige Antwort erhalten");
@@ -66,18 +59,28 @@ function fetchDetailedRecipe(id) {
     return response.json();
   })
   .then(data => {
-    listItems.value = data;
-    console.log(data)
+    dish.value = data;
+    let imagePath = dish.value.picture;
+    console.log(imagePath)
+    if (myImageDiv.value) {
+    myImageDiv.value.style.backgroundImage = `url(${imagePath})`;
+  }
   })
   .catch(error => {
     console.error("Fehler", error);
   })
 }
 
-onMounted( () => fetchDetailedRecipe(recipe_ID) );
+
+
+
+onMounted( () => {fetchDetailedRecipe();} );
+
+
 
 
 </script>
+
 
 <style scoped>
 
@@ -110,7 +113,7 @@ onMounted( () => fetchDetailedRecipe(recipe_ID) );
     transform: translate(0%);
 }
 .previewBackground{
-    background-image: url('../assets/burger.jpg'); /* change to img tag in html */
+     background-image: url('../assets/burger.jpg');  /* jetzt nur noch ein placeholder falls bild nicht läd */
     background-size: cover;
     background-attachment: fixed;
   background-position: center; 
@@ -119,6 +122,8 @@ onMounted( () => fetchDetailedRecipe(recipe_ID) );
     display: flex;
     border-radius: 0 0 2rem 2rem;
 }
+
+
 .previewBackground h1{
     text-align: center;
     /*position: relative;
