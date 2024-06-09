@@ -38,6 +38,9 @@
 <script setup>
 
 import { onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router'
+const router = useRouter()
+const route = useRoute()
 
 //get recipes from backend
 // durch fetch all recipes ersetzen oder async probieren
@@ -87,7 +90,7 @@ function onSubmit(result) {
     let selectedRecipe = result;
     let selectedRecipeID = getIdByName(selectedRecipe)
 
-    alert("id is : " + selectedRecipeID)
+    router.push('/recipe/'+ selectedRecipeID)
 
     
 
