@@ -1,15 +1,17 @@
 const mongoose = require("mongoose");
+const { Types } = mongoose;
 require('dotenv').config();
 
 const dbRecipe = process.env.COLLECTIONRECIPE;
 
 const recipe = mongoose.Schema(
   {
+    _id: { type: Types.ObjectId, default: new mongoose.Types.ObjectId() },
     name: { type: String, required: true },
     steps: { type: String, required: true },
     ingredients: [
       {
-        id: { type: Number, required: true },
+        _id: { type: Types.ObjectId, default: new mongoose.Types.ObjectId() },
         name: { type: String, required: true },
         amount: { type: Number, required: true },
         unit: { type: String, required: true }
@@ -23,7 +25,7 @@ const recipe = mongoose.Schema(
     pricecategory: { type: Number, required: false },
     preparationtime: { type: Number, required: true },
     creator: {
-      id: { type: Number, required: true },
+      _id: { type: Types.ObjectId, default: new mongoose.Types.ObjectId() },
       name: { type: String, required: true }
     },
     creationdate: { type: String, required: true },

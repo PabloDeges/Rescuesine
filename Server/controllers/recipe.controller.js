@@ -68,20 +68,33 @@ const getDetailedRecipe = async (req,res) => {
 
 const createRecipe = async (req,res) => {
     try{
-        const originalFilename = req.file.originalname;
-        let zahl = Math.floor(Math.random() * 1000000);
-        const newFilename = `${zahl}-${originalFilename}`;
-        //const recipe = await Recipe.create(req.body);
-        const oldPath = path.join(__dirname, '../uploads', req.file.filename);
-        const newPath = path.join(__dirname, '../uploads', newFilename);
-        fs.rename(oldPath, newPath, (err) => {
-          if (err) throw err;
-          //res.send(`Datei erfolgreich hochgeladen und umbenannt: ${newFilename}`);
-        });
-        res.status(200).json("upload")
+        let newFilename = renamePicture(req.file.originalname, req.file.filename);
+        let newRecipe = {
+          name: req.body.name,
+          steps: req.body.steps,
+          ingredients: JSON.parse(req.body.ingredients),
+          tags: JSON.parse(req.body.tags),
+          pricecategory: req.body.pricecategory,
+          preparationtime: req.body.preparationtime,
+          creator: JSON.parse(req.body.creator),
+          creationdate: new Date().toLocaleDateString('de-DE'),
+          picture: newFilename
+        };
+        const success = await Recipe.create(newRecipe);
+        res.status(200).json(success)
     }catch(error){
+      console.log(error);
         res.status(500).json({ message: error.message });
     }
+}
+
+function renamePicture(originalFilename, filename) {
+  let zahl = Math.floor(Math.random() * 1000000);
+  const newFilename = `${zahl}-${originalFilename}`;
+  const oldPath = path.join(__dirname, '../uploads', filename);
+  const newPath = path.join(__dirname, '../uploads', newFilename);
+  fs.rename(oldPath, newPath, (err) => {});
+  return newFilename;
 }
 
 const deleteRecipe = async (req, res) => {
