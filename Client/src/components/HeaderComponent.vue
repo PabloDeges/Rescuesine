@@ -13,9 +13,9 @@
                 <div id="profile_btn" class="button_container">
                     <RouterLink to="/profile" class="button link">Profil</RouterLink>
                 </div>
-                <div id="login_btn" class="button_container hidden">
+                <!-- <div id="login_btn" class="button_container hidden">
                     <RouterLink to="/login" class="button link">Login</RouterLink>
-                </div>
+                </div> -->
                 
                 
                     
@@ -23,14 +23,14 @@
         
         <div class="hamburger_container" >
             <img src="../assets/recipe_book_closed.png" class="logo_as_hamburger" alt="" id="hamburger">
-            <!-- onclick doesnt work yet :/ -->
+
         </div>
     </div>
     <div id="mobile_links">
         <RouterLink to="/" class="mobile_link">Home</RouterLink>
         <RouterLink to="/recipe/create" class="mobile_link">Rezept erstellen</RouterLink>
         <RouterLink to="/profile" class="mobile_link">Profil</RouterLink>
-        <RouterLink to="/login" class="mobile_link">Login</RouterLink>
+        <!-- <RouterLink to="/login" class="mobile_link">Login</RouterLink> -->
     </div>      
 
 </template>
@@ -112,21 +112,21 @@ document.addEventListener('DOMContentLoaded', function() {
     hamburger.addEventListener('click', toggle_mobile_links);
     mobile_links.addEventListener('click', toggle_mobile_links);
 
-    const button1 = document.getElementById('login_btn');
-    const button2 = document.getElementById('profile_btn');
+    // const button1 = document.getElementById('login_btn');
+    // const button2 = document.getElementById('profile_btn');
    
-    button1.addEventListener('click', toggleButtons);
-    button2.addEventListener('click', toggleButtons);  
+    // button1.addEventListener('click', toggleButtons);
+    // button2.addEventListener('click', toggleButtons);  
 
-    function toggleButtons() {
-        if (button1.classList.contains('hidden')) {
-            button1.classList.remove('hidden');
-            button2.classList.add('hidden');
-        } else {
-            button1.classList.add('hidden');
-            button2.classList.remove('hidden');
-        }
-    }
+    // function toggleButtons() {
+    //     if (button1.classList.contains('hidden')) {
+    //         button1.classList.remove('hidden');
+    //         button2.classList.add('hidden');
+    //     } else {
+    //         button1.classList.add('hidden');
+    //         button2.classList.remove('hidden');
+    //     }
+    // }
 
 
     function checkForMobileButtonsStillVisible() {
