@@ -77,7 +77,7 @@ export default {
 
 .recipeShortInformation{
     height: 40%;
-    margin: auto;
+    margin-inline-start: 1rem;
 }
 .textInformationRecipe{
     size: 20%;

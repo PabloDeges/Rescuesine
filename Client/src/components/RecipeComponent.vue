@@ -6,15 +6,21 @@
                 <h1 v-if="dish" class="title">{{ dish.name }}</h1>
                 <h1 v-else class="title"></h1>
                 <div class="layout_infobox">
-                    <img src="../assets/user_icon.png" class="userIconRecipe recipeShortInformation recipeIconInfos">
+                    <div class="info_bundle center">
+                        <img src="../assets/user_icon.png" class="userIconRecipe recipeShortInformation recipeIconInfos">
                     <p v-if="dish" class="textInformationRecipe recipeShortInformation">{{ dish.creator.name }}</p>
                     <p v-else class="title"></p>
-                    <img src="../assets/price_icon.png" class="priceIconRecipe recipeShortInformation recipeIconInfos">
+                    </div>
+                    <div class="info_bundle center">
+                        <img src="../assets/price_icon.png" class="priceIconRecipe recipeShortInformation recipeIconInfos">
                     <p v-if="dish" class="textInformationRecipe recipeShortInformation"> {{ dish.pricecategory }}€</p>
                     <p v-else class="title"></p>
-                    <img src="../assets/time_icon.png" class="timeIconRecipe recipeShortInformation recipeIconInfos">
-                    <p v-if="dish" class="textInformationRecipe recipeShortInformation">{{ dish.preparationtime }}min</p>
-                    <p v-else class="title"></p>
+                    </div>
+                    <div class="info_bundle center"> 
+                        <img src="../assets/time_icon.png" class="timeIconRecipe recipeShortInformation recipeIconInfos">
+                        <p v-if="dish" class="textInformationRecipe recipeShortInformation">{{ dish.preparationtime }}min</p>
+                        <p v-else class="title"></p>
+                </div>
                 </div>
             </div>
             <div class="tagBoxesContainer">
@@ -92,12 +98,14 @@ onMounted( () => {fetchDetailedRecipe();} );
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50%;
+    margin-bottom: 0.5rem;
 }
 
 .title {
     padding-top: 0.5rem;
     color: black;
+    margin-left: 0.2rem;
+    margin-right: 0.2rem;
 }
 
 .center {
@@ -105,6 +113,15 @@ onMounted( () => {fetchDetailedRecipe();} );
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.recipeIconInfos {
+    width: 1.2rem;
+}
+
+.info_bundle {
+    flex-direction: row;
+
 }
 
 .previewBar{
@@ -118,7 +135,7 @@ onMounted( () => {fetchDetailedRecipe();} );
     background-attachment: fixed;
   background-position: center; 
     width: 100%;
-    height: 25rem;
+    /* height: 25rem; */
     display: flex;
     border-radius: 0 0 2rem 2rem;
 }
@@ -139,6 +156,7 @@ onMounted( () => {fetchDetailedRecipe();} );
     justify-content: center; */
     background-color: white;
     /* object-fit: cover; */
+    margin-top: 5rem;
     width: 40vw;
     height: 30%;
     min-width: 35rem;
@@ -153,6 +171,7 @@ onMounted( () => {fetchDetailedRecipe();} );
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    margin-bottom: 5rem;
 }
 .tagBoxesContainer div{
 
@@ -169,15 +188,13 @@ onMounted( () => {fetchDetailedRecipe();} );
     padding-left: 25px;
     color: white;
     font-weight: bold;
+
 }
 .tagBoxesContainer div img{
     margin-left: 15%;
 }
 
-.thumbs{
-    margin-left: auto;
-    margin-right: 0;
-}
+
 .likeRecipe{
     padding-left: 75%;
 }
@@ -211,7 +228,30 @@ onMounted( () => {fetchDetailedRecipe();} );
 
 .headerInformation img {
     height: 1.5rem;
-    margin-right: 0.25  rem;
+    margin-right: 0.25rem;
 }
 
+@media screen and (max-width: 750px) {
+
+    .recipeShortInformation{
+        height: 40%;
+        margin-inline-start: 0.4rem;
+    }
+    .recipeInformationContainer {
+        width: 90%;
+        min-width: 90%;
+    }
+    .layout_infobox {
+        flex-direction: column;
+        margin-bottom: 0.5rem;
+    }
+    .tagBoxesContainer {
+        flex-direction: column;
+        align-items: center;
+
+    }
+    .tagBoxesContainer div {
+        margin-bottom: 1rem;
+    }
+}
 </style>
