@@ -11,7 +11,7 @@
                     <RouterLink to="/recipe/create" class="button button_wide link">Rezept erstellen</RouterLink>
                 </div>
                 <div id="profile_btn" class="button_container">
-                    <RouterLink to="/profile" class="button link">Profil</RouterLink>
+                    <router-link style="text-decoration: none; color: inherit;" :to="'/profil/'+ userID">Profil</router-link>
                 </div>
                 <div id="login_btn" class="button_container hidden">
                     <RouterLink to="/login" class="button link">Login</RouterLink>
@@ -36,18 +36,15 @@
 </template>
 
 <script setup>
-
 import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
-
 //get recipes from backend
 // durch fetch all recipes ersetzen oder async probieren
 // man braucht titel zum autofillen und id um bei klick das richtige rezept zu öffnen
 let recipes = [];
 let recipesWithIds = []
-
 function fetchRecipes() { 
 fetch("http://127.0.0.1:3000/recipe/all")
 .then(response => {
@@ -66,11 +63,9 @@ fetch("http://127.0.0.1:3000/recipe/all")
     console.error("Fehler ", error);
 })
 }
-
 onMounted( () => fetchRecipes() );
 
-
-
+const userID = "6655d86e4716782c3a843d53"
 
 function search(input) {
   if (input.length < 1) { return [] }
@@ -86,21 +81,14 @@ function getIdByName(name) {
 }
 
 function onSubmit(result) {
-    
     let selectedRecipe = result;
     let selectedRecipeID = getIdByName(selectedRecipe)
-
     router.push('/recipe/'+ selectedRecipeID)
-
-    
-
-
 };
 
 </script>
 
 <script>
-
 // remove or change when login functionality is added => if logged in -> show profile, if not show login
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -151,7 +139,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 });
-
 
 </script>
 

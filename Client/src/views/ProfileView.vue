@@ -1,62 +1,42 @@
 <script setup>
-import { ref, onMounted } from 'vue'
 import CardComponent from '../components/CardComponentSmall.vue'
-
-let fav_recipes = ref([])
-let own_recipes = ref([])
-
-function fetchFavRecipes() {
-  fetch("http://127.0.0.1:3000/recipe")
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("Keine gueltige Antwort erhalten");
-    }
-    return response.json();
-  })
-  .then(data => {
-    fav_recipes.value = data;
-
-  })
-  .catch(error => {
-    console.error("Fehler", error);
-  })
-}
-
-function fetchOwnRecipes() {
-  fetch("http://127.0.0.1:3000/recipe/allrecipesforuserfilter")
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("Keine gueltige Antwort erhalten");
-    }
-    return response.json();
-  })
-  .then(data => {
-    own_recipes.value = data.filter(item => item.creatorname === 'MannisRezepte1848');
-
-  })
-  .catch(error => {
-    console.error("Fehler", error);
-  })
-}
-
-function fetchProfileRecipes() {
-  fetchFavRecipes();
-  fetchOwnRecipes();
-  console.log("recipes loaded")
-}
-
-onMounted( () => fetchProfileRecipes());
-
-
 
 </script>
 
+<script>
+import { ref, onMounted } from 'vue'
+
+const profile = ref();
+
+export default {
+  mounted() {
+    const ident = this.$route.params.ident;
+    console.log(ident);
+  
+    onMounted( fetch("http://127.0.0.1:3000/profile/"+ident)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Keine gueltige Antwort erhalten");
+    }
+    return response.json();
+  })
+  .then(data => {
+    profile.value = data;
+    console.log(profile)
+    
+  })
+  .catch(error => {
+    console.error("Fehler", error);
+  }))
+  }
+}
+</script>
 
 <template>
 
     <div class="profile_container">
         <div class="username_box">
-          <h1 class="username">MannisRezepte1848</h1>
+          <h1 v-if="profile" class="username">{{ profile.name }}</h1>
           <div class="user_desc_box">
             <div class="joindate_box">
               <img src="../assets/time_icon.png" alt="" class="user_icon"> 
@@ -65,14 +45,13 @@ onMounted( () => fetchProfileRecipes());
           </div>
         </div>
         <div class="section">
-            <h2 v-if="own_recipes.length == 1" class="section_title"> {{ own_recipes.length }} veröffentlichtes Rezept</h2>
-            <h2 v-else class="section_title"> {{ own_recipes.length }} veröffentlichte Rezepte</h2>
-            <div v-if="own_recipes" class="recipe_card_list">
+            <h2 v-if="profile" class="section_title"> {{ profile.pub.length }} veröffentlichte Rezepte</h2>
+            <div v-if="profile" class="recipe_card_list">
                 <CardComponent class="card_component_profileview"
-                v-for="r in own_recipes"
+                v-for="r in profile.pub"
                 :_id = "r._id"
                 :recipe_title="r.name"
-                :recipe_author="r.creatorname"
+                :recipe_author="r.creator.name"
                 :recipe_price="r.pricecategory"
                 :recipe_time="r.preparationtime"
                 :recipe_image="r.picture"
@@ -80,14 +59,14 @@ onMounted( () => fetchProfileRecipes());
             </div>
         </div>
         <div class="section lastsection">
-            <h2 class="section_title"> 10 favorisierte Rezepte</h2>
+            <h2 v-if="profile" class="section_title">{{profile.saves.length }} Favorisierte Rezepte</h2>
 
             <div class="recipe_card_list">
-                <CardComponent class="card_component_profileview"
-                v-for="r in fav_recipes"
+                <CardComponent v-if="profile" class="card_component_profileview"
+                v-for="r in profile.saves"
                 :_id = "r._id"
                 :recipe_title="r.name"
-                :recipe_author="r.creatorname"
+                :recipe_author="r.creator.name"
                 :recipe_price="r.pricecategory"
                 :recipe_time="r.preparationtime"
                 :recipe_image="r.picture"
