@@ -11,7 +11,7 @@
                     <RouterLink to="/recipe/create" class="button button_wide link">Rezept erstellen</RouterLink>
                 </div>
                 <div id="profile_btn" class="button_container">
-                    <RouterLink to="/profile" class="button link">Profil</RouterLink>
+                    <router-link style="text-decoration: none; color: inherit;" :to="'/profil/'+ userID">Profil</router-link>
                 </div>
                 <div id="login_btn" class="button_container hidden">
                     <RouterLink to="/login" class="button link">Login</RouterLink>
@@ -36,41 +36,12 @@
 </template>
 
 <script setup>
-
-import { onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router'
-const router = useRouter()
-const route = useRoute()
-
 //get recipes from backend
 // durch fetch all recipes ersetzen oder async probieren
 // man braucht titel zum autofillen und id um bei klick das richtige rezept zu öffnen
-let recipes = [];
-let recipesWithIds = []
+let recipes = ["Fischis", "Flammkuchen", "Früchtesalat", "Frischkäse", "Burger" ]
 
-function fetchRecipes() { 
-fetch("http://127.0.0.1:3000/recipe/all")
-.then(response => {
-    if (!response.ok) {
-    throw new Error("Keine gueltige Antwort erhalten");
-    }
-    return response.json();
-})
-.then(data => {
-    recipesWithIds = data;
-    for(let d in data) {
-    recipes.push(data[d].name);
-    }
-})
-.catch(error => {
-    console.error("Fehler ", error);
-})
-}
-
-onMounted( () => fetchRecipes() );
-
-
-
+const userID = "6655d86e4716782c3a843d58"
 
 function search(input) {
   if (input.length < 1) { return [] }
@@ -80,27 +51,12 @@ function search(input) {
   })
 };  
 
-function getIdByName(name) {
-  const item = recipesWithIds.find(item => item.name === name);
-  return item ? item._id : null; 
-}
-
 function onSubmit(result) {
-    
-    let selectedRecipe = result;
-    let selectedRecipeID = getIdByName(selectedRecipe)
-
-    router.push('/recipe/'+ selectedRecipeID)
-
-    
-
-
+    // rezept öffnen, mittels localhost.com + id
 };
-
 </script>
 
 <script>
-
 // remove or change when login functionality is added => if logged in -> show profile, if not show login
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -151,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 });
-
 
 </script>
 

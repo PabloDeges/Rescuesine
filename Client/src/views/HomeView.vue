@@ -4,6 +4,8 @@ import FilterComponent from '../components/FilterComponent.vue'
 import { onMounted } from 'vue';
 import { getRecipesOnMainPage, updateRecipesOnMainPage } from "../manageMainPageRecipes"
 
+
+
 function fetchMainPageRecipes() {
   fetch("http://127.0.0.1:3000/recipe")
   .then(response => {
@@ -26,6 +28,7 @@ onMounted( () => fetchMainPageRecipes() );
 const recipes = getRecipesOnMainPage();
 
 </script>
+
 
 <template>
     <FilterComponent />

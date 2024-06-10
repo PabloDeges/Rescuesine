@@ -18,7 +18,7 @@ import RecipeCreateView from './views/RecipeCreateView.vue'
 
 const routes = [
   { path: '/', component: HomeView },
-  { path: '/profile', component: ProfileView },
+  { path: '/profil/:ident', component: ProfileView },
   { path: '/recipe/:ident', component: RecipeView },
   { path: '/login', component: LoginView },
   { path: '/recipe/create', component: RecipeCreateView }
