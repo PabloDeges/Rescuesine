@@ -1,11 +1,15 @@
 <template>
+    <!-- wenn man hier einen routerlink rumwrappt, 
+    werden die karten zu groß und haben komisches verhalten...
+    wie hast du es geschafft auf der mainpage kertis? -->
 
     <div class="card">
-        <router-link style="text-decoration: none; color: inherit;" :to="'/recipe/'+ _id">
+        
         <div class="img_and_title">
             <img :src="recipe_image" alt="" class="recipe_image">
             <h2 class="recipe_title">{{ recipe_title }}</h2>
         </div>
+        
         <div class="metadata_box">
             <div class="author_box metadata">
                 <img src="../assets/user_icon.png" alt="" class="icon_author icon">
@@ -20,9 +24,8 @@
                 <p class="time meta_text"> &lt; {{ recipe_time }}m</p>
             </div>
         </div>
-    </router-link>
     </div>
-
+    
 </template>
 
 <script setup>
