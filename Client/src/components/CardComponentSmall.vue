@@ -4,7 +4,7 @@
     wie hast du es geschafft auf der mainpage kertis? -->
 
     <div class="card">
-        
+        <router-link style="text-decoration: none; color: inherit;" :to="'/recipe/'+ _id">
         <div class="img_and_title">
             <img :src="recipe_image" alt="" class="recipe_image">
             <h2 class="recipe_title">{{ recipe_title }}</h2>
@@ -24,6 +24,7 @@
                 <p class="time meta_text"> &lt; {{ recipe_time }}m</p>
             </div>
         </div>
+        </router-link>
     </div>
     
 </template>
