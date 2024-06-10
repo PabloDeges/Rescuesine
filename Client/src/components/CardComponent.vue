@@ -61,6 +61,8 @@
     .img_and_title {
         width: 100%;
         height: 90%;
+        overflow: hidden;
+
     }
 
     .metadata_box {
@@ -121,6 +123,7 @@
 
         .card {
             height: 50vw;
+            width: 80vw;
         }
 
 

@@ -25,6 +25,28 @@ const getRecipesMainPage = async (req,res) => {
     }
 }
 
+const getAllMainpageRecipesTemporary = async (req,res) => {
+  try{  
+      const values = [
+          {
+            $project: {
+              _id: 1,
+              name: 1,
+              creatorname: { $concat: ["$creator.name"] },
+              pricecategory: 1,
+              preparationtime: 1,
+              picture: { $concat: [`${req.protocol}://${req.get('host')}/image/`, "$picture"] },
+            },
+          },
+        ];
+        let recipes = await Recipe.aggregate(values);
+        res.status(200).json(recipes);
+  }catch(error){
+      res.status(500).json({message: error.message})
+  }
+}
+
+
 const getAllRecipesIdName = async (req,res) => {
   try{  
       const values = [
@@ -137,4 +159,5 @@ module.exports = {
     createRecipe,
     deleteRecipe,
     getAllRecipesIdName,
+    getAllMainpageRecipesTemporary,
   };

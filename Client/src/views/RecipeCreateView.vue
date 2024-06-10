@@ -50,13 +50,12 @@ async function getFormData() {
 
     recipe.append("ingredients", JSON.stringify(selectedIngredients.value));
 
-    let fakeCreator = {_id: "6655d96e4716420c3a843d58", name: "Edward of Woodstock"};
+    let fakeCreator = {_id: "6655d96e4716420c3a843d58", name: "MannisRezepte1848"};
 
     recipe.append("creator", JSON.stringify(fakeCreator));
 
     recipe.append("picture", document.getElementById('rcv_image').files[0]);
 
-    //alert("REZEPT ERSTELLT: " + "Titel: " + recipe_title + " Zubereitung: " + recipe_desc + " Dauer: " + recipe_time + " Preis: " + recipe_price + " Tags: " + recipe_tags);
 
     fetch("http://127.0.0.1:3000/recipe", {
         method: 'POST',
@@ -80,7 +79,7 @@ function getRadioButtonSelection() {
 
     for (let i = 0; i < 8; i++) {
         if (tags[i].checked) {
-            let tag = { name: tags[i].name}
+            let tag = { name: tags[i].value}
             selected_tags.push(tag)
         }
 
@@ -155,42 +154,42 @@ function removeIngredient(index) {
             <label for="tags">Tags hinzufügen</label>
             <div class="rcv_tags">
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_pasta" name="tag_pasta" value="pasta"
+                    <input type="checkbox" id="tag_pasta" name="tag_pasta" value="Pasta"
                         class="sidemargin tag pointer_on_hover">
                     <label for="tag_pasta" class="pointer_on_hover">Pasta</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_onepot" name="tag_onepot" value="onepot"
+                    <input type="checkbox" id="tag_onepot" name="tag_onepot" value="OnePot"
                         class="sidemargin tag pointer_on_hover">
                     <label for="tag_onepot" class="pointer_on_hover">One-Pot</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_veggie" name="tag_veggie" value="veggie"
+                    <input type="checkbox" id="tag_veggie" name="tag_veggie" value="Veggie"
                         class="sidemargin tag pointer_on_hover">
                     <label for="tag_veggie" class="pointer_on_hover">Veggie</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_vegan" name="tag_vegan" value="vegan"
+                    <input type="checkbox" id="tag_vegan" name="tag_vegan" value="Vegan"
                         class="sidemargin tag pointer_on_hover">
                     <label for="tag_vegan" class="pointer_on_hover">Vegan</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_chicken" name="tag_chicken" value="chicken"
+                    <input type="checkbox" id="tag_chicken" name="tag_chicken" value="Hühnchen"
                         class="sidemargin tag pointer_on_hover">
                     <label for="tag_chicken" class="pointer_on_hover">Hühnchen</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_fish" name="tag_fish" value="fish"
+                    <input type="checkbox" id="tag_fish" name="tag_fish" value="Fisch"
                         class="sidemargin tag pointer_on_hover">
                     <label for="tag_fish" class="pointer_on_hover">Fisch</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_beef" name="tag_beef" value="beef"
+                    <input type="checkbox" id="tag_beef" name="tag_beef" value="Rindfleisch"
                         class="sidemargin tag pointer_on_hover">
                     <label for="tag_beef" class="pointer_on_hover">Rindfleisch</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_highprotein" name="tag_highprotein" value="highprotein"
+                    <input type="checkbox" id="tag_highprotein" name="tag_highprotein" value="HighProtein       "
                         class="sidemargin tag pointer_on_hover">
                     <label for="tag_highprotein" class="pointer_on_hover">High-Protein</label>
                 </div>

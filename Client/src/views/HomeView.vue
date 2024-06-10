@@ -14,7 +14,7 @@ function fetchMainPageRecipes() {
   })
   .then(data => {
     updateRecipesOnMainPage(data);
-    console.log(data);
+
   })
   .catch(error => {
     console.error("Fehler", error);
@@ -64,6 +64,7 @@ const recipes = getRecipesOnMainPage();
     .card_component {
       min-width: 80vw;
       min-height: 35vh;
+
     }
   }
 

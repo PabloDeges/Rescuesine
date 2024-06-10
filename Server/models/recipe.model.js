@@ -6,7 +6,7 @@ const dbRecipe = process.env.COLLECTIONRECIPE;
 
 const recipe = mongoose.Schema(
   {
-    _id: { type: Types.ObjectId, default: new mongoose.Types.ObjectId() },
+    _id: { type: Types.ObjectId, default: () => new mongoose.Types.ObjectId() },
     name: { type: String, required: true },
     steps: { type: String, required: true },
     ingredients: [
