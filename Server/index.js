@@ -4,7 +4,9 @@ const mongoose = require("mongoose");
 const recipeRoute = require("./routes/recipe.route.js");
 const ingredientRoute = require("./routes/ingredient.route.js");
 const profileRoute = require("./routes/profile.route.js");
-const imageRoute = require("./routes/images.route.js")
+const imageRoute = require("./routes/images.route.js");
+const authRoute =  require("./routes/auth.route.js")
+
 const cors = require("cors");
 const app = express();
 
@@ -21,6 +23,7 @@ app.use("/recipe", recipeRoute);
 app.use("/ingredient", ingredientRoute);
 app.use("/profile", profileRoute);
 app.use("/image",imageRoute);
+app.use("/auth",authRoute);
 
 
 
