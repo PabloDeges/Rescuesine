@@ -1,14 +1,14 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const KEY = process.env.HASHKEY;
-const TOKEN_EXPIRATION_TIME = "1h";
+const TOKEN_EXPIRATION_TIME = process.env.EXPIRATION;
 
 const authenticateJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (authHeader) {
     const token = authHeader.split(" ")[1];
-    
+
     jwt.verify(token, KEY, (err, user) => {
       if (err) {
         return res.sendStatus(403);
