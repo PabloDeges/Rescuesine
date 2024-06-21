@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { registierung, login } = require("../controllers/auth.controller.js");
 
-//router.post('/login', getIngredients);
-
 router.post("/register", registierung);
 
 router.post("/login", login);
