@@ -6,7 +6,7 @@ import App from './App.vue'
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
 
-import { createMemoryHistory, createRouter, useRouter } from 'vue-router'
+import { createWebHistory, createRouter, useRouter } from 'vue-router'
 
 import HomeView from './views/HomeView.vue'
 import ProfileView from './views/ProfileView.vue'
@@ -25,7 +25,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes,
 })
 
