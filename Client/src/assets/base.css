@@ -23,8 +23,8 @@ body {
   min-height: 100vh;
   color: var(--color-text);
   background: var(--color-white);
-  line-height: 1.6;
-  font-family: "Josefin Sans", sans-serif; /* kann man noch ändern, nur temp */
+  line-height: 1.6;  
+  font-family: "Josefin Sans", sans-serif; 
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
