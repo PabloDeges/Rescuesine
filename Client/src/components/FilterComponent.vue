@@ -103,7 +103,7 @@ function onSubmit(result) {
         body: JSON.stringify(selectedIngredients.value)
         // body: JSON.stringify( { ing: selectedIngredients.value, tags: selectedTags} )
         // tags werden jetzt mit als array übergeben, bitte so anpassen im backend, dass es stimmt. 
-        // gern auch zeile 112 anpassen wenn ihr was anderes sinnvoller findet
+        // gern auch zeile 104 anpassen wenn ihr was anderes sinnvoller findet
       })
       .then(response => {
         if (!response.ok) {
