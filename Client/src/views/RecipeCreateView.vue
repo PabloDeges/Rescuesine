@@ -174,9 +174,9 @@ function removeIngredient(index) {
                     <label for="tag_vegan" class="pointer_on_hover">Vegan</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_chicken" name="tag_chicken" value="Hühnchen"
+                    <input type="checkbox" id="tag_fleisch" name="tag_fleisch" value="Fleisch"
                         class="sidemargin tag pointer_on_hover">
-                    <label for="tag_chicken" class="pointer_on_hover">Hühnchen</label>
+                    <label for="tag_fleisch" class="pointer_on_hover">Fleisch</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
                     <input type="checkbox" id="tag_fish" name="tag_fish" value="Fisch"
@@ -184,9 +184,9 @@ function removeIngredient(index) {
                     <label for="tag_fish" class="pointer_on_hover">Fisch</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_beef" name="tag_beef" value="Rindfleisch"
+                    <input type="checkbox" id="tag_suppe" name="tag_suppe" value="Suppe"
                         class="sidemargin tag pointer_on_hover">
-                    <label for="tag_beef" class="pointer_on_hover">Rindfleisch</label>
+                    <label for="tag_suppe" class="pointer_on_hover">Suppe</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
                     <input type="checkbox" id="tag_highprotein" name="tag_highprotein" value="HighProtein       "
