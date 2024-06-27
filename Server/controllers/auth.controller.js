@@ -19,7 +19,7 @@ const registierung = async (req, res) => {
         password: hashedPassword,
       };
       const success = await Profile.create(newUser);
-      res.status(200).json(success);
+      res.status(200).json("Registierung erfolgreich");
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
