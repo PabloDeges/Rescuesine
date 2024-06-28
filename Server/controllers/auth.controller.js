@@ -35,11 +35,15 @@ const login = async (req, res) => {
       exp: expirationTime,
     };
     const user = await Profile.findOne({ name: username }, "name password");
-    if (user.password && (await bcrypt.compare(password, user.password))) {
-      const token = jwt.sign(payload, KEY, jwtHeader);
-      res.json({ token });
-    } else {
-      res.status(401).json({ message: "Invalid credentials" });
+    if (user) {
+      if (user.password && (await bcrypt.compare(password, user.password))) {
+        const token = jwt.sign(payload, KEY, jwtHeader);
+        res.json({ token });
+      } else {
+        res.status(401).json({ message: "Eingabeparameter sind falsch" });
+      }
+    }else {
+      res.status(401).json({message:"Dieser Nutzer exisitiert nicht"})
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
