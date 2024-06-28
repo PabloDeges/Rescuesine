@@ -24,6 +24,14 @@ const getUser = async (req, res) => {
   }
 };
 
+const saverecipeUser = async (req,res) => {
+  try{
+    
+  }catch (error){
+    res.status(500).json({ message: error.message });
+  }
+}
+
 async function getRecipes(id) {
   try {
     let user = await Recipe.findById(id, {
@@ -41,10 +49,8 @@ async function getRecipes(id) {
     return error;
   }
 }
-// Login
-
-// Regristration
 
 module.exports = {
   getUser,
+  saverecipeUser,
 };

@@ -2,10 +2,9 @@ const express = require("express");
 const multer = require('multer');
 const path = require('path');
 const router = express.Router();
-//const Product = require("../models/recipe.model.js"); // ja nein?
 
 const {getDetailedRecipe, getRecipesMainPage, getSearchedRecipe,createRecipe, deleteRecipe, getFilteredRecipes, getAllRecipesIdName, getAllMainpageRecipesTemporary} = require('../controllers/recipe.controller.js');
-
+const { authenticateJWT } = require('../util/authentication.js');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -17,7 +16,6 @@ const storage = multer.diskStorage({
   });
 
 const upload = multer({ storage: storage })
-// Vorsicht Controller sind noch nicht klar definiert
 
 router.get('/',getRecipesMainPage)
 
@@ -25,14 +23,13 @@ router.get('/allrecipesforuserfilter',getAllMainpageRecipesTemporary)
 
 router.get('/all',getAllRecipesIdName)
 
-//Problem mit den Übergabewerten? Kommt wahrscheinlich aufs Format an
 router.post('/filtered',getFilteredRecipes)
 
 router.get('/searched/:value',getSearchedRecipe)
 
 router.get('/:id',getDetailedRecipe)
 
-router.post('/',upload.single("picture"),createRecipe)
+router.post('/', authenticateJWT, upload.single("picture"),createRecipe)
 
 //router.delete('/:id',deleteRecipe)
 
