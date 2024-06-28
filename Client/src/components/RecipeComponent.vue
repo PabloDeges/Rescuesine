@@ -232,7 +232,7 @@ function shareRecipe() {
     background-color: white;
     margin: 1rem;
     border-radius: 0.25rem;
-
+    cursor: pointer;
 
 }
 
