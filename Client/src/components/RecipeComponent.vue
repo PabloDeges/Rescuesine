@@ -32,13 +32,16 @@
         </div>
     </div>
     <div class="headerInformation">
-        <div class="markRecipe interactions">
+        <button @click="addToFavs()" class="markRecipe interactions" >
             <img src="../assets/Bookmark.png">
-            <p>Favorisieren</p>
-        </div>
-        <div class="shareRecipe interactions">
-            <img src="../assets/Share.png">
-            <p>Teilen</p>
+            <p class="shareText">Favorisieren</p>
+        </button>
+        <div class="tooltip">
+            <button @click="shareRecipe()" class="shareRecipe interactions" >
+                <span class="tooltiptext" id="myTooltip">Link kopieren  </span>
+                <img src="../assets/Share.png">
+                <p class="shareText">Teilen</p>
+            </button>
         </div>
         <!-- <div class="likeRecipe thumbs">
             <img src="../assets/Thumbs Up.png">
@@ -81,6 +84,19 @@ function fetchDetailedRecipe() {
 
 
 onMounted( () => {fetchDetailedRecipe();} );
+
+function shareRecipe() {
+
+   // Copy the text inside the text field
+  navigator.clipboard.writeText(document.URL);
+
+  var tooltip = document.getElementById("myTooltip");
+  tooltip.innerHTML = "Link erfolgreich kopiert!";
+
+}
+
+
+
 
 
 
@@ -216,7 +232,7 @@ onMounted( () => {fetchDetailedRecipe();} );
     background-color: white;
     margin: 1rem;
     border-radius: 0.25rem;
-
+    cursor: pointer;
 
 }
 
@@ -230,28 +246,71 @@ onMounted( () => {fetchDetailedRecipe();} );
     height: 1.5rem;
     margin-right: 0.25rem;
 }
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 10rem;
+  background-color: var(--color-red);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 0.5rem;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-weight: bold;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--color-red) transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.shareText{
+    font-family: "Josefin Sans", sans-serif; 
+    font-size: 0.9rem;
+}   
 
 @media screen and (max-width: 750px) {
 
-    .recipeShortInformation{
-        height: 40%;
-        margin-inline-start: 0.4rem;
-    }
-    .recipeInformationContainer {
-        width: 90%;
-        min-width: 90%;
-    }
-    .layout_infobox {
-        flex-direction: column;
-        margin-bottom: 0.5rem;
-    }
-    .tagBoxesContainer {
-        flex-direction: column;
-        align-items: center;
+.recipeShortInformation{
+    height: 40%;
+    margin-inline-start: 0.4rem;
+}
+.recipeInformationContainer {
+    width: 90%;
+    min-width: 90%;
+}
+.layout_infobox {
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+}
+.tagBoxesContainer {
+    flex-direction: column;
+    align-items: center;
 
-    }
-    .tagBoxesContainer div {
-        margin-bottom: 1rem;
-    }
+}
+.tagBoxesContainer div {
+    margin-bottom: 1rem;
+}
 }
 </style>
