@@ -27,6 +27,15 @@ async function filterRecipes(ingredients, protocol, host) {
  */
 async function filterRecipesByIngredients(ingredients) {
     let dictRecipes = {};
+    let dictOrderedRecipes = {};
+
+    if (ingredients.length == 0) {
+        let allRecipes = await getRecipeIDsByIngredient("{$not: {$in: ['']}}");
+        dictOrderedRecipes[1] = allRecipes;
+        console.log(dictOrderedRecipes);
+        return dictOrderedRecipes;
+    }
+
     //iterieren ueber alle zutaten des uebergebenen iterables
     for (let i = 0; i < ingredients.length; i++) {
         //alle rezepte in denen die akteulle zutat vorkommt aus der db holen
@@ -45,7 +54,6 @@ async function filterRecipesByIngredients(ingredients) {
         }
     }
 
-    let dictOrderedRecipes = {};
     //iterieren ueber alle vorherig herausgesuchten rezepte
     for(let id in dictRecipes) {
         //ist eine relevanzklasse (menge der enthaltenen relevanten zutaten) nicht enthalten wird diese angelegt
