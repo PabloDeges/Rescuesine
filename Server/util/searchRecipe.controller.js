@@ -1,21 +1,36 @@
 const Recipe = require("../models/recipe.model");
 
-async function getRecipeIDsByIngredient(ingredientID) {
+async function getRecipeIDsByIngredientAndTag(ingredientID, tags, mode) {
     try{  
-        let recipes = await Recipe.find({ingredients:{$elemMatch: {"name": ingredientID}}}, {_id: 1});
-        let backRecipes = [];
-        for(i=0; i<recipes.length;i++){
-            backRecipes.push(recipes[i]._id.toString());
+        let recipes;
+        switch(mode) {
+            //keine zutaten oder tags wurden uebergeben
+            //es werden zehn zufaellige rezepte aus der db zuruckegegeben
+            case 0:
+                recipes = await Recipe.aggregate([{ $sample: { size: 10 } }, { $project: {_id: 1}}]);
+                break;
+            //keine zutaten aber tags wurden uebergeben
+            //es werden alle rezepte zurueckgegeben, die alle angegebenen tags enthalten
+            case 1:
+                recipes = await Recipe.find({tags:{$elemMatch: {"name": {$all: tags}}}}, {_id: 1});
+                break;
+            //zutaten, aber keine tags wruden uebergeben
+            //es werden alle rezepte mit der entsprechenden zutat zurueckgegeben
+            case 2:
+                recipes = await Recipe.find({ingredients:{$elemMatch: {"name": ingredientID}}}, {_id: 1});
+                break;
+            //zutaten und tags wruden uebergeben
+            //es werden alle rezepte mit der entsprechenden zutat zurueckgegeben, die alle angegebenen tags enthalten
+            case 3:
+                recipes = await Recipe.find({ingredients:{$elemMatch: {"name": ingredientID}}, tags:{$elemMatch: {"name": {$all: tags}}}}, {_id: 1});
+                break;
+            //bei einem fall auserhalb der erwarteten faelle wird ein leeres array zurueckgegeben
+            default:
+                recipes = [];
         }
-        return backRecipes;
-    }catch(error){
-        return null;
-    }
-}
+        
+        console.log(recipes);
 
-async function getRecipeIDsByIngredientAndTag(ingredientID, tag) {
-    try{  
-        let recipes = await Recipe.find({ingredients:{$elemMatch: {"name": ingredientID}}, tags:{$elemMatch: {"name": {$in: tags}}}}, {_id: 1});
         let backRecipes = [];
         for(i=0; i<recipes.length;i++){
             backRecipes.push(recipes[i]._id.toString());
@@ -53,7 +68,6 @@ async function getRecipeByID(recipeID, protocol, host) {
 }
 
 module.exports = {
-    getRecipeIDsByIngredient,
     getRecipeIDsByIngredientAndTag,
     getAmoutOfIngredientsForRecipe,
     getRecipeByID,

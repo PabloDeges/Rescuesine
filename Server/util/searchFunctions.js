@@ -1,12 +1,12 @@
-const { getAmoutOfIngredientsForRecipe, getRecipeIDsByIngredient, getRecipeByID } = require("./searchRecipe.controller");
+const { getAmoutOfIngredientsForRecipe, getRecipeIDsByIngredientAndTag, getRecipeByID } = require("./searchRecipe.controller");
 
 /**
  * nimmt als parameter ein element.
  * element ist ein iterable mit namen von zutaten-IDs
  * uebergeordnete funktion, die das vorfiltern vor evtl spaetere andere nachsortierungen haengt
  */
-async function filterRecipes(ingredients, protocol, host) {
-    let firstSort = await filterRecipesByIngredients(ingredients);
+async function filterRecipes(ingredients, tags, protocol, host) {
+    let firstSort = await filterRecipesByIngredients(ingredients, tags);
     let secondSort = await orderRecipesByAmoutIngredientsLeft(firstSort);
     let sortedRecipes = [];
     for(let index in secondSort) {
@@ -25,46 +25,71 @@ async function filterRecipes(ingredients, protocol, host) {
  * das umgespeicherte dict enthaelt in relevanzklassen (menge der vorhandenen zutaten im rezept) eingeteilte rezeptids
  * diese relevanzklassen werden zurueckgegeben
  */
-async function filterRecipesByIngredients(ingredients) {
+async function filterRecipesByIngredients(ingredients, tags) {
     let dictRecipes = {};
     let dictOrderedRecipes = {};
 
+    /*
+    * mode bestimmt die art der filterung
+    * 0 bedeutet, dass weder zutaten, noch tags uebergeben wurden
+    * 1 bedeutet, dass keine zutaten, aber tags uebergeben wurden
+    * 2 bedeutet, dass zutaten, aber keine tags uebergeben wurden
+    * 3 bedeutet, dass sowohl zutaten, als auch tags uebergeben wurden
+    */
+    let mode;
     if (ingredients.length == 0) {
-        let allRecipes = await getRecipeIDsByIngredient("{$not: {$in: ['']}}");
-        dictOrderedRecipes[1] = allRecipes;
-        console.log(dictOrderedRecipes);
-        return dictOrderedRecipes;
+        if (tags.length == 0) {
+            mode = 0;
+        }
+        else {
+            mode = 1;
+        }
+    }
+    else if (tags.length == 0) {
+        mode = 2;
+    }
+    else {
+        mode = 3;
     }
 
-    //iterieren ueber alle zutaten des uebergebenen iterables
-    for (let i = 0; i < ingredients.length; i++) {
-        //alle rezepte in denen die akteulle zutat vorkommt aus der db holen
-        let recipesIDs = await getRecipeIDsByIngredient(ingredients[i]);
-        //zutat wird uebersprungen, wenn keine rezepte dazu existieren
-        if(recipesIDs == null) {
-            continue;
+    //bei einem mode ohne zutaten, wird nicht ueber diese iteriert.
+    //hier werden alle rezepte der anfrage gleichwertig zurueckgegeben.
+    if (mode < 2) {
+        let recipesIDs = await getRecipeIDsByIngredientAndTag(ingredients, tags, mode);
+        dictOrderedRecipes[1] = recipesIDs;
+    }
+    else {
+
+        //iterieren ueber alle zutaten des uebergebenen iterables
+        for (let i = 0; i < ingredients.length; i++) {
+            //alle rezepte in denen die akteulle zutat vorkommt aus der db holen
+            let recipesIDs = await getRecipeIDsByIngredientAndTag(ingredients[i], tags, mode);
+            //zutat wird uebersprungen, wenn keine rezepte dazu existieren
+            if(recipesIDs == null) {
+                continue;
+            }
+            //iterieren ueber alle gefundenen rezepte, keine iteration falls nichts gefunden
+            for (let n = 0; n < recipesIDs.length; n++) {
+                if (dictRecipes[recipesIDs[n]] === undefined) {
+                    dictRecipes[recipesIDs[n]] = 1;
+                } else {
+                    dictRecipes[recipesIDs[n]] += 1;
+                }
+            }
         }
-        //iterieren ueber alle gefundenen rezepte, keine iteration falls nichts gefunden
-        for (let n = 0; n < recipesIDs.length; n++) {
-            if (dictRecipes[recipesIDs[n]] === undefined) {
-                dictRecipes[recipesIDs[n]] = 1;
+
+        for(let id in dictRecipes) {
+            //ist eine relevanzklasse (menge der enthaltenen relevanten zutaten) nicht enthalten wird diese angelegt
+            //sonst wird die jeweilige klasse um die id des rezepts erweitert
+            if (dictOrderedRecipes[dictRecipes[id]] === undefined) {
+                dictOrderedRecipes[dictRecipes[id]] = [id];
             } else {
-                dictRecipes[recipesIDs[n]] += 1;
-              }
+                dictOrderedRecipes[dictRecipes[id]].push(id);
+            }
         }
     }
 
-    //iterieren ueber alle vorherig herausgesuchten rezepte
-    for(let id in dictRecipes) {
-        //ist eine relevanzklasse (menge der enthaltenen relevanten zutaten) nicht enthalten wird diese angelegt
-        //sonst wird die jeweilige klasse um die id des rezepts erweitert
-        if (dictOrderedRecipes[dictRecipes[id]] === undefined) {
-            dictOrderedRecipes[dictRecipes[id]] = [id];
-          } else {
-            dictOrderedRecipes[dictRecipes[id]].push(id);
-          }
-    }
-
+    //rueckgabe der rezepte, eingeteilt in relevanzklassen
     return dictOrderedRecipes;
 }
 

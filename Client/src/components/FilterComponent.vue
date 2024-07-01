@@ -21,8 +21,7 @@ function getRadioButtonSelection() {
 
   for (let i = 0; i < 8; i++) {
       if (tags[i].checked) {
-          let tag = { name: tags[i].value}
-          selected_tags.push(tag)
+          selected_tags.push(tags[i].value)
       }
 
   }
@@ -93,17 +92,13 @@ function onSubmit(result) {
 
     function submitForm() {
 
-      let selectedTags = JSON.stringify(getRadioButtonSelection());
-
+      let selectedTags = getRadioButtonSelection();
 
       // Send the selectedIngredients array to the backend
       fetch("http://127.0.0.1:3000/recipe/filtered", {
         method:"POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(selectedIngredients.value)
-        // body: JSON.stringify( { ing: selectedIngredients.value, tags: selectedTags} )
-        // tags werden jetzt mit als array übergeben, bitte so anpassen im backend, dass es stimmt. 
-        // gern auch zeile 104 anpassen wenn ihr was anderes sinnvoller findet
+        body: JSON.stringify( { ing: selectedIngredients.value, tags: selectedTags} )
       })
       .then(response => {
         if (!response.ok) {
