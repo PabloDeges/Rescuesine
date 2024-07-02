@@ -26,7 +26,12 @@ const getUser = async (req, res) => {
 
 const saverecipeUser = async (req,res) => {
   try{
-    
+    await Profile.findByIdAndUpdate( 
+      req.recipecreator._id,
+      {$push: { savedrecipies : { _id:req.id , name:req.name}}},
+      { new: true }
+    )
+    res.status(200).json({message: "Rezept gespeichert"})
   }catch (error){
     res.status(500).json({ message: error.message });
   }
