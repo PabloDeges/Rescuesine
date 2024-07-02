@@ -5,6 +5,21 @@ import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
 
 // TODO: nur in liste vorkommende zutaten auswählen lassen
 function search(input) {

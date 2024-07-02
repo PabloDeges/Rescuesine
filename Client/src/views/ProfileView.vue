@@ -2,8 +2,17 @@
 import { ref, onMounted } from 'vue'
 import CardComponent from '../components/CardComponentSmall.vue'
 
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
 let fav_recipes = ref([])
 let own_recipes = ref([])
+
+function logout() {
+  document.cookie = "resc_user_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  router.push("/");
+
+}
 
 function fetchFavRecipes() {
   fetch("http://127.0.0.1:3000/recipe")
@@ -55,6 +64,7 @@ onMounted( () => fetchProfileRecipes());
 <template>
 
     <div class="profile_container">
+      <button @click="logout()" class="logout_button">Ausloggen</button>
         <div class="username_box">
           <h1 class="username">MannisRezepte1848</h1>
           <div class="user_desc_box">
@@ -101,6 +111,25 @@ onMounted( () => fetchProfileRecipes());
 </template>
 
 <style scoped>
+
+.logout_button {
+  background-color: var(--color-red);
+  color: white;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  width: 6rem;
+  border: 2px solid var(--color-red);
+  font-weight: bold;
+  font-size: 0.8rem;
+  margin-bottom: 1.5rem;
+
+}
+.logout_button:hover {
+  color: var(--color-red);
+  background-color: white;
+  border-color: var(--color-red);
+
+}
 
 .lastsection {
   margin-bottom: 4rem;
@@ -204,6 +233,12 @@ onMounted( () => fetchProfileRecipes());
 
     .profile_container {
     margin-top: 0;
+}
+.logout_button {
+  margin-top: 1.5rem;
+  width: 35%;
+  height: 3rem;
+
 }
 
   }

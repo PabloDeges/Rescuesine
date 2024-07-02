@@ -3,6 +3,7 @@
             <RouterLink to="/" class="header_backtohome">
                 <img src="../assets/logo.png" class="logo-img" alt="">
             </RouterLink>
+
             
             <h1 class="appname">RESCUESINE</h1>
             <autocomplete :search="search" class="search_bar_header" placeholder="Rezepte durchsuchen" autoSelect=True submitOnEnter=True @submit="onSubmit"></autocomplete>
@@ -11,7 +12,8 @@
                     <RouterLink to="/recipe/create" class="button button_wide link">Rezept erstellen</RouterLink>
                 </div>
                 <div id="profile_btn" class="button_container">
-                    <RouterLink to="/profile" class="button link">Profil</RouterLink>
+                    <RouterLink v-if="cookieSet" to="/profile" class="button link">Profil</RouterLink>
+                    <button v-else class="button link no_styling" @click="toggleLogin" >Login</button>
                 </div>
                 <!-- <div id="login_btn" class="button_container hidden">
                     <RouterLink to="/login" class="button link">Login</RouterLink>
@@ -33,14 +35,34 @@
         <!-- <RouterLink to="/login" class="mobile_link">Login</RouterLink> -->
     </div>      
 
+    <LoginComponent class="login_window" id="login_id"></LoginComponent>
+
 </template>
 
 <script setup>
 
+
 import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
+
+import LoginComponent from '../components/LoginComponent.vue'
+
+let cookieSet = document.cookie;
+
+function toggleLogin() {
+    let x = document.getElementById("login_id");
+
+    if (x.style.display === "flex") {
+      x.style.display = "none";
+
+    }
+    else {
+      x.style.display = "flex";
+    }
+}
+
+
 const router = useRouter()
-const route = useRoute()
 
 //get recipes from backend
 // durch fetch all recipes ersetzen oder async probieren
@@ -92,14 +114,15 @@ function onSubmit(result) {
 
     router.push('/recipe/'+ selectedRecipeID)
 
-    
-
-
 };
+
+
+
 
 </script>
 
 <script>
+
 
 // remove or change when login functionality is added => if logged in -> show profile, if not show login
 document.addEventListener('DOMContentLoaded', function() {
@@ -127,6 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //         button2.classList.remove('hidden');
     //     }
     // }
+
 
 
     function checkForMobileButtonsStillVisible() {
@@ -158,7 +182,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style scoped>  
 
+.login_window {
+    position: fixed;
+    z-index: 999;
+  left: 0; 
+  right: 0; 
+  top: 25vh;
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 25rem; /* Need a specific value to work */
+  display: none;
+}
 
+.no_styling {
+    color: white;
+    background-color: var(--color-darkgreen);
+    border: none;
+    font-family: "Josefin Sans", sans-serif;
+}
 
 .link {
     text-decoration: none;
