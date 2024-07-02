@@ -117,18 +117,16 @@ const createRecipe = async (req,res) => {
           tags: JSON.parse(req.body.tags),
           pricecategory: req.body.pricecategory,
           preparationtime: req.body.preparationtime,
-          creator: JSON.parse(req.body.creator),
+          creator: req.recipecreator,
           creationdate: new Date().toLocaleDateString('de-DE'),
           picture: newFilename
         };
         const success = await Recipe.create(newRecipe);
-        //const token  Hier muss der Token aus dem Request abgegriffen werden
-        let id = await Profile.find(JSON.parse(Buffer.from(token.split('.')[1],'base64').toString()).username) 
-        await Profile.findByIdAndUpdate( 
-          id,
+       await Profile.findByIdAndUpdate( 
+          req.recipecreator._id,
           {$push: { publishedrecipies : { _id:success._id , name:success.name}}},
           { new: true }
-        )
+        ) 
         res.status(200).json(success)
     }catch(error){
       console.log(error);

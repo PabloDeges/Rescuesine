@@ -71,9 +71,11 @@ async function getFormData() {
 
     recipe.append("picture", document.getElementById('rcv_image').files[0]);
 
-
     fetch("http://127.0.0.1:3000/recipe", {
         method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${document.cookie.split("=")[1]}`
+        },
         body: recipe,
     })
     .then(res => res.json())

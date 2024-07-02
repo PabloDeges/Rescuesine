@@ -7,31 +7,37 @@ const jwtHeader = { algorithm: "HS256" };
 
 const authenticateJWT = async (req, res, next) => {
   const authHeader = req.headers.authorization;
-  let expirationTime = Date.now() / 1000 + parseInt(TOKEN_EXPIRATION_TIME);
 
-  if (authHeader) {
-    try{
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.split(' ')[1];
+    let expirationTime = Math.floor(Date.now() / 1000) + parseInt(TOKEN_EXPIRATION_TIME);
+
+    try {
+      const decodedToken = jwt.verify(token, KEY, jwtHeader);
       let userCheck = await User.findOne({
-        name: jwt.verify(authHeader, KEY, jwtHeader).username,
+        name: decodedToken.username,
       });
       if (userCheck !== null) {
         let payload = {
-          username: jwt.verify(authHeader, KEY, jwtHeader).username,
+          username: decodedToken.username,
           exp: expirationTime,
         };
         const newToken = jwt.sign(payload, KEY, jwtHeader);
         res.setHeader("Authorization", `Bearer ${newToken}`);
         req.newToken = newToken;
-        req.user = jwt.verify(authHeader, KEY, jwtHeader).username;
+        req.recipecreator = { _id: userCheck._id ,name: userCheck.name}
+        req.user = decodedToken.username;
+        
         next();
       } else {
-        res.json({ message: "Nutzer nicht erkannt" });
+        res.status(401).json({ message: "Nutzer nicht erkannt" });
       }
-    }catch(error){
-      res.status(401).json({ message: "Kein gueltiger Token / Session abgelaufen" });
+    } catch (error) {
+      console.log("Token-Überprüfung fehlgeschlagen:", error.message);
+      res.status(401).json({ message: "Kein gültiger Token / Session abgelaufen" });
     }
   } else {
-    res.sendStatus(401).json({ message: "Nicht eingeloggt" });
+    res.status(401).json({ message: "Nicht eingeloggt" });
   }
 };
 
