@@ -5,7 +5,7 @@ const getUser = async (req, res) => {
   try {
     let saves = [];
     let pub = [];
-    const { id } = req.params;
+    const id  = req.recipecreator._id;
     const user = await User.findById(id, {
       name: 1,
       publishedrecipies: 1,
