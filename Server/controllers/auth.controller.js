@@ -6,10 +6,10 @@ const KEY = process.env.HASHKEY;
 const TOKEN_EXPIRATION_TIME = process.env.EXPIRATION;
 const jwtHeader = { algorithm: "HS256" };
 
-const registierung = async (req, res) => {
+const registierung = async (req, res,next) => {
   try {
     const { username, password } = req.body;
-    //console.log( await Profile.findOne({name: username}));
+    console.log( await Profile.findOne({name: username}));
     if (await Profile.findOne({ name: username })) {
       res.status(500).json({ message: "Nutzer schon vorhanden" });
     } else {
@@ -19,7 +19,7 @@ const registierung = async (req, res) => {
         password: hashedPassword,
       };
       const success = await Profile.create(newUser);
-      res.status(200).json("Registierung erfolgreich");
+      next();
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
