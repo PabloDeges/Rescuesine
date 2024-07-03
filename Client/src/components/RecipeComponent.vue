@@ -75,9 +75,7 @@ function fetchDetailedRecipe() {
     let imagePath = dish.value.picture;
     if (myImageDiv.value) {
     myImageDiv.value.style.backgroundImage = `url(${imagePath})`;
-    if(dish.fav) {
-        updateButtonState();
-    }
+    checkIfSaved()
   }
   })
   .catch(error => {
@@ -85,7 +83,31 @@ function fetchDetailedRecipe() {
   })
 }
 
+function checkIfSaved() {
 
+    fetch("http://127.0.0.1:3000/recipe/isfav/" + props.recipe_ID, {
+    headers: {
+            'Authorization': `Bearer ${getCookie("resc_user_token")}`
+        },})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Keine gueltige Antwort erhalten");
+    }
+    return response.json();
+  })
+  .then(data => {
+    if(data.isfav) {
+        alert("is angekommen mit true")
+        updateButtonState()
+        
+    }
+  }
+  )
+  .catch(error => {
+    console.error("Fehler", error);
+  })
+
+}
 
 
 onMounted( () => {fetchDetailedRecipe(); } );
