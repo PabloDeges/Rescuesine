@@ -97,9 +97,7 @@ function checkIfSaved() {
   })
   .then(data => {
     if(data.isfav) {
-        alert("is angekommen mit true")
-        updateButtonState()
-        
+        updateButtonState()    
     }
   }
   )
