@@ -32,7 +32,7 @@
     </div>
     <div class="headerInformation">
 
-        <button @click="addToFavs()" class="markRecipe interactions" id="fav_button">
+        <button v-if="loggedIn" @click="addToFavs()" class="markRecipe interactions" id="fav_button">
             <img src="../assets/Bookmark.png" >
             <p class="shareText">Favorisieren</p>
         </button>
@@ -55,9 +55,12 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+
 const props = defineProps(['recipe_ID'])
 const dish = ref();
 const myImageDiv = ref(null);
+
+let loggedIn = getCookie("resc_user_token");
 
 function fetchDetailedRecipe() {
   fetch("http://127.0.0.1:3000/recipe/"+props.recipe_ID)
@@ -72,7 +75,9 @@ function fetchDetailedRecipe() {
     let imagePath = dish.value.picture;
     if (myImageDiv.value) {
     myImageDiv.value.style.backgroundImage = `url(${imagePath})`;
-    checkForFav();
+    if(dish.fav) {
+        updateButtonState();
+    }
   }
   })
   .catch(error => {
@@ -120,7 +125,7 @@ function addToFavs() {
         body: JSON.stringify({ id: props.recipe_ID }),
     })
     .then(res => res.json())
-    .then(data => {document.cookie = dish.value.name + "=1";})
+    .then(data => {})
     .then(updateButtonState());
 }
 
@@ -132,13 +137,6 @@ function updateButtonState() {
     z.style.display = "flex";
 }
 
-function checkForFav() {
-
-    let cookie = getCookie(dish.value.name);
-    if(cookie) {
-        updateButtonState();
-    }
-}
 
 </script>
 

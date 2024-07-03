@@ -78,7 +78,8 @@ onMounted( () => fetchProfileRecipes());
             </div>
         </div>
         <div class="section lastsection">
-            <h2 class="section_title"> 10 favorisierte Rezepte</h2>
+          <h2 v-if="fav_recipes.length == 1" class="section_title"> {{ fav_recipes.length }} favorisiertes Rezept</h2>
+            <h2 v-else class="section_title"> {{ fav_recipes.length }} favorisierte Rezepte</h2>
 
             <div class="recipe_card_list">
                 <CardComponent class="card_component_profileview"

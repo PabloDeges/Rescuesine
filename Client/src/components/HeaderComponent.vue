@@ -47,7 +47,24 @@ import { useRoute, useRouter } from 'vue-router'
 
 import LoginComponent from '../components/LoginComponent.vue'
 
-let cookieSet = document.cookie;
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+let cookieSet = getCookie("resc_user_token")
 
 function toggleLogin() {
     let x = document.getElementById("login_id");
