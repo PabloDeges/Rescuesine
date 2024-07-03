@@ -8,8 +8,10 @@ const { getAmoutOfIngredientsForRecipe, getRecipeIDsByIngredientAndTag, getRecip
 async function filterRecipes(ingredients, tags, protocol, host) {
     let firstSort = await filterRecipesByIngredients(ingredients, tags);
     let secondSort = await orderRecipesByAmoutIngredientsLeft(firstSort);
+    //erstellen der liste, welche alle infromationen enthaelt, die benoetigt werden um die rezept-karte anzuzeigen
     let sortedRecipes = [];
     for(let index in secondSort) {
+        //besorgen der zusaetzlichen informationen aus der datenbank
         sortedRecipes.push(await getRecipeByID(secondSort[index], protocol, host));
     }
     return sortedRecipes;

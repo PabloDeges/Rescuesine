@@ -21,7 +21,8 @@ function getRadioButtonSelection() {
 
   for (let i = 0; i < 8; i++) {
       if (tags[i].checked) {
-          selected_tags.push(tags[i].value)
+        let tag = {$elemMatch: {"name": tags[i].value}};
+        selected_tags.push(tag)
       }
 
   }
