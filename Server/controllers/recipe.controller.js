@@ -133,7 +133,6 @@ const createRecipe = async (req, res) => {
       picture: newFilename,
     };
     const success = await Recipe.create(newRecipe);
-    console.log(req.recipecreator._id);
     await Profile.findByIdAndUpdate(
       req.recipecreator._id,
       {
@@ -151,7 +150,6 @@ const createRecipe = async (req, res) => {
 const checksavedRecipe = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(req.recipecreator._id)
     const isSaved = await Profile.findById(req.recipecreator._id);
     let check;
     isSaved.savedrecipies.some(item => item._id == id) ? (check = true) : (check = false);
