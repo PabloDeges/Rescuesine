@@ -1,15 +1,22 @@
 <template>
-    <div class="login_card">
-        <button @click="hideLoginWindow( )">X</button> 
+    <div class="login_card" >
+        <div class="close_button_container">
+            <button @click="hideLoginWindow()">X</button> 
+        </div>
         <h1 class="login_text">LOGIN</h1>
         <input type="text" id="username" placeholder="username" class="input_field">
         <input type="password" id="password" placeholder="passwort" class="input_field">
-        <button @click="login()" class="login_button">Einloggen</button>
+        <button @click="login()" class="login_button topmargin">Einloggen</button>
         <button @click="register()" class="login_button">Registrieren</button>
     </div>
 </template>
 
 <style>
+
+.close_button_container {
+    display: block;
+    width: 100%;
+}
 
 .login_text {
     font-weight: bold;
@@ -25,7 +32,7 @@
 
 
     .login_card {
-        padding: 5rem;
+        padding: 1rem;
         background-color: var(--color-lightgreen);
         border-radius: 1rem;
         border: 2px solid white;
@@ -36,6 +43,7 @@
     }
 
     .login_button {
+        
         padding: 0.8rem;
         background-color: var(--color-darkgreen);
         border-radius: 0.8rem;
@@ -55,17 +63,22 @@
         background-color: white;
 
     }
-
-    .register_button {
-        background-color: white;
-        border: 1px solid black;
-        border-radius: 0.5rem;
+    .topmargin {
+        margin-top: 0.5rem;
     }
+
 
 
 </style>
 
 <script setup>
+
+function hideLoginWindow() {
+
+    let x = document.getElementById("login_id");
+    x.style.display = "none";
+
+}
 
 
 async function login() {
