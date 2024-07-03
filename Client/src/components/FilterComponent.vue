@@ -183,7 +183,7 @@ function onSubmit(result) {
                 <div class="rcv_tag pointer_on_hover">
                     <input type="checkbox" id="tag_highprotein" name="tag_highprotein" value="HighProtein"
                         class="sidemargin tag pointer_on_hover" @click="enableButton">
-                    <label for="tag_highprotein" class="pointer_on_hover">High-Protein</label>
+                    <label for="tag_highprotein" class="pointer_on_hover">HighProtein</label>
                 </div>
       </div>
 
@@ -330,7 +330,7 @@ function onSubmit(result) {
 .disabled_button:hover {
   background-color: grey;
   color: white;
-  border: 1px solid grey;
+  border: 2px solid grey;
 }
 
 
