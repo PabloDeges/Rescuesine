@@ -9,7 +9,6 @@ const jwtHeader = { algorithm: "HS256" };
 const registierung = async (req, res,next) => {
   try {
     const { username, password } = req.body;
-    console.log( await Profile.findOne({name: username}));
     if (await Profile.findOne({ name: username })) {
       res.status(500).json({ message: "Nutzer schon vorhanden" });
     } else {

@@ -133,6 +133,7 @@ const createRecipe = async (req, res) => {
       picture: newFilename,
     };
     const success = await Recipe.create(newRecipe);
+    console.log(req.recipecreator._id)
     await Profile.findByIdAndUpdate(
       req.recipecreator._id,
       {

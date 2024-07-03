@@ -1,5 +1,6 @@
 const User = require("../models/profile.model");
 const Recipe = require("../models/recipe.model");
+const Profile = require("../models/profile.model");
 
 const getUser = async (req, res) => {
   try {
@@ -19,7 +20,6 @@ const getUser = async (req, res) => {
       saves.push(await getRecipes(user.savedrecipies[obj]._id.toString()));
     }
     let back = { name: user.name, joinDate: user.joinDate ,  saves, pub };
-    console.log(back)
     res.status(200).json(back);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -27,12 +27,20 @@ const getUser = async (req, res) => {
 };
 
 const saverecipeUser = async (req, res) => {
-  console.log(req.body)
-  console.log(req.recipecreator)
   try {
+    const user = await Profile.findOne({
+      _id: req.recipecreator._id,
+      'savedrecipies._id': req.body.id
+    });
+
+    if (user) {
+      return res.status(400).json({ message: "Rezept ist bereits gespeichert" });
+    }
     await Profile.findByIdAndUpdate(
       req.recipecreator._id,
-      { $push: { savedrecipies: { _id: req.body.id} } },
+      {
+        $push: { savedrecipies: { _id: req.body.id,  } },
+      },
       { new: true }
     );
     res.status(200).json({ message: "Rezept gespeichert" });
