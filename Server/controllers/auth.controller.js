@@ -17,6 +17,7 @@ const registierung = async (req, res,next) => {
       const newUser = {
         name: username,
         password: hashedPassword,
+        joinDate: new Date().toLocaleDateString("de-DE")
       };
       const success = await Profile.create(newUser);
       next();

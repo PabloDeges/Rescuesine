@@ -17,7 +17,7 @@ const getUser = async (req, res) => {
     for (obj in user.savedrecipies) {
       saves.push(await getRecipes(user.savedrecipies[obj]._id.toString()));
     }
-    let back = { name: user.name, saves, pub };
+    let back = { name: user.name, joinDate: user.joinDate ,  saves, pub };
     res.status(200).json(back);
   } catch (error) {
     res.status(500).json({ message: error.message });

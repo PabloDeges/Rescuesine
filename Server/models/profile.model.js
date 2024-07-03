@@ -7,6 +7,7 @@ const profile = mongoose.Schema(
   {
     name: { type: String, required: true },
     password: { type: String, required: true },
+    joinDate: { type: String, required: true },
     publishedrecipies: [
       {
         id: { type: Number, required: false },
