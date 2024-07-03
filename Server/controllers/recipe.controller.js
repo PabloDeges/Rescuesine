@@ -133,7 +133,7 @@ const createRecipe = async (req, res) => {
       picture: newFilename,
     };
     const success = await Recipe.create(newRecipe);
-    console.log(req.recipecreator._id)
+    console.log(req.recipecreator._id);
     await Profile.findByIdAndUpdate(
       req.recipecreator._id,
       {
@@ -144,6 +144,19 @@ const createRecipe = async (req, res) => {
     res.status(200).json(success);
   } catch (error) {
     console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const checksavedRecipe = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(req.recipecreator._id)
+    const isSaved = await Profile.findById(req.recipecreator._id);
+    let check;
+    isSaved.savedrecipies.some(item => item._id == id) ? (check = true) : (check = false);
+    res.status(200).json({ isfav: check });
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
@@ -179,4 +192,5 @@ module.exports = {
   deleteRecipe,
   getAllRecipesIdName,
   getAllMainpageRecipesTemporary,
+  checksavedRecipe,
 };

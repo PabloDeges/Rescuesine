@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const router = express.Router();
 
-const {getDetailedRecipe, getRecipesMainPage, getSearchedRecipe,createRecipe, deleteRecipe, getFilteredRecipes, getAllRecipesIdName, getAllMainpageRecipesTemporary} = require('../controllers/recipe.controller.js');
+const {getDetailedRecipe, getRecipesMainPage, getSearchedRecipe,createRecipe,checksavedRecipe , deleteRecipe, getFilteredRecipes, getAllRecipesIdName, getAllMainpageRecipesTemporary} = require('../controllers/recipe.controller.js');
 const { authenticateJWT } = require('../util/authentication.js');
 
 const storage = multer.diskStorage({
@@ -30,6 +30,8 @@ router.get('/searched/:value',getSearchedRecipe)
 router.get('/:id',getDetailedRecipe)
 
 router.post('/', authenticateJWT, upload.single("picture"),createRecipe)
+
+router.get('/isfav/:id',authenticateJWT, checksavedRecipe)
 
 //router.delete('/:id',deleteRecipe)
 
