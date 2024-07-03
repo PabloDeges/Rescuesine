@@ -95,6 +95,18 @@ function shareRecipe() {
 
 }
 
+function addToFavs() {
+    fetch("http://127.0.0.1:3000/profile/saverecipe", {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${document.cookie.split("=")[1]}`,
+        'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: props.recipe_ID }),
+    })
+    .then(res => res.json())
+    .then(data => {});
+}
+
 
 
 

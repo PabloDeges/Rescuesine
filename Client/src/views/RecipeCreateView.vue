@@ -47,7 +47,7 @@ async function getFormData() {
     recipe.append("tags", JSON.stringify(recipe_tags));
 
     for(let index_ingredient_obj in selectedIngredients.value) {
-        let ingredient_name = selectedIngredients.value[index_ingredient_obj].ingredient_name;
+        let ingredient_name = selectedIngredients.value[index_ingredient_obj].name;
         await fetch("http://127.0.0.1:3000/ingredient/" + ingredient_name)
         .then(response => {
             if (!response.ok) {
@@ -65,9 +65,6 @@ async function getFormData() {
 
     recipe.append("ingredients", JSON.stringify(selectedIngredients.value));
 
-    let fakeCreator = {_id: "6655d96e4716420c3a843d58", name: "MannisRezepte1848"};
-
-    recipe.append("creator", JSON.stringify(fakeCreator));
 
     recipe.append("picture", document.getElementById('rcv_image').files[0]);
 

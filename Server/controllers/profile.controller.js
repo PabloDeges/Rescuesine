@@ -10,6 +10,7 @@ const getUser = async (req, res) => {
       name: 1,
       publishedrecipies: 1,
       savedrecipies: 1,
+      joinDate: 1,
     });
     for (obj in user.publishedrecipies) {
       pub.push(await getRecipes(user.publishedrecipies[obj]._id.toString()));
@@ -18,6 +19,7 @@ const getUser = async (req, res) => {
       saves.push(await getRecipes(user.savedrecipies[obj]._id.toString()));
     }
     let back = { name: user.name, joinDate: user.joinDate ,  saves, pub };
+    console.log(back)
     res.status(200).json(back);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -25,10 +27,12 @@ const getUser = async (req, res) => {
 };
 
 const saverecipeUser = async (req, res) => {
+  console.log(req.body)
+  console.log(req.recipecreator)
   try {
     await Profile.findByIdAndUpdate(
       req.recipecreator._id,
-      { $push: { savedrecipies: { _id: req.id, name: req.name } } },
+      { $push: { savedrecipies: { _id: req.body.id} } },
       { new: true }
     );
     res.status(200).json({ message: "Rezept gespeichert" });

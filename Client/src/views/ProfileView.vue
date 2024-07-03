@@ -3,10 +3,14 @@ import { ref, onMounted } from 'vue'
 import CardComponent from '../components/CardComponentSmall.vue'
 
 import { useRouter } from 'vue-router'
+
 const router = useRouter()
 
 let fav_recipes = ref([])
 let own_recipes = ref([])
+let username = ref()
+let joindate = ref()
+
 
 function logout() {
   document.cookie = "resc_user_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -14,44 +18,28 @@ function logout() {
 
 }
 
-function fetchFavRecipes() {
-  fetch("http://127.0.0.1:3000/recipe")
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("Keine gueltige Antwort erhalten");
-    }
-    return response.json();
-  })
-  .then(data => {
-    fav_recipes.value = data;
-
-  })
-  .catch(error => {
-    console.error("Fehler", error);
-  })
-}
-
-function fetchOwnRecipes() {
-  fetch("http://127.0.0.1:3000/recipe/allrecipesforuserfilter")
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("Keine gueltige Antwort erhalten");
-    }
-    return response.json();
-  })
-  .then(data => {
-    own_recipes.value = data.filter(item => item.creatorname === 'MannisRezepte1848');
-
-  })
-  .catch(error => {
-    console.error("Fehler", error);
-  })
-}
 
 function fetchProfileRecipes() {
-  fetchFavRecipes();
-  fetchOwnRecipes();
-  console.log("recipes loaded")
+  fetch("http://127.0.0.1:3000/profile/" , {
+    headers: {
+            'Authorization': `Bearer ${document.cookie.split("=")[1]}`
+        },})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Keine gueltige Antwort erhalten");
+    }
+    return response.json();
+  })
+  .then(data => {
+    username.value = data["name"];
+    joindate.value = data["joinDate"]
+    own_recipes.value = data["pub"];
+    fav_recipes.value = data["saves"];
+
+  })
+  .catch(error => {
+    console.error("Fehler", error);
+  })
 }
 
 onMounted( () => fetchProfileRecipes());
@@ -66,11 +54,11 @@ onMounted( () => fetchProfileRecipes());
     <div class="profile_container">
       <button @click="logout()" class="logout_button">Ausloggen</button>
         <div class="username_box">
-          <h1 class="username">MannisRezepte1848</h1>
+          <h1 class="username">{{ username }}</h1>
           <div class="user_desc_box">
             <div class="joindate_box">
               <img src="../assets/time_icon.png" alt="" class="user_icon"> 
-              <p class="joindate">Beigetreten am 01.06.2024</p>
+              <p class="joindate">Beigetreten am {{ joindate}}</p>
             </div>
           </div>
         </div>
