@@ -147,7 +147,7 @@ toggleLogin() {
     return isBlur.value
 }
   }
-}
+};
 
 // remove or change when login functionality is added => if logged in -> show profile, if not show login
 document.addEventListener('DOMContentLoaded', function() {
