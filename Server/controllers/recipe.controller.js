@@ -75,12 +75,12 @@ const getAllRecipesIdName = async (req, res) => {
 };
 
 const getFilteredRecipes = async (req,res) => {
-  try{
-      let recipes = await filterRecipes(req.body.ing, req.body.tags, req.protocol, req.get('host'));
-      res.status(200).json(recipes);
-  }catch(error){
-      res.status(500).json({ message : error.message})
-  }
+    try{
+        let recipes = await filterRecipes(req.body.ing, req.body.tags, req.protocol, req.get('host'));
+        res.status(200).json(recipes);
+    }catch(error){
+        res.status(500).json({ message : error.message})
+    }
 }
 
 const getSearchedRecipe = async (req, res) => {

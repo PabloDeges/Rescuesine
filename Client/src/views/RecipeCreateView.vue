@@ -203,9 +203,9 @@ function removeIngredient(index) {
                     <label for="tag_suppe" class="pointer_on_hover">Suppe</label>
                 </div>
                 <div class="rcv_tag pointer_on_hover">
-                    <input type="checkbox" id="tag_highprotein" name="tag_highprotein" value="HighProtein       "
+                    <input type="checkbox" id="tag_highprotein" name="tag_highprotein" value="HighProtein"
                         class="sidemargin tag pointer_on_hover">
-                    <label for="tag_highprotein" class="pointer_on_hover">High-Protein</label>
+                    <label for="tag_highprotein" class="pointer_on_hover">HighProtein</label>
                 </div>
 
             </div>

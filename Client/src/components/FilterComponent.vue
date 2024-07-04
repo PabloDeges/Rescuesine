@@ -21,8 +21,8 @@ function getRadioButtonSelection() {
 
   for (let i = 0; i < 8; i++) {
       if (tags[i].checked) {
-          let tag = { name: tags[i].value}
-          selected_tags.push(tag)
+        let tag = {$elemMatch: {"name": tags[i].value}};
+        selected_tags.push(tag)
       }
 
   }
@@ -93,17 +93,13 @@ function onSubmit(result) {
 
     function submitForm() {
 
-      let selectedTags = JSON.stringify(getRadioButtonSelection());
-
+      let selectedTags = getRadioButtonSelection();
 
       // Send the selectedIngredients array to the backend
       fetch("http://127.0.0.1:3000/recipe/filtered", {
         method:"POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(selectedIngredients.value)
-        // body: JSON.stringify( { ing: selectedIngredients.value, tags: selectedTags} )
-        // tags werden jetzt mit als array übergeben, bitte so anpassen im backend, dass es stimmt. 
-        // gern auch zeile 104 anpassen wenn ihr was anderes sinnvoller findet
+        body: JSON.stringify( { ing: selectedIngredients.value, tags: selectedTags} )
       })
       .then(response => {
         if (!response.ok) {
@@ -187,7 +183,7 @@ function onSubmit(result) {
                 <div class="rcv_tag pointer_on_hover">
                     <input type="checkbox" id="tag_highprotein" name="tag_highprotein" value="HighProtein"
                         class="sidemargin tag pointer_on_hover" @click="enableButton">
-                    <label for="tag_highprotein" class="pointer_on_hover">High-Protein</label>
+                    <label for="tag_highprotein" class="pointer_on_hover">HighProtein</label>
                 </div>
       </div>
 
@@ -334,7 +330,7 @@ function onSubmit(result) {
 .disabled_button:hover {
   background-color: grey;
   color: white;
-  border: 1px solid grey;
+  border: 2px solid grey;
 }
 
 
