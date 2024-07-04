@@ -60,7 +60,6 @@ async function getRecipes(id) {
       "creator.name": 1,
     });
     user.picture = `http://127.0.0.1:3000/image/${user.picture}`;
-    console.log(user);
     return user;
   } catch (error) {
     return error;
