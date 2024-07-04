@@ -1,7 +1,6 @@
 <template>
     <div class="previewBar">
         <div class="previewBackground center" id="meinBild" ref="myImageDiv" >
-            <!--<img src= {{ dish.picture }} alt="" class="recipe_image">-->
             <div class="recipeInformationContainer">
                 <h1 v-if="dish" class="title">{{ dish.name }}</h1>
                 <h1 v-else class="title"></h1>
@@ -32,32 +31,36 @@
         </div>
     </div>
     <div class="headerInformation">
-        <button @click="addToFavs()" class="markRecipe interactions" >
-            <img src="../assets/Bookmark.png">
+
+        <button v-if="loggedIn" @click="addToFavs()" class="markRecipe interactions" id="fav_button">
+            <img src="../assets/Bookmark.png" >
             <p class="shareText">Favorisieren</p>
         </button>
+
+        <button class="markRecipe interactions fav_active" id="fav_button_active">
+            <img src="../assets/bookmark_white.png">
+            <p class="shareText" >Favorisiert!</p>
+        </button>
+
         <div class="tooltip">
             <button @click="shareRecipe()" class="shareRecipe interactions" >
-                <span class="tooltiptext" id="myTooltip">Link kopieren  </span>
+                <span class="tooltiptext" id="myTooltip">Link kopieren</span>
                 <img src="../assets/Share.png">
-                <p class="shareText">Teilen</p>
+                <p class="shareText shareTextActive">Teilen</p>
             </button>
         </div>
-        <!-- <div class="likeRecipe thumbs">
-            <img src="../assets/Thumbs Up.png">
-        </div>
-        <div class="dislikeRecipe thumbs">
-            <img src="../assets/Thumbs Down.png">
-        </div> -->
     </div>
 </template>
 
 
 <script setup>
 import { ref, onMounted } from 'vue';
+
 const props = defineProps(['recipe_ID'])
 const dish = ref();
 const myImageDiv = ref(null);
+
+let loggedIn = getCookie("resc_user_token");
 
 function fetchDetailedRecipe() {
   fetch("http://127.0.0.1:3000/recipe/"+props.recipe_ID)
@@ -70,9 +73,9 @@ function fetchDetailedRecipe() {
   .then(data => {
     dish.value = data;
     let imagePath = dish.value.picture;
-    console.log(imagePath)
     if (myImageDiv.value) {
     myImageDiv.value.style.backgroundImage = `url(${imagePath})`;
+    checkIfSaved()
   }
   })
   .catch(error => {
@@ -80,10 +83,32 @@ function fetchDetailedRecipe() {
   })
 }
 
+function checkIfSaved() {
+
+    fetch("http://127.0.0.1:3000/recipe/isfav/" + props.recipe_ID, {
+    headers: {
+            'Authorization': `Bearer ${getCookie("resc_user_token")}`
+        },})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Keine gueltige Antwort erhalten");
+    }
+    return response.json();
+  })
+  .then(data => {
+    if(data.isfav) {
+        updateButtonState()    
+    }
+  }
+  )
+  .catch(error => {
+    console.error("Fehler", error);
+  })
+
+}
 
 
-
-onMounted( () => {fetchDetailedRecipe();} );
+onMounted( () => {fetchDetailedRecipe(); } );
 
 function shareRecipe() {
 
@@ -95,16 +120,50 @@ function shareRecipe() {
 
 }
 
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
 
+function addToFavs() {
+    fetch("http://127.0.0.1:3000/profile/saverecipe", {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${getCookie("resc_user_token")}`,
+        'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: props.recipe_ID }),
+    })
+    .then(res => res.json())
+    .then(data => {})
+    .then(updateButtonState());
+}
 
+function updateButtonState() {
+    let y = document.getElementById("fav_button")
+    let z = document.getElementById("fav_button_active")
 
-
+    y.style.display = "none";
+    z.style.display = "flex";
+}
 
 
 </script>
 
 
 <style scoped>
+
+
 
 .recipeShortInformation {
     height: 40%;
@@ -289,6 +348,14 @@ function shareRecipe() {
     font-family: "Josefin Sans", sans-serif; 
     font-size: 0.9rem;
 }   
+
+.fav_active {
+    background-color: var(--color-darkgreen);
+    color: white;
+    display: none;
+}
+
+
 
 @media screen and (max-width: 750px) {
 
