@@ -131,16 +131,18 @@ toggleLogin() {
       x.style.display = "none";
       isBlur.value = false;
       console.log(document.getElementsByTagName("div"))
-      document.getElementsByTagName("div")[11].style.filter = "none";
-      document.getElementsByTagName("div")[22].style.filter = "none";
-      document.getElementsByTagName("div")[25].style.filter = "none";
+      document.getElementsByClassName("blur")[0].style.filter = "none";
+      document.getElementsByClassName("blur")[1].style.filter = "none";
+      document.getElementsByClassName("blur")[2].style.filter = "none";
+      document.getElementsByClassName("blur")[3].style.filter = "none";
     }
     else {
       x.style.display = "flex";
       isBlur.value = true
-      document.getElementsByTagName("div")[11].style.filter = "blur(10px)";
-      document.getElementsByTagName("div")[22].style.filter = "blur(10px)";
-      document.getElementsByTagName("div")[25].style.filter = "blur(10px)";
+      document.getElementsByClassName("blur")[0].style.filter = "blur(10px)";
+      document.getElementsByClassName("blur")[1].style.filter = "blur(10px)";
+      document.getElementsByClassName("blur")[2].style.filter = "blur(10px)";
+      document.getElementsByClassName("blur")[3].style.filter = "blur(10px)";
     }
     return isBlur.value
 }
