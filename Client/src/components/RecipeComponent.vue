@@ -37,7 +37,7 @@
             <p class="shareText">Favorisieren</p>
         </button>
 
-        <button class="markRecipe interactions fav_active" id="fav_button_active">
+        <button @click="removefromFavs()" class="markRecipe interactions fav_active" id="fav_button_active">
             <img src="../assets/bookmark_white.png">
             <p class="shareText" >Favorisiert!</p>
         </button>
@@ -149,12 +149,30 @@ function addToFavs() {
     .then(updateButtonState());
 }
 
+function removefromFavs() {
+    fetch("http://127.0.0.1:3000/profile/unsaverecipe", {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${getCookie("resc_user_token")}`,
+        'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: props.recipe_ID }),
+    })
+    .then(res => res.json())
+    .then(data => {})
+    .then(updateButtonState());
+}
+
 function updateButtonState() {
     let y = document.getElementById("fav_button")
     let z = document.getElementById("fav_button_active")
 
+   if(y.style.display == "flex"){
     y.style.display = "none";
-    z.style.display = "flex";
+   z.style.display = "flex";
+   } else{
+    y.style.display = "flex";
+   z.style.display = "none";
+   }
 }
 
 

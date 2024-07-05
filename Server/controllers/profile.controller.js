@@ -49,6 +49,29 @@ const saverecipeUser = async (req, res) => {
   }
 };
 
+const unsaverecipeUser  = async (req, res) => {
+  try {
+    const user = await Profile.findOne({
+      _id: req.recipecreator._id,
+      'savedrecipies._id': req.body.id
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "Rezept nicht vorhanden" });
+    }
+    await Profile.findByIdAndUpdate(
+      req.recipecreator._id,
+      {
+        $pull: { savedrecipies: { _id: req.body.id,  } },
+      },
+      { new: true }
+    );
+    res.status(200).json({ message: "Rezept gelöscht" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 async function getRecipes(id) {
   try {
     let user = await Recipe.findById(id, {
@@ -69,4 +92,5 @@ async function getRecipes(id) {
 module.exports = {
   getUser,
   saverecipeUser,
+  unsaverecipeUser,
 };
