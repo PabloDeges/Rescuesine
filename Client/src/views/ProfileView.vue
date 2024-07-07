@@ -15,7 +15,6 @@ let joindate = ref()
 function logout() {
   document.cookie = "resc_user_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   router.push("/");
-
 }
 
 

@@ -11,7 +11,6 @@ import { createWebHistory, createRouter, useRouter } from 'vue-router'
 import HomeView from './views/HomeView.vue'
 import ProfileView from './views/ProfileView.vue'
 import RecipeView from './views/RecipeView.vue'
-import LoginView from './views/LoginView.vue'
 import RecipeCreateView from './views/RecipeCreateView.vue'
 
 
@@ -20,7 +19,6 @@ const routes = [
   { path: '/', component: HomeView },
   { path: '/profile', component: ProfileView },
   { path: '/recipe/:ident', component: RecipeView },
-  { path: '/login', component: LoginView },
   { path: '/recipe/create', component: RecipeCreateView }
 ]
 

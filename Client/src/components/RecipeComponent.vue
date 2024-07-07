@@ -32,12 +32,12 @@
     </div>
     <div class="headerInformation">
 
-        <button v-if="loggedIn" @click="addToFavs()" class="markRecipe interactions" id="fav_button">
+        <button v-if="loggedIn" @click="addToFavs()" class="markRecipe interactions" id="fav_button" style="display: flex;">
             <img src="../assets/Bookmark.png" >
             <p class="shareText">Favorisieren</p>
         </button>
 
-        <button @click="removefromFavs()" class="markRecipe interactions fav_active" id="fav_button_active">
+        <button @click="removefromFavs()" class="markRecipe interactions fav_active" id="fav_button_active" style="display: none;">
             <img src="../assets/bookmark_white.png">
             <p class="shareText" >Favorisiert!</p>
         </button>
@@ -97,7 +97,7 @@ function checkIfSaved() {
   })
   .then(data => {
     if(data.isfav) {
-        updateButtonState()    
+        updateButtonState()
     }
   }
   )
@@ -137,6 +137,7 @@ function getCookie(cname) {
 }
 
 function addToFavs() {
+
     fetch("http://127.0.0.1:3000/profile/saverecipe", {
         method: 'POST',
         headers: {
@@ -150,6 +151,7 @@ function addToFavs() {
 }
 
 function removefromFavs() {
+
     fetch("http://127.0.0.1:3000/profile/unsaverecipe", {
         method: 'POST',
         headers: {
@@ -163,15 +165,16 @@ function removefromFavs() {
 }
 
 function updateButtonState() {
+
     let y = document.getElementById("fav_button")
     let z = document.getElementById("fav_button_active")
 
    if(y.style.display == "flex"){
     y.style.display = "none";
-   z.style.display = "flex";
+    z.style.display = "flex";
    } else{
     y.style.display = "flex";
-   z.style.display = "none";
+    z.style.display = "none";
    }
 }
 
