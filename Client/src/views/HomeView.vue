@@ -21,7 +21,7 @@ function fetchMainPageRecipes() {
   })
 }
 
-onMounted( () => fetchMainPageRecipes() );
+onMounted( () => {fetchMainPageRecipes();});
 
 const recipes = getRecipesOnMainPage();
 
