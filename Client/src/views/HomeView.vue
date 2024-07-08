@@ -28,7 +28,8 @@ const recipes = getRecipesOnMainPage();
 </script>
 
 <template>
-    <FilterComponent />
+<div class="blur">
+    <FilterComponent/>
     <div class="recipe_card_list">
     <CardComponent class="card_component"
         v-for="r in recipes"
@@ -40,6 +41,7 @@ const recipes = getRecipesOnMainPage();
         :recipe_time="r.preparationtime"
     />
     </div>
+  </div>
 </template>
 
 <style scoped>

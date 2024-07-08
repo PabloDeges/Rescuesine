@@ -1,7 +1,7 @@
 <template>
     <div class="login_card" >
         <div class="close_button_container">
-            <button @click="hideLoginWindow()">X</button> 
+            <button @click="$emit('blurEffect')">X</button> 
         </div>
         <h1 class="login_text">LOGIN</h1>
         <input type="text" id="username" placeholder="username" class="input_field">
@@ -10,7 +10,15 @@
         <button @click="register()" class="login_button">Registrieren</button>
     </div>
 </template>
-
+<script>
+export default {
+  methods: {
+    buttonClickHandler() {
+      this.$emit('blurEffect')
+    }
+  }
+}
+</script>
 <style>
 
 .close_button_container {
@@ -28,6 +36,7 @@
         border: 2px solid var(--color-darkgreen);
         margin-bottom: 1rem;
         width: 16rem;
+        
     }
 
 
@@ -72,15 +81,6 @@
 </style>
 
 <script setup>
-
-function hideLoginWindow() {
-
-    let x = document.getElementById("login_id");
-    x.style.display = "none";
-
-}
-
-
 async function login() {
 
     let un = document.getElementById("username");

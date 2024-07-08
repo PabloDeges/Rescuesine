@@ -156,7 +156,7 @@ function removeIngredient(index) {
 </script>
 
 <template>
-    <div class="rcv_main_outer">
+    <div class="rcv_main_outer blur">
 
         <h2 class="topmargin slogan">Teile in nur 7 Schritten dein Lieblingsrezept mit der Welt</h2>
 

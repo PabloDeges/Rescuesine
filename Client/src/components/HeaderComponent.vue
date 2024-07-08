@@ -1,5 +1,5 @@
-<template>            
-    <div class="header">
+<template>
+    <div class="header blur">
             <RouterLink to="/" class="header_backtohome">
                 <img src="../assets/logo.png" class="logo-img" alt="">
             </RouterLink>
@@ -15,7 +15,7 @@
 
                 <div id="profile_btn" class="button_container">
                     <RouterLink v-if="cookieSet" to="/profile" class="button link">Profil</RouterLink>
-                    <button v-else class="button link no_styling" @click="toggleLogin" >Login</button>
+                    <button v-else class="button link no_styling" @click="$emit('blurEffect', toggleLogin())" >Login</button>
                 </div>
 
                 
@@ -32,17 +32,17 @@
         <RouterLink to="/" class="mobile_link">Home</RouterLink>
         <RouterLink to="/recipe/create" class="mobile_link">Rezept erstellen</RouterLink>
         <RouterLink v-if="cookieSet" to="/profile" class="mobile_link">Profil</RouterLink>
-        <button v-else class="mobile_link mobile_login_btn" @click="toggleLogin" >Login</button>
+        <button v-else class="mobile_link mobile_login_btn" @click="$emit('blurEffect', toggleLogin())" >Login</button>
 
     </div>      
-
-    <LoginComponent class="login_window" id="login_id"></LoginComponent>
+    <LoginComponent class="login_window" id="login_id" @blurEffect="handleBlurEffect"></LoginComponent>
 
 </template>
 
+
 <script setup>
 
-
+import { ref } from 'vue';
 import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 
@@ -66,18 +66,6 @@ function getCookie(cname) {
 }
 
 let cookieSet = getCookie("resc_user_token")
-
-function toggleLogin() {
-    let x = document.getElementById("login_id");
-
-    if (x.style.display === "flex") {
-      x.style.display = "none";
-
-    }
-    else {
-      x.style.display = "flex";
-    }
-}
 
 
 const router = useRouter()
@@ -140,7 +128,41 @@ function onSubmit(result) {
 </script>
 
 <script>
+import { ref } from 'vue';
 
+export default {
+    components:{
+        LoginComponent
+    },
+  methods: {
+    handleBlurEffect() {
+        var ref = this
+        console.log(document.getElementsByTagName("*"));
+        this.toggleLogin();
+    },
+toggleLogin() {
+    let x = document.getElementById("login_id");
+    var blurTargets = document.getElementsByClassName("blur");
+    let isBlur = ref(false);
+
+    if (x.style.display === "flex") {
+      x.style.display = "none";
+      isBlur.value = false;
+      for (let blurTarget of blurTargets){
+        blurTarget.style.filter = "none";
+      }
+    }
+    else {
+      x.style.display = "flex";
+      isBlur.value = true
+      for (let blurTarget of blurTargets){
+        blurTarget.style.filter = "blur(10px)";
+      }
+    }
+    return isBlur.value
+}
+  }
+};
 
 // remove or change when login functionality is added => if logged in -> show profile, if not show login
 document.addEventListener('DOMContentLoaded', function() {
@@ -194,12 +216,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 });
 
-
 </script>
 
 
-<style scoped>  
-
+<style scoped> 
 
 .login_window {
     position: fixed;

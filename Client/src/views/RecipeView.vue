@@ -4,7 +4,8 @@ import RecipeComponent from '../components/RecipeComponent.vue';
 
 
 <template>
-    <RecipeComponent class="HeaderBar"
+<div class="blur">
+    <RecipeComponent class="HeaderBar blur"
     :recipe_-i-d= $route.params.ident
     />
     <div class="RecipeDetails">
@@ -18,6 +19,7 @@ import RecipeComponent from '../components/RecipeComponent.vue';
         </div>
         </div>
     </div>
+</div>
 </template>
 
 <script>
