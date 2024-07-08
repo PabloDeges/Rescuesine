@@ -32,7 +32,7 @@
         <RouterLink to="/" class="mobile_link">Home</RouterLink>
         <RouterLink to="/recipe/create" class="mobile_link">Rezept erstellen</RouterLink>
         <RouterLink v-if="cookieSet" to="/profile" class="mobile_link">Profil</RouterLink>
-        <button v-else class="mobile_link mobile_login_btn" @click="toggleBlur, toggleLogin" >Login</button>
+        <button v-else class="mobile_link mobile_login_btn" @click="$emit('blurEffect', toggleLogin())" >Login</button>
 
     </div>      
     <LoginComponent class="login_window" id="login_id" @blurEffect="handleBlurEffect"></LoginComponent>
