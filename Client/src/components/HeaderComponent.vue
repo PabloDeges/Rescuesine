@@ -1,5 +1,5 @@
-<template>    
-    <div class="header">
+<template>
+    <div class="header blur">
             <RouterLink to="/" class="header_backtohome">
                 <img src="../assets/logo.png" class="logo-img" alt="">
             </RouterLink>
@@ -125,24 +125,22 @@ export default {
     },
 toggleLogin() {
     let x = document.getElementById("login_id");
+    var blurTargets = document.getElementsByClassName("blur");
     let isBlur = ref(false);
 
     if (x.style.display === "flex") {
       x.style.display = "none";
       isBlur.value = false;
-      console.log(document.getElementsByTagName("div"))
-      document.getElementsByClassName("blur")[0].style.filter = "none";
-      document.getElementsByClassName("blur")[1].style.filter = "none";
-      document.getElementsByClassName("blur")[2].style.filter = "none";
-      document.getElementsByClassName("blur")[3].style.filter = "none";
+      for (let blurTarget of blurTargets){
+        blurTarget.style.filter = "none";
+      }
     }
     else {
       x.style.display = "flex";
       isBlur.value = true
-      document.getElementsByClassName("blur")[0].style.filter = "blur(10px)";
-      document.getElementsByClassName("blur")[1].style.filter = "blur(10px)";
-      document.getElementsByClassName("blur")[2].style.filter = "blur(10px)";
-      document.getElementsByClassName("blur")[3].style.filter = "blur(10px)";
+      for (let blurTarget of blurTargets){
+        blurTarget.style.filter = "blur(10px)";
+      }
     }
     return isBlur.value
 }
