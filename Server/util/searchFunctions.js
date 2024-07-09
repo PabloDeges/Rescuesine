@@ -10,7 +10,7 @@ async function filterRecipes(ingredients, tags, protocol, host) {
     let secondSort = await orderRecipesByAmoutIngredientsLeft(firstSort);
     //erstellen der liste, welche alle infromationen enthaelt, die benoetigt werden um die rezept-karte anzuzeigen
     let sortedRecipes = [];
-    for(let index in secondSort) {
+    for (let index in secondSort) {
         //besorgen der zusaetzlichen informationen aus der datenbank
         sortedRecipes.push(await getRecipeByID(secondSort[index], protocol, host));
     }
@@ -67,7 +67,7 @@ async function filterRecipesByIngredients(ingredients, tags) {
             //alle rezepte in denen die akteulle zutat vorkommt aus der db holen
             let recipesIDs = await getRecipeIDsByIngredientAndTag(ingredients[i], tags, mode);
             //zutat wird uebersprungen, wenn keine rezepte dazu existieren
-            if(recipesIDs == null) {
+            if (recipesIDs == null) {
                 continue;
             }
             //iterieren ueber alle gefundenen rezepte, keine iteration falls nichts gefunden
@@ -80,7 +80,7 @@ async function filterRecipesByIngredients(ingredients, tags) {
             }
         }
 
-        for(let id in dictRecipes) {
+        for (let id in dictRecipes) {
             //ist eine relevanzklasse (menge der enthaltenen relevanten zutaten) nicht enthalten wird diese angelegt
             //sonst wird die jeweilige klasse um die id des rezepts erweitert
             if (dictOrderedRecipes[dictRecipes[id]] === undefined) {
@@ -95,7 +95,6 @@ async function filterRecipesByIngredients(ingredients, tags) {
     return dictOrderedRecipes;
 }
 
-
 /**
  * nimmt als parameter ein element.
  * das Element ist ein dictionary mit ganzzahligen haeufigkeiten als key und einem array an rezept-ids als value
@@ -109,27 +108,26 @@ async function orderRecipesByAmoutIngredientsLeft(relevanceClasses) {
     //durchlaufen aller relevanzklassen des uebergebenen dicts
     //rueckwerts durchlaufen, da dict immer nach groesse aufsteigend sortiert sind
     let keys = Object.keys(relevanceClasses).reverse();
-    for(let k in keys) {
+    for (let k in keys) {
         //in der schleife werden nicht die konkreten keys durchgeganen, sondern nur die indicecs, darum heir das umschreiben zu den konkreten werden
         i = keys[k];
         recipesInClass = {};
         //durchlaufen aller rezepte der aktuellen relevanzklasse
-        for(let n = 0; n < relevanceClasses[i].length; n++) {
+        for (let n = 0; n < relevanceClasses[i].length; n++) {
             //speichern der id der rezepte, sowie der anzahl der zutaten dieses rezepts
             let recipeID = relevanceClasses[i][n];
             let numOfIngredients = await getAmoutOfIngredientsForRecipe(recipeID);
             //die anzahl der benoetigten zutaten werden als keys hinterlegt, die rezept-ids als array im value
             if (recipesInClass[numOfIngredients] === undefined) {
                 recipesInClass[numOfIngredients] = [recipeID];
-              } else {
+            } else {
                 recipesInClass[numOfIngredients].push(recipeID);
-              }
+            }
         }
         addIDs(recipesInClass, finishedOrder);
     }
     return finishedOrder;
 }
-
 
 /**
  * nimmt als paramter zwei elemente.
@@ -140,7 +138,7 @@ async function orderRecipesByAmoutIngredientsLeft(relevanceClasses) {
 async function addIDs(from, to) {
     //durchlaufen aller keys (also anz zutaten) in aufsteigender reihenfolge
     let keys = Object.keys(from);
-    for(let k in keys) {
+    for (let k in keys) {
         //in der schleife werden nicht die konkreten keys durchgeganen, sondern nur die indicecs, darum heir das umschreiben zu den konkreten werden
         i = keys[k];
         //durchlaufen des arrays im value des aktuellen keys
@@ -152,4 +150,4 @@ async function addIDs(from, to) {
 
 module.exports = {
     filterRecipes
-  };
+};
