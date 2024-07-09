@@ -20,6 +20,5 @@ const getIngredientIdByName = async (req, res) => {
 
 module.exports = {
     getIngredients,
-    createIngredient,
     getIngredientIdByName,
 };
