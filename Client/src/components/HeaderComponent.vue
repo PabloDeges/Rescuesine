@@ -9,11 +9,11 @@
             <autocomplete :search="search" class="search_bar_header" placeholder="Rezepte durchsuchen" autoSelect=True submitOnEnter=True @submit="onSubmit"></autocomplete>
             <div class="buttons">      
 
-                <div class="button_container">
+                <div v-if="cookieSet" class="button_container">
                     <RouterLink to="/recipe/create" class="button button_wide link">Rezept erstellen</RouterLink>
                 </div>
 
-                <div id="profile_btn" class="button_container">
+                <div id="profile_btn" class="button_container login_btn_container" >
                     <RouterLink v-if="cookieSet" to="/profile" class="button link">Profil</RouterLink>
                     <button v-else class="button link no_styling" @click="$emit('blurEffect', toggleLogin())" >Login</button>
                 </div>
@@ -30,7 +30,7 @@
     </div>
     <div id="mobile_links">
         <RouterLink to="/" class="mobile_link">Home</RouterLink>
-        <RouterLink to="/recipe/create" class="mobile_link">Rezept erstellen</RouterLink>
+        <RouterLink v-if="cookieSet" to="/recipe/create" class="mobile_link">Rezept erstellen</RouterLink>
         <RouterLink v-if="cookieSet" to="/profile" class="mobile_link">Profil</RouterLink>
         <button v-else class="mobile_link mobile_login_btn" @click="$emit('blurEffect', toggleLogin())" >Login</button>
 
@@ -349,6 +349,12 @@ document.addEventListener('DOMContentLoaded', function() {
     text-decoration: none;
     height: 100%;
 }
+
+
+
+
+
+
 
 
 
