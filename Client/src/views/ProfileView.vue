@@ -60,7 +60,7 @@ onMounted(() => fetchProfileRecipes());
             <h2 v-else class="section_title"> {{ own_recipes.length }} veröffentlichte Rezepte</h2>
             <div v-if="own_recipes" class="recipe_card_list">
                 <CardComponent class="card_component_profileview" v-for="r in own_recipes" :_id="r._id"
-                    :recipe_title="r.name" :recipe_author="r.creatorname" :recipe_price="r.pricecategory"
+                    :recipe_title="r.name" :recipe_author="r.creator.name" :recipe_price="r.pricecategory"
                     :recipe_time="r.preparationtime" :recipe_image="r.picture" />
             </div>
         </div>
@@ -70,7 +70,7 @@ onMounted(() => fetchProfileRecipes());
 
             <div class="recipe_card_list">
                 <CardComponent class="card_component_profileview" v-for="r in fav_recipes" :_id="r._id"
-                    :recipe_title="r.name" :recipe_author="r.creatorname" :recipe_price="r.pricecategory"
+                    :recipe_title="r.name" :recipe_author="r.creator.name" :recipe_price="r.pricecategory"
                     :recipe_time="r.preparationtime" :recipe_image="r.picture" />
             </div>
         </div>
