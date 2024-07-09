@@ -9,5 +9,3 @@ import HeaderComponent from './components/HeaderComponent.vue'
   <RouterView />
 
 </template>
-
-
