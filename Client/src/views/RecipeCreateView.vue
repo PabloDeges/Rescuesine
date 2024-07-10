@@ -1,27 +1,26 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
-import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
 function getCookie(cname) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
     }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
+    return "";
 }
 
-// TODO: nur in liste vorkommende zutaten auswählen lassen
 function search(input) {
     if (input.length < 1) { return [] }
     return ingredient_list.filter(ing => {
@@ -46,25 +45,24 @@ async function getFormData() {
     let recipe_tags = getRadioButtonSelection();
     recipe.append("tags", JSON.stringify(recipe_tags));
 
-    for(let index_ingredient_obj in selectedIngredients.value) {
+    for (let index_ingredient_obj in selectedIngredients.value) {
         let ingredient_name = selectedIngredients.value[index_ingredient_obj].name;
         await fetch("http://127.0.0.1:3000/ingredient/" + ingredient_name)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Keine gueltige Antwort erhalten");
-            }
-            return response.json();
-        })
-        .then(data => {
-            selectedIngredients.value[index_ingredient_obj]._id = data;
-        })
-        .catch(error => {
-            console.error("Fehler", error);
-        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Keine gueltige Antwort erhalten");
+                }
+                return response.json();
+            })
+            .then(data => {
+                selectedIngredients.value[index_ingredient_obj]._id = data;
+            })
+            .catch(error => {
+                console.error("Fehler", error);
+            })
     }
 
     recipe.append("ingredients", JSON.stringify(selectedIngredients.value));
-
 
     recipe.append("picture", document.getElementById('rcv_image').files[0]);
 
@@ -75,8 +73,8 @@ async function getFormData() {
         },
         body: recipe,
     })
-    .then(res => res.json())
-    .then(data => {});
+        .then(res => res.json())
+        .then(data => { });
 
     router.push("/");
 }
@@ -87,20 +85,17 @@ function isValueNotYetInArray(arrayOfObjects, value) {
 }
 
 function getRadioButtonSelection() {
-
     let tags = document.getElementsByClassName('tag');
     let selected_tags = []
 
     for (let i = 0; i < 8; i++) {
         if (tags[i].checked) {
-            let tag = { name: tags[i].value}
+            let tag = { name: tags[i].value }
             selected_tags.push(tag)
         }
 
     }
-
     return selected_tags
-
 }
 
 function addIngredientToList() {
@@ -117,10 +112,7 @@ function addIngredientToList() {
     else {
         alert("Zutat leer oder bereits hinzugefügt!")
     }
-
-
 }
-
 
 let selectedIngredients = ref([]);
 let ingredient_list = [];
@@ -148,11 +140,6 @@ function fetchIngredients() {
 function removeIngredient(index) {
     selectedIngredients.value.splice(index, 1);
 };
-
-
-
-
-
 </script>
 
 <template>
@@ -207,7 +194,6 @@ function removeIngredient(index) {
                         class="sidemargin tag pointer_on_hover">
                     <label for="tag_highprotein" class="pointer_on_hover">HighProtein</label>
                 </div>
-
             </div>
 
             <label class="topmargin">Zutaten hinzufügen</label>
@@ -261,13 +247,11 @@ function removeIngredient(index) {
 
             <div class="img_upload outline">
                 <label for="rcv_image">Bild hochladen: </label>
-                <input type="file" src="" alt="" name="rcv_image" accept="image/png, image/jpeg" capture="environment" id="rcv_image">
+                <input type="file" src="" alt="" name="rcv_image" accept="image/png, image/jpeg" capture="environment"
+                    id="rcv_image">
 
             </div>
-
             <button class="rcv_submit pointer_on_hover" @click="getFormData">Rezept veröffentlichen</button>
-
-
         </div>
     </div>
 </template>
@@ -300,14 +284,11 @@ output {
     margin: 1rem 0;
 }
 
-
-
 .rcv_titel {
     background-color: var(--color-lightgreen);
     color: white;
     padding: 0 0.5rem;
     border-radius: 1rem;
-
 }
 
 .ingredient-tag {
@@ -332,12 +313,10 @@ output {
 }
 
 .rcv_main_outer {
-
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
 }
 
 .rcv_main {
@@ -346,9 +325,7 @@ output {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
 }
-
 
 .rcv_textinput {
     height: 2rem;
@@ -364,7 +341,6 @@ output {
 .rcv_textinput_big {
     min-height: 15rem;
 }
-
 
 .rcv_tags {
     display: flex;
@@ -387,7 +363,6 @@ output {
     background-color: white;
     border: 2px solid var(--color-darkgreen);
     color: var(--color-darkgreen);
-
 }
 
 .rcv_tag {
@@ -399,7 +374,6 @@ output {
     min-width: 8rem;
     margin: 0.5rem 2vw;
 }
-
 
 .rcv_submit {
     margin-top: 2rem;
@@ -422,12 +396,9 @@ output {
     margin-bottom: 1rem;
 }
 
-
-
 @media screen and (max-width: 750px) {
     .rcv_main {
         width: 80vw;
-
     }
 
     .rcv_textinput {
@@ -439,6 +410,5 @@ output {
     .slogan {
         font-size: 1.2rem;
     }
-
 }
 </style>
