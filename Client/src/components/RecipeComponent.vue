@@ -138,7 +138,7 @@ function getCookie(cname) {
 
 function addToFavs() {
     fetch("http://127.0.0.1:3000/profile/saverecipe", {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Authorization': `Bearer ${getCookie("resc_user_token")}`,
             'Content-Type': 'application/json'
@@ -152,7 +152,7 @@ function addToFavs() {
 
 function removefromFavs() {
     fetch("http://127.0.0.1:3000/profile/unsaverecipe", {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Authorization': `Bearer ${getCookie("resc_user_token")}`,
             'Content-Type': 'application/json'

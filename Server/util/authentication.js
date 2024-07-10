@@ -26,8 +26,6 @@ const authenticateJWT = async (req, res, next) => {
                 res.setHeader("Authorization", `Bearer ${newToken}`);
                 req.newToken = newToken;
                 req.recipecreator = { _id: userCheck._id, name: userCheck.name }
-                req.user = decodedToken.username;
-
                 next();
             } else {
                 res.status(401).json({ message: "Nutzer nicht erkannt" });

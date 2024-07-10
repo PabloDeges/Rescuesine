@@ -6,8 +6,8 @@ const { authenticateJWT } = require('../util/authentication.js');
 //single profiles
 router.get('/', authenticateJWT, getUser)
 
-router.post("/saverecipe", authenticateJWT, saverecipeUser)
+router.put("/saverecipe", authenticateJWT, saverecipeUser)
 
-router.post("/unsaverecipe", authenticateJWT, unsaverecipeUser)
+router.put("/unsaverecipe", authenticateJWT, unsaverecipeUser)
 
 module.exports = router;
